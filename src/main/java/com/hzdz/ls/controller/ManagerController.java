@@ -2,6 +2,8 @@ package com.hzdz.ls.controller;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.hzdz.ls.common.*;
+import com.hzdz.ls.db.entity.Manager;
+import com.hzdz.ls.db.impl.ManagerMapper;
 import com.hzdz.ls.service.TopicMapServer;
 import com.hzdz.ls.service.TopicServer;
 import com.sun.org.glassfish.gmbal.ParameterNames;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +28,9 @@ public class ManagerController {
 
     @Autowired
     private TopicServer topicServer;
+
+    @Autowired
+    private ManagerMapper managerMapper;
 
     /**
      * 发送短信验证码
@@ -52,16 +58,51 @@ public class ManagerController {
     }
 
 
+    /**
+     * 注册管理员
+     * @param name
+     * @param password
+     * @return
+     */
     @RequestMapping(value="/register", method = RequestMethod.POST)
     @ResponseBody
     public Result register(@RequestParam String name, @RequestParam String password){
-        return null;
+        Map<String, Object> data = new HashMap<>();
+        //对密码进行MD5加密
+        password = MD5Util.toMd5(password);
+        Manager manager = new Manager();
+        Date current = new Date(System.currentTimeMillis());
+        manager.setManagerAccount(name);
+        manager.setPassword(password);
+        manager.setRegisterTime(current);
+        manager.setLoginTime(current);
+
+        if(managerMapper.insert(manager) < 1){
+            data.put("code", -1);
+            data.put("msg", "新增管理员失败！");
+        }else {
+            data.put("code", 0);
+            data.put("msg", "新增管理员成功！");
+        }
+
+        return new ResultDetail<>(data);
     }
 
-    @RequestMapping(value="login", method = RequestMethod.POST)
+    @RequestMapping(value="/login", method = RequestMethod.POST)
     @ResponseBody
     public Result login(@RequestParam String name, @RequestParam String password){
-        return null;
+        Map<String, Object> data = new HashMap<>();
+        //对密码进行MD5加密
+        password = MD5Util.toMd5(password);
+
+        if (managerMapper.login(name, password) != null){
+            data.put("code", 0);
+            data.put("msg", "登录成功！");
+        }else {
+            data.put("code", -1);
+            data.put("msg", "用户不存在，请检查帐号密码！");
+        }
+        return new ResultDetail<>(data);
     }
 
 
