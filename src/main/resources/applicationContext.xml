@@ -122,4 +122,16 @@
         </property>
     </bean>
 
+    <mvc:default-servlet-handler />
+    <!--jsonp的支持-->
+    <bean id="fastJsonpResponseBodyAdvice" class="com.alibaba.fastjson.support.spring.FastJsonpResponseBodyAdvice">
+        <constructor-arg>
+            <list>
+                <value>callback</value>
+                <value>jsonp</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
 </beans>

@@ -66,7 +66,7 @@ public class ImageUtil {
      * @param image2
      * @return
      */
-    public static String mergeImage(String image1, String image2) throws IOException {
+    public static void mergeImage(String image1, String image2) throws IOException {
         BufferedImage bi1 = ImageIO.read(new File(image1));
         BufferedImage bi2 = ImageIO.read(new File(image2));
         Graphics2D g1 = (Graphics2D) bi1.getGraphics();
@@ -76,14 +76,16 @@ public class ImageUtil {
 
         g1.drawImage(bi2, startX, startY,  bi2.getWidth(), bi2.getHeight(), null);
         g1.dispose();
-        ImageIO.write(bi1, "jpg", new FileOutputStream(new File("E://cc.jpg")));
-        return null;
+        FileOutputStream fos = new FileOutputStream(new File(image2));
+        ImageIO.write(bi1, "jpg", fos);
+        fos.close();
+        //return null;
     }
     
     public static void main(String[] args) throws IOException {
         //自动生成main
-        mergeImage("E:/IntelijIdea_workspace/ljj/target/ljj/upload/manager/bbb/20170929145354535.jpg",
-                "E://dd.jpg");
+       // mergeImage("E:/IntelijIdea_workspace/ljj/target/ljj/upload/manager/bbb/20170929145354535.jpg",
+        //        "E://dd.jpg");
         //equalRatioScale("E:/IntelijIdea_workspace/ljj/target/ljj/upload/manager/bbb/20170929145354535.jpg", 50, 100);
     }
 

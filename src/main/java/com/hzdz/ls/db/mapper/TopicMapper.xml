@@ -6,4 +6,9 @@
         VALUES (#{image_url}, #{topic_id})
     </insert>
 
+    <select id="queryImageById" parameterType="Integer" resultType="String">
+        SELECT  image_url FROM  topic
+        WHERE topic_id = #{id}
+    </select>
+
 </mapper>

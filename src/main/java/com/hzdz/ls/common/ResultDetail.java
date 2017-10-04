@@ -14,4 +14,6 @@ public class ResultDetail<T> extends Result{
         this.data = data;
     }
 
+
+
 }

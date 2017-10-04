@@ -1,5 +1,6 @@
 package com.hzdz.ls.controller;
 
+import com.alibaba.fastjson.support.spring.annotation.ResponseJSONP;
 import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.Personal;
 import com.hzdz.ls.db.entity.Sign;
@@ -24,7 +25,7 @@ public class UserContrller {
      * @return
      */
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    @ResponseBody
+    @ResponseJSONP
     public Result hello(){
         Personal personal = new Personal();
         personal.setId(1);
@@ -32,6 +33,7 @@ public class UserContrller {
         return new ResultDetail(personal);
     }
 
+    /**获取微信签名*/
     @RequestMapping(value = "/getSign", method = RequestMethod.GET)
     @ResponseBody
     public Result verify(String url){
@@ -52,6 +54,7 @@ public class UserContrller {
     @ResponseBody
     public Result getQRCode(@RequestParam MultipartFile file, HttpServletRequest request) throws Exception {
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
+
         Map data = new HashMap();
         if (file.isEmpty()){
             data.put("code", -1);
@@ -66,12 +69,16 @@ public class UserContrller {
             }else {
                 //注意u的大小写差异
                 String fileurl = "/upload/personal/"+fileUrl;
+                //进行图片合成
+                String originImage = CONTEXT_PATH + fileurl;
+                String frameImage =CONTEXT_PATH + "frame.jpg";//模版图片
+                ImageUtil.mergeImage(frameImage, originImage);
+
                 String codeUrl = "upload/personal/code/"+QRcodeUtil.encode(BaseVar.BASE_URL +fileurl,
                         "", CONTEXT_PATH+"upload/personal/code/", fileUrl, true);
                 data.put("code", 0);
                 data.put("msg", "照片上传成功！");
                 data.put("QRcode", codeUrl);
-                //data.put("fileurl", "/upload/personal/"+fileUrl);
             }
         }
         return new ResultDetail(data);

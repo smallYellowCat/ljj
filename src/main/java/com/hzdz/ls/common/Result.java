@@ -1,5 +1,6 @@
 package com.hzdz.ls.common;
 
+
 public class Result {
     public final int code;
     public final String msg;
@@ -16,4 +17,6 @@ public class Result {
 
     public static final Result SUCCESS = new Result();
     public static final Result FAILURE = new Result(-1, "操作异常");
+
+
 }

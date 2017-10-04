@@ -143,7 +143,6 @@ public class ManagerController {
             }
             //将图片名称存起来
             imageList.add("/upload/manager/" + topic + "/" + codeName);
-            //images[i] = "/upload/manager/" + topic + "/" + codeName;
 
         }
         boolean result = topicServer.add(topic, imageList);
@@ -153,27 +152,15 @@ public class ManagerController {
             return new ResultDetail(data);
         }
 
-        String codeUrl = "upload/manager/" + topic + "/code" + QRcodeUtil.encode(BaseVar.BASE_URL+"/manager/list?topic="+topic,
+        String codeUrl = "upload/manager/" + topic + "/code" + QRcodeUtil.encode(BaseVar.BASE_URL+"/topic/list?topic="+topic,
                 "", CONTEXT_PATH + "upload/manager/" + topic +"/code/", codeName, true);
         data.put("code", 0);
         data.put("msg", "照片上传成功！");
         data.put("QRcode", codeUrl);
-        data.put("images", imageList);
-        //data.put("fileurl", "/upload/personal/"+fileUrl);
 
         return new ResultDetail(data);
     }
 
-    /**
-     * 多图片浏览
-     * @param topic
-     * @return
-     */
-    @RequestMapping(value="/list", method = RequestMethod.GET)
-    @ResponseBody
-    public Result list(@RequestParam String topic){
-        return null;
-    }
 
 
 }
