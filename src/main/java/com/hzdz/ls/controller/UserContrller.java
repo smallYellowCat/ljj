@@ -2,6 +2,7 @@ package com.hzdz.ls.controller;
 
 import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.Personal;
+import com.hzdz.ls.db.entity.Sign;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,9 +28,20 @@ public class UserContrller {
     public Result hello(){
         Personal personal = new Personal();
         personal.setId(1);
-        personal.setImage_url("/image/girl.jpg");
+        personal.setImage_url("/image/gi1111111rl.jpg");
         return new ResultDetail(personal);
     }
+
+    @RequestMapping(value = "/getSign", method = RequestMethod.GET)
+    @ResponseBody
+    public Result verify(String url){
+        String url2 = "";
+        Sign sign = WxUtil.getSign(url2);
+        //Sign sign = WxUtil.getSign(url);
+        return new ResultDetail(sign);
+    }
+
+
 
     /**
      * 上传照片之后返回二维码
