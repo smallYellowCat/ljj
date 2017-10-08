@@ -10,4 +10,5 @@ import lombok.ToString;
 public class TopicMap {
     private int topic_id;
     private String topicName;
+    private String QRCode;
 }

@@ -33,13 +33,24 @@ public class UserContrller {
         return new ResultDetail(personal);
     }
 
+    /**
+     * 测试用例
+     * @return
+     */
+    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    @ResponseJSONP
+    public Result postHello(){
+        Personal personal = new Personal();
+        personal.setId(1);
+        personal.setImage_url("/image/gi1111111rl.jpg");
+        return new ResultDetail(personal);
+    }
+
     /**获取微信签名*/
     @RequestMapping(value = "/getSign", method = RequestMethod.GET)
     @ResponseBody
     public Result verify(String url){
-        String url2 = "";
-        Sign sign = WxUtil.getSign(url2);
-        //Sign sign = WxUtil.getSign(url);
+        Sign sign = WxUtil.getSign(url);
         return new ResultDetail(sign);
     }
 
@@ -78,6 +89,7 @@ public class UserContrller {
                         "", CONTEXT_PATH+"upload/personal/code/", fileUrl, true);
                 data.put("code", 0);
                 data.put("msg", "照片上传成功！");
+                data.put("imageurl", fileurl);
                 data.put("QRcode", codeUrl);
             }
         }

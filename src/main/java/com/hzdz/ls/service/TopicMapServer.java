@@ -12,7 +12,7 @@ public class TopicMapServer{
     @Autowired
     private TopicMapMapper topicMapMapper;
 
-    public boolean inserTopic(String topicName){
+    public boolean inserTopic(String topicName, String QRCode){
         boolean result = false;
         if (StringUtil.checkEmpty(topicName)){
             return result;
@@ -22,7 +22,7 @@ public class TopicMapServer{
             return result;
         }
 
-        int resultCode = topicMapMapper.insertTopicMap(topicName);
+        int resultCode = topicMapMapper.insertTopicMap(topicName, QRCode);
         if (resultCode > 0){
               result = true;
         }

@@ -145,18 +145,18 @@ public class ManagerController {
             imageList.add("/upload/manager/" + topic + "/" + codeName);
 
         }
-        boolean result = topicServer.add(topic, imageList);
+        String codeUrl = "upload/manager/" + topic + "/code" + QRcodeUtil.encode(BaseVar.BASE_URL+"/topic/list?topic="+topic,
+                "", CONTEXT_PATH + "upload/manager/" + topic +"/code/", codeName, true);
+        boolean result = topicServer.add(topic, imageList, codeUrl);
         if (!result){
             data.put("code", -1);
             data.put("msg", "照片上传失败！");
             return new ResultDetail(data);
         }
 
-        String codeUrl = "upload/manager/" + topic + "/code" + QRcodeUtil.encode(BaseVar.BASE_URL+"/topic/list?topic="+topic,
-                "", CONTEXT_PATH + "upload/manager/" + topic +"/code/", codeName, true);
         data.put("code", 0);
         data.put("msg", "照片上传成功！");
-        data.put("QRcode", codeUrl);
+        //data.put("QRcode", codeUrl);
 
         return new ResultDetail(data);
     }

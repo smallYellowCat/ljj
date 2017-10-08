@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hzdz.ls.db.impl.TopicMapMapper">
     <insert id="insertTopicMap" parameterType="java.lang.String" >
-        INSERT INTO topic_map (topicName)
-        VALUE (#{topicName})
+        INSERT INTO topic_map (topicName, QRCode)
+        VALUE (#{topicName}, #{QRCode})
     </insert>
     <select id="queryByName" parameterType="String" resultType="com.hzdz.ls.db.entity.TopicMap">
         SELECT * FROM topic_map

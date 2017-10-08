@@ -25,14 +25,10 @@ public class TopicController {
 
     @Autowired
     private TopicServer topicServer;
+
     @RequestMapping(value="/list", method = RequestMethod.POST)
     @ResponseBody
     public Result list(@RequestParam String topic){
-        Map<String, Object> data = new HashMap<>();
-        List<String> imageUrls;
-        imageUrls = topicServer.list(topic);
-        data.put("code", 0);
-        data.put("imageUrls", imageUrls);
-        return new ResultDetail(data);
+        return new ResultDetail(topicServer.list(topic));
     }
 }

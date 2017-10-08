@@ -1,5 +1,7 @@
 package com.hzdz.ls.service;
 
+import com.hzdz.ls.common.Result;
+import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.db.entity.Topic;
 import com.hzdz.ls.db.entity.TopicMap;
 import com.hzdz.ls.db.impl.TopicMapMapper;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TopicServer {
@@ -20,12 +24,12 @@ public class TopicServer {
     private TopicMapMapper topicMapMapper;
 
     //@Transactional
-    public boolean add(String topicNmae, List<String> imageList){
+    public boolean add(String topicNmae, List<String> imageList, String QRCode){
         boolean result = false;
         int resultNum = 0;
-        //若活动名称已存在，则只添加图片路径信息
+        //若活动名称已存在，则只添加图片路径信息,
         if (topicMapMapper.queryByName(topicNmae) == null){
-            topicMapMapper.insertTopicMap(topicNmae);
+            topicMapMapper.insertTopicMap(topicNmae, QRCode);
         }
         TopicMap topicMap = null;
         topicMap = topicMapMapper.queryByName(topicNmae);
@@ -45,12 +49,18 @@ public class TopicServer {
         return result;
     }
 
-    public List<String> list(String topic){
+    public Result list(String topic){
+        Map<String, Object> data = new HashMap<>();
         List<String> imageUrls = new ArrayList<>();
         TopicMap topicMap = topicMapMapper.queryByName(topic);
         if (topicMap != null){
             imageUrls = topicMapper.queryImageById(topicMap.getTopic_id());
+            data.put("imageUrls", imageUrls);
         }
-        return imageUrls;
+        topicMap = topicMapMapper.queryByName(topic);
+        if (topicMap != null){
+            data.put("QRCode", topicMap.getQRCode());
+        }
+        return new ResultDetail(data);
     }
 }
