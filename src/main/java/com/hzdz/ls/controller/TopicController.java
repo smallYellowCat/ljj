@@ -8,19 +8,18 @@ import com.hzdz.ls.db.impl.TopicMapper;
 import com.hzdz.ls.service.TopicServer;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
 @RequestMapping("/topic")
+@RestController
+@CrossOrigin(value = "*", maxAge = 3600)
 public class TopicController {
 
     @Autowired
@@ -29,6 +28,28 @@ public class TopicController {
     @RequestMapping(value="/list", method = RequestMethod.POST)
     @ResponseBody
     public Result list(@RequestParam String topic){
-        return new ResultDetail(topicServer.list(topic));
+        return topicServer.list(topic);
+    }
+
+    /**
+     * 活动详情
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/detail", method = RequestMethod.POST)
+    public Result detail(@RequestParam Integer id){
+        return topicServer.detail(id);
+    }
+
+    /**
+     * 删除具体活动下的某一张图片
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result delete(@RequestParam Integer id){
+        return topicServer.delete(id);
     }
 }

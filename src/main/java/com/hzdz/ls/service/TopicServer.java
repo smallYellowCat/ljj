@@ -63,4 +63,24 @@ public class TopicServer {
         }
         return new ResultDetail(data);
     }
+
+    public Result detail(Integer id){
+        List<Topic> list = new ArrayList<>();
+        Map<String, Object> data = new HashMap<>();
+        list = topicMapper.queryImageByID(id);
+        data.put("list", list);
+        return new ResultDetail(data);
+    }
+
+    public Result delete(Integer id){
+        Map<String, Object> data = new HashMap<>();
+        if (topicMapper.deleteImage(id) > 0){
+            data.put("code", 0);
+            data.put("msg", "删除成功");
+        }else {
+            data.put("code", -1);
+            data.put("msg", "删除失败");
+        }
+        return new ResultDetail(data);
+    }
 }

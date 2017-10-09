@@ -151,5 +151,14 @@ public class FileUtil {
         return true;
     }
 
+    /**
+     * 删除文件
+     * @param path
+     * @return
+     */
+    public static boolean delete(String path){
+        boolean result = false;
+        return result;
+    }
 
 }

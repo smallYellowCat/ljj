@@ -11,4 +11,14 @@
         WHERE topic_id = #{id}
     </select>
 
+    <select id="queryImageByID" parameterType="Integer" resultType="com.hzdz.ls.db.entity.Topic">
+        SELECT  * FROM  topic
+        WHERE topic_id = #{id}
+    </select>
+
+    <delete id="deleteImage" parameterType="Integer">
+        DELETE FROM topic
+        WHERE id = #{id}
+    </delete>
+
 </mapper>

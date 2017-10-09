@@ -9,10 +9,7 @@ import com.hzdz.ls.service.TopicServer;
 import com.sun.org.glassfish.gmbal.ParameterNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
+@CrossOrigin(value = "*", maxAge = 3600)
 @RequestMapping("/manager")
 public class ManagerController {
 
@@ -31,6 +29,9 @@ public class ManagerController {
 
     @Autowired
     private ManagerMapper managerMapper;
+
+    @Autowired
+    private TopicMapServer topicMapServer;
 
     /**
      * 发送短信验证码
@@ -161,6 +162,25 @@ public class ManagerController {
         return new ResultDetail(data);
     }
 
+    /**
+     * 活动管理
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public Result cloudManager(){
+        return new ResultDetail(topicMapServer.list());
+    }
 
+    /**
+     * 删除活动
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/delete", method = RequestMethod.POST)
+    public Result delete(@RequestParam Integer id){
+        return topicMapServer.delete(id);
+    }
 
 }

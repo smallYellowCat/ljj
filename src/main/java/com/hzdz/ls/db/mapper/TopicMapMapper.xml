@@ -9,4 +9,14 @@
         SELECT * FROM topic_map
         WHERE topicName = #{topicName}
     </select>
+
+    <select id="queryAll" resultType="com.hzdz.ls.db.entity.TopicMap">
+        SELECT * FROM topic_map
+    </select>
+    <delete id="deleteTopic" parameterType="Integer">
+        DELETE topic_map, topic  FROM topic_map
+        LEFT JOIN topic
+          ON topic_map.topic_id = topic.topic_id
+        WHERE topic_map.topic_id = #{id}
+    </delete>
 </mapper>
