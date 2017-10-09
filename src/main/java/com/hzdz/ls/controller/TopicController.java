@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +50,7 @@ public class TopicController {
      */
     @RequestMapping(value="/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Result delete(@RequestParam Integer id){
-        return topicServer.delete(id);
+    public Result delete(@RequestParam Integer id, HttpServletRequest request){
+        return topicServer.delete(id, request);
     }
 }

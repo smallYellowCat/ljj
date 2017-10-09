@@ -1,13 +1,17 @@
 package com.hzdz.ls.service;
 
+import com.hzdz.ls.common.FileUtil;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.common.StringUtil;
 import com.hzdz.ls.db.entity.TopicMap;
 import com.hzdz.ls.db.impl.TopicMapMapper;
+import com.hzdz.ls.db.impl.TopicMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +22,8 @@ public class TopicMapServer{
 
     @Autowired
     private TopicMapMapper topicMapMapper;
+    @Autowired
+    private TopicMapper topicMapper;
 
     public boolean inserTopic(String topicName, String QRCode){
         boolean result = false;
@@ -44,9 +50,20 @@ public class TopicMapServer{
         return new ResultDetail(data);
     }
 
-    public Result delete(Integer id){
+    public Result delete(Integer id, HttpServletRequest request){
         Map<String, Object> data = new HashMap<>();
+        List<String> pathList = topicMapper.queryImageById(id);
+        if(pathList == null && pathList.size() < 1){
+            data.put("code", -1);
+            data.put("msg", "参数错误");
+            return new ResultDetail(data);
+        }
         if (topicMapMapper.deleteTopic(id) > 0){
+            for(int i = 0; i < pathList.size(); i++){
+                String path = request.getSession().getServletContext().getRealPath("/")+pathList.get(i);
+                pathList.set(i, path);
+            }
+            FileUtil.batchDelete(pathList);
             data.put("code", 0);
             data.put("msg", "删除成功");
         }else {

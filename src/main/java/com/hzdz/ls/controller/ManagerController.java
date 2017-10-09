@@ -179,8 +179,8 @@ public class ManagerController {
      */
     @ResponseBody
     @RequestMapping(value="/delete", method = RequestMethod.POST)
-    public Result delete(@RequestParam Integer id){
-        return topicMapServer.delete(id);
+    public Result delete(@RequestParam Integer id, HttpServletRequest request){
+        return topicMapServer.delete(id, request);
     }
 
 }

@@ -2,6 +2,7 @@ package com.hzdz.ls.common;
 
 import java.io.*;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * 文件上传工具类
@@ -158,7 +159,39 @@ public class FileUtil {
      */
     public static boolean delete(String path){
         boolean result = false;
+        try {
+            File file = new File(path);
+            file.delete();
+            result = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return result;
+    }
+
+    /**
+     * 批量删除文件
+     * @param pathList
+     * @return
+     */
+    public static boolean batchDelete(List<String> pathList){
+        boolean result = false;
+        String path = null;
+        try {
+            for (int i = 0; i < pathList.size(); i++) {
+                path = pathList.get(i);
+                File file = new File(path);
+                file.delete();
+            }
+            result = true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static void main(){
+
     }
 
 }

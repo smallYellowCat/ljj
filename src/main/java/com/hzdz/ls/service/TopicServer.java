@@ -1,5 +1,6 @@
 package com.hzdz.ls.service;
 
+import com.hzdz.ls.common.FileUtil;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.db.entity.Topic;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,9 +74,17 @@ public class TopicServer {
         return new ResultDetail(data);
     }
 
-    public Result delete(Integer id){
+    public Result delete(Integer id, HttpServletRequest request){
         Map<String, Object> data = new HashMap<>();
+        List<String> pathList = topicMapper.queryImageById(id);
+        if(pathList == null && pathList.size() < 1){
+            data.put("code", -1);
+            data.put("msg", "参数错误");
+            return new ResultDetail(data);
+        }
         if (topicMapper.deleteImage(id) > 0){
+            String path = request.getSession().getServletContext().getRealPath("/")+pathList.get(0);
+            FileUtil.delete(path);
             data.put("code", 0);
             data.put("msg", "删除成功");
         }else {
