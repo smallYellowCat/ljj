@@ -25,7 +25,7 @@ public class TopicMapServer{
     @Autowired
     private TopicMapper topicMapper;
 
-    public boolean inserTopic(String topicName, String QRCode){
+    /*public boolean inserTopic(String topicName, String QRCode){
         boolean result = false;
         if (StringUtil.checkEmpty(topicName)){
             return result;
@@ -40,7 +40,7 @@ public class TopicMapServer{
               result = true;
         }
         return result;
-    }
+    }*/
 
     public Result list(){
         List<TopicMap> topicList = new ArrayList<>();
@@ -71,5 +71,29 @@ public class TopicMapServer{
             data.put("msg", "删除失败");
         }
         return new ResultDetail(data);
+    }
+
+    public Result createTopic(String topicName){
+        Map<String, Object> data = new HashMap<>();
+        //boolean result = false;
+        int resultNum = 0;
+        if (!StringUtil.checkEmpty(topicName)){
+            data.put("code", -1);
+            data.put("msg", "活动名为空");
+        }
+
+        resultNum = topicMapMapper.createTopic(topicName);
+
+        if (resultNum < 1 ){
+            data.put("code", -1);
+            data.put("msg", "活动创建失败");
+        }
+        data.put("code", 0);
+        data.put("msg", "活动创建成功");
+        return new ResultDetail(data);
+    }
+
+    public String queryTopicName(Integer id){
+        return topicMapMapper.queryTopicByid(id);
     }
 }

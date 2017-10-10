@@ -28,8 +28,8 @@ public class TopicController {
 
     @RequestMapping(value="/list", method = RequestMethod.POST)
     @ResponseBody
-    public Result list(@RequestParam String topic){
-        return topicServer.list(topic);
+    public Result list(@RequestParam Integer topic_id){
+        return topicServer.list(topic_id);
     }
 
     /**

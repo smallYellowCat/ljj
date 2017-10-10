@@ -83,7 +83,7 @@ public class UserContrller {
                 String frameImage =CONTEXT_PATH + "frame.jpg";//模版图片
                 ImageUtil.mergeImage(frameImage, originImage);
 
-                String codeUrl = "upload/personal/code/"+QRcodeUtil.encode(BaseVar.BASE_URL +fileurl,
+                String codeUrl = "upload/personal/code/"+QRcodeUtil.encode("http://www.hducc.top/ljj/share.html?photo=" +fileurl,
                         "", CONTEXT_PATH+"upload/personal/code/", fileUrl, true);
                 data.put("code", 0);
                 data.put("msg", "照片上传成功！");

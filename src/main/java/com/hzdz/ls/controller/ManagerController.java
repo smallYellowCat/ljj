@@ -117,10 +117,18 @@ public class ManagerController {
     @RequestMapping(value="/multiupload", method = RequestMethod.POST)
     @ResponseBody
     public Result multiUploadImage(@RequestParam MultipartFile[] files,
-                                   @RequestParam String topic,
+                                   @RequestParam Integer topic_id,
                                    HttpServletRequest request) throws Exception {
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
+        String topic = topicMapServer.queryTopicName(topic_id);
         Map<String, Object> data =new HashMap<>();
+        if (!StringUtil.checkEmpty(topic)){
+            data.put("code", -1);
+            data.put("msg", "参数错误，活动不存在！");
+            //data.put("QRcode", codeUrl);
+            return new ResultDetail(data);
+        }
+
         //二维码名称，使用最后一个文件的名字
         String codeName = "";
         int n = files.length;
@@ -148,7 +156,7 @@ public class ManagerController {
         }
         String codeUrl = "upload/manager/" + topic + "/code" + QRcodeUtil.encode(BaseVar.BASE_URL+"/topic/list?topic="+topic,
                 "", CONTEXT_PATH + "upload/manager/" + topic +"/code/", codeName, true);
-        boolean result = topicServer.add(topic, imageList, codeUrl);
+        boolean result = topicServer.add(imageList, codeUrl, topic_id);
         if (!result){
             data.put("code", -1);
             data.put("msg", "照片上传失败！");
@@ -181,6 +189,17 @@ public class ManagerController {
     @RequestMapping(value="/delete", method = RequestMethod.POST)
     public Result delete(@RequestParam Integer id, HttpServletRequest request){
         return topicMapServer.delete(id, request);
+    }
+
+    /**
+     * 创建活动
+     * @param topicName
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/create", method = RequestMethod.POST)
+    public Result createTopic(@RequestParam String topicName){
+        return topicMapServer.createTopic(topicName);
     }
 
 }

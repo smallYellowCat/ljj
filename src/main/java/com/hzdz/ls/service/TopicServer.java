@@ -26,24 +26,16 @@ public class TopicServer {
     private TopicMapMapper topicMapMapper;
 
     //@Transactional
-    public boolean add(String topicNmae, List<String> imageList, String QRCode){
+    public boolean add(List<String> imageList, String QRCode, Integer topic_id){
         boolean result = false;
         int resultNum = 0;
-        //若活动名称已存在，则只添加图片路径信息,
-        if (topicMapMapper.queryByName(topicNmae) == null){
-            topicMapMapper.insertTopicMap(topicNmae, QRCode);
-        }
-        TopicMap topicMap = null;
-        topicMap = topicMapMapper.queryByName(topicNmae);
-        if (topicMap == null){
+        //若活动名称不存在，则返回错误
+        if (topicMapMapper.queryTopicByid(topic_id) == null){
             return result;
         }
-        int id = topicMap.getTopic_id();
+        resultNum = topicMapMapper.insertQRCodeToTopic(QRCode, topic_id);
         for (String list : imageList){
-            Topic topic = new Topic();
-            topic.setImage_url(list);
-            topic.setTopic_id(id);
-            resultNum = topicMapper.insertTopic(topic);
+            resultNum = topicMapper.insertImage(topic_id, list);
         }
         if (resultNum > 0){
             result = true;
@@ -51,15 +43,15 @@ public class TopicServer {
         return result;
     }
 
-    public Result list(String topic){
+    public Result list(Integer topic_id){
         Map<String, Object> data = new HashMap<>();
         List<String> imageUrls = new ArrayList<>();
-        TopicMap topicMap = topicMapMapper.queryByName(topic);
-        if (topicMap != null){
-            imageUrls = topicMapper.queryImageById(topicMap.getTopic_id());
-            data.put("imageUrls", imageUrls);
-        }
-        topicMap = topicMapMapper.queryByName(topic);
+        TopicMap topicMap = topicMapMapper.queryById(topic_id);
+
+        imageUrls = topicMapper.queryImageById(topic_id);
+        data.put("imageUrls", imageUrls);
+
+        //topicMap = topicMapMapper.queryByName(topic);
         if (topicMap != null){
             data.put("QRCode", topicMap.getQRCode());
         }

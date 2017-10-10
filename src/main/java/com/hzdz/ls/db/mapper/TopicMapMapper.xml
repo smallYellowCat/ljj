@@ -5,9 +5,22 @@
         INSERT INTO topic_map (topicName, QRCode)
         VALUE (#{topicName}, #{QRCode})
     </insert>
-    <select id="queryByName" parameterType="String" resultType="com.hzdz.ls.db.entity.TopicMap">
+    <update id="insertQRCodeToTopic" parameterType="Integer">
+        UPDATE topic_map SET QRCode = #{QRCode}
+        WHERE topic_id = #{topic_id}
+    </update>
+    <insert id="createTopic" parameterType="java.lang.String" >
+        INSERT INTO topic_map (topicName)
+        VALUE (#{topicName})
+    </insert>
+    <select id="queryById" parameterType="String" resultType="com.hzdz.ls.db.entity.TopicMap">
         SELECT * FROM topic_map
-        WHERE topicName = #{topicName}
+        WHERE topic_id = #{topic_id}
+    </select>
+
+    <select id="queryTopicByid" parameterType="Integer" resultType="String">
+        SELECT topicName FROM topic_map
+        WHERE topic_id = #{topic_id}
     </select>
 
     <select id="queryAll" resultType="com.hzdz.ls.db.entity.TopicMap">
