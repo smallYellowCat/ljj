@@ -20,8 +20,8 @@ import java.util.UUID;
 
 
 public class WxUtil {
-        private static String APPID = "wx845ec56e012ee775";
-        private static String APPSECRET = "53cae9d5f3099aadd846397ea16dc2e3";
+        private static String APPID = "wx6892eaa4252e992f";
+        private static String APPSECRET = "9bbe66ebdd75fd565f6ba68e2ef7482f";
 
         // 获取Sign
         public static Sign getSign(String url){

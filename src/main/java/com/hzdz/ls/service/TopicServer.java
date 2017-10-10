@@ -54,6 +54,7 @@ public class TopicServer {
         //topicMap = topicMapMapper.queryByName(topic);
         if (topicMap != null){
             data.put("QRCode", topicMap.getQRCode());
+            data.put("topicName", topicMap.getTopicName());
         }
         return new ResultDetail(data);
     }

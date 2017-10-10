@@ -154,7 +154,7 @@ public class ManagerController {
             imageList.add("/upload/manager/" + topic + "/" + codeName);
 
         }
-        String codeUrl = "upload/manager/" + topic + "/code" + QRcodeUtil.encode(BaseVar.BASE_URL+"/topic/list?topic="+topic,
+        String codeUrl = "upload/manager/" + topic + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?topic_id="+topic_id,
                 "", CONTEXT_PATH + "upload/manager/" + topic +"/code/", codeName, true);
         boolean result = topicServer.add(imageList, codeUrl, topic_id);
         if (!result){

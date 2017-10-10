@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+    <title>查看我的照片</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <script src="jquery.min.js"></script>
+    <style type="text/css">
+        html {
+            background-color: black;
+        }
+        img {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-test
+<img class="J-image" src=""/>
 </body>
 </html>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="share.js"></script>
 <script type="text/javascript">
-	console.log(window.location.href.split('photo=')[1])
+    window.shareComponent.init({
+        title: '',
+        iconUrl: '',
+        link: ''
+    })
 </script>

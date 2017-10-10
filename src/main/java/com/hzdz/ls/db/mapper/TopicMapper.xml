@@ -20,7 +20,7 @@
         DELETE FROM topic
         WHERE id = #{id}
     </delete>
-    <insert id="insertImage" parameterType="String">
+    <insert id="insertImage">
         INSERT INTO topic (IMAGE_URL, TOPIC_ID)
         VALUES (#{image_url}, #{topic_id})
     </insert>

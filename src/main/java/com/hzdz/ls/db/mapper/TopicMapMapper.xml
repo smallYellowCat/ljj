@@ -5,7 +5,7 @@
         INSERT INTO topic_map (topicName, QRCode)
         VALUE (#{topicName}, #{QRCode})
     </insert>
-    <update id="insertQRCodeToTopic" parameterType="Integer">
+    <update id="insertQRCodeToTopic">
         UPDATE topic_map SET QRCode = #{QRCode}
         WHERE topic_id = #{topic_id}
     </update>
