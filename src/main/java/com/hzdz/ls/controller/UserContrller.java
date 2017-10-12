@@ -81,7 +81,7 @@ public class UserContrller {
                 //进行图片合成
                 String originImage = CONTEXT_PATH + fileurl;
                 String frameImage =CONTEXT_PATH + "frame.jpg";//模版图片
-                ImageUtil.mergeImage(frameImage, originImage);
+                //ImageUtil.mergeImage(frameImage, originImage);
 
                 String codeUrl = "upload/personal/code/"+QRcodeUtil.encode("http://www.hducc.top/ljj/share.html?photo=" +fileurl,
                         "", CONTEXT_PATH+"upload/personal/code/", fileUrl, true);

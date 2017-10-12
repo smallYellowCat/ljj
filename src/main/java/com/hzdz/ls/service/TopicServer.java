@@ -48,7 +48,7 @@ public class TopicServer {
         List<String> imageUrls = new ArrayList<>();
         TopicMap topicMap = topicMapMapper.queryById(topic_id);
 
-        imageUrls = topicMapper.queryImageById(topic_id);
+        imageUrls = topicMapper.queryImageByTopicID(topic_id);
         data.put("imageUrls", imageUrls);
 
         //topicMap = topicMapMapper.queryByName(topic);
@@ -67,16 +67,17 @@ public class TopicServer {
         return new ResultDetail(data);
     }
 
-    public Result delete(Integer id, HttpServletRequest request){
+    public Result delete(Integer id, String context_path){
         Map<String, Object> data = new HashMap<>();
         List<String> pathList = topicMapper.queryImageById(id);
-        if(pathList == null && pathList.size() < 1){
+        if(pathList == null || pathList.size() < 1){
             data.put("code", -1);
             data.put("msg", "参数错误");
             return new ResultDetail(data);
         }
         if (topicMapper.deleteImage(id) > 0){
-            String path = request.getSession().getServletContext().getRealPath("/")+pathList.get(0);
+
+            String path = context_path+pathList.get(0);
             FileUtil.delete(path);
             data.put("code", 0);
             data.put("msg", "删除成功");

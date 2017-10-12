@@ -7,22 +7,23 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript" compress="no-compress">
 !function () {
-    function a() {
-        if (parseInt(document.documentElement.clientWidth) > 720) {
-            document.documentElement.style.fontSize = 720 / 750 * 10 / 16 * 1000 + "%";
-        } else {
-            document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 10 / 16 * 1000 + "%";
-        }
+  function a() {
+    if (parseInt(document.documentElement.clientWidth) > 720) {
+      document.documentElement.style.fontSize = 720 / 750 * 10 / 16 * 1000 + "%";
+    } else {
+      document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 10 / 16 * 1000 + "%";
     }
-    var b = null;
-    window.addEventListener("resize", function () {
-        clearTimeout(b);
-        b = setTimeout(a, 300);
-    }, !1);
-    a();
+  }
+  var b = null;
+  window.addEventListener("resize", function () {
+    clearTimeout(b);
+    b = setTimeout(a, 300);
+  }, !1);
+  a();
 }(window);
 </script>
 <style>
+* { -webkit-tap-highlight-color: transparent; }
 body, html {
   margin: 0;
   font-family: '微软雅黑';
@@ -54,7 +55,7 @@ a {
   margin: 0;
 }
 .g-part2 .u-total {
-  font-size: .1rem;
+  font-size: .3rem;
   margin: 0;
 }
 .g-part3 {
@@ -109,7 +110,8 @@ a {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .g-tools {
   position: fixed;
@@ -132,6 +134,50 @@ a {
   background-size: 100% auto;
   display: block;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NjkwNjk4NkY2NUUxMTFFN0JENTdBNTc5MDAwOEVGMjUiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NjkwNjk4NkU2NUUxMTFFN0JENTdBNTc5MDAwOEVGMjUiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkY0MkI0RTUzMTZBRTExRTc5MjZEOEEwOUExNjBDMjhFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY0MkI0RTU0MTZBRTExRTc5MjZEOEEwOUExNjBDMjhFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+NL+gNwAACelJREFUeNrsnVtMFFcY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);
+}
+.g-pop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+.g-pop .u-mask {
+  background-color: rgba(0,0,0,.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+}
+.g-pop .m-pop1 {
+  text-align: center;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+}
+.g-pop .m-pop1 img {
+  width: 100%;
+  display: block;
+}
+.g-pop .m-pop1 p {
+  color: white;
+  border: 1px solid white;
+  width: 3.5rem;
+  margin-top: .3rem;
+  margin: .3rem auto;
+  font-size: .3rem;
+}
+.g-pop .m-pop1 .u-close {
+  display: block;
+  width: 1.5rem;
+  margin: auto;
 }
 </style>
 </head>
@@ -169,71 +215,22 @@ a {
       <a href="javascript:;" class="m-top J_gotoTop"></a>
     </div>
   </div>
+  <div class="g-pop J_pop1">
+    <div class="u-mask J_mask"></div>
+    <div class="m-pop1">
+      <img src="" class="J_pop_img"/>
+      <p>长按图片, 保存到本地</p>
+      <p class="u-close J_mask">关闭</p>
+    </div>
+  </div>
 </body>
 <script src="./jquery.min.js"></script>
-<script>
-window.shareComponent = {
-  baseUrl: 'http://www.hducc.top/ljj',
-  getUrlParam: function (_str, _name) {
-        let self = this;
-        let _reg = new RegExp('(^|&|\\?)' + _name + '=([^&]*)(&|$)'),
-            _r = _str.replace(/script|%22|%3E|%3C|'|"|>|<|\\/g,'_').match(_reg);
-
-        if (_r != null) return decodeURIComponent(_r[2]); return '';
-    },
-  wxChatRecg: function(configParam) {
-    wx.config(configParam.data);
-  },
-  getWeChatRecg: function(iconUrl, title, link) {
-    let configParam = {}
-    let that = this
-    $.ajax({
-      url: `http://www.hducc.top/ljj/user/getSign`,
-      method: 'GET',
-      data: {
-        url: link.split('#')[0]
-      },
-      headers: {
-            "Content-type": "application/x-www-form-urlencoded"
-          },
-          dataType: 'json',
-          success: function(json) {
-            configParam['data'] = json.data
-            configParam['data']['debug'] = true
-            configParam['data']['appId'] = json.data.appid
-            configParam['data']['timestamp'] = ~~json.data.timestamp
-            configParam['data']['jsApiList'] = ['onMenuShareTimeline','onMenuShareAppMessage']
-            configParam['iconUrl'] = iconUrl
-            configParam['title'] = title
-            configParam['link'] = link
-            delete configParam['data']['appid']
-            that.wxChatRecg(configParam)
-          },
-          error: function(err) {
-          }
-    })
-  },
-  getImgUrl: function() {
-    return this.baseUrl + '/' +this.getUrlParam(window.location.href, 'url')
-  },
-  init: function(obj) {
-    console.log(obj)
-    this.getWeChatRecg(obj.iconUrl, obj.title, obj.link);
-        wx.ready(function(){
-      wx.onMenuShareTimeline({
-        title: obj.title,
-        link: obj.link,
-        imgUrl: obj.iconUrl
-        });
-    });
-    // return this.getImgUrl()
-  }
-};
-</script>
+<script src="http://www.hducc.top/ljj/share.js"></script>
 <script>
 window.shareComponent.init({
   title: 'Photos - 云摄影展示',
-  iconUrl: 'http://demo.open.weixin.qq.com/jssdk/images/p2166127561.jpg',
+  desc: '　　　　',
+  iconUrl: 'http://www.hducc.top/ljj/icon.png',
   link: window.location.href.split('#')[0]
 });
 </script>
@@ -242,7 +239,7 @@ $(function() {
   const module = {
     init: function() {
       this.host = 'http://www.hducc.top/ljj/';
-      this.actId = this.fGetUrlParam(window.location.href, 'id');
+      this.actId = this.fGetUrlParam(window.location.search, 'topic_id');
       this.view();
       this.listen();
     },
@@ -258,7 +255,7 @@ $(function() {
         dataType: 'json',
         success: function(data) {
           if (data.code == 0) {
-            const imageUrls = data.data.imageUrls;
+            const imageUrls = data.data.imageUrls.reverse();
             $('.J_total').text(imageUrls.length);
             $('.J_actTitle').text('图片直播：' + data.data.topicName);
             self.fRenderPic(imageUrls);
@@ -277,8 +274,12 @@ $(function() {
       });
       $('.J_images').on('click', '.J_pic', function() {
         const src = $(this).attr('data-src');
-        window.open(src);
+        $('.J_pop_img').attr('src', src);
+        $('.J_pop1').fadeIn();
       });
+      $('.J_mask').on('click', function() {
+        $('.J_pop1').fadeOut();
+      })
     },
     fGetUrlParam: function(_str, _name) {
       let self = this;

@@ -51,6 +51,6 @@ public class TopicController {
     @RequestMapping(value="/delete", method = RequestMethod.POST)
     @ResponseBody
     public Result delete(@RequestParam Integer id, HttpServletRequest request){
-        return topicServer.delete(id, request);
+        return topicServer.delete(id, request.getSession().getServletContext().getRealPath("/"));
     }
 }

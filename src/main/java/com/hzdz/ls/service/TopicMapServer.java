@@ -53,17 +53,13 @@ public class TopicMapServer{
     public Result delete(Integer id, HttpServletRequest request){
         Map<String, Object> data = new HashMap<>();
         List<String> pathList = topicMapper.queryImageById(id);
-        if(pathList == null && pathList.size() < 1){
-            data.put("code", -1);
-            data.put("msg", "参数错误");
-            return new ResultDetail(data);
-        }
+
         if (topicMapMapper.deleteTopic(id) > 0){
             for(int i = 0; i < pathList.size(); i++){
                 String path = request.getSession().getServletContext().getRealPath("/")+pathList.get(i);
                 pathList.set(i, path);
             }
-            FileUtil.batchDelete(pathList);
+            if (pathList.size() > 0) FileUtil.batchDelete(pathList);
             data.put("code", 0);
             data.put("msg", "删除成功");
         }else {

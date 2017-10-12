@@ -8,11 +8,16 @@
 
     <select id="queryImageById" parameterType="Integer" resultType="String">
         SELECT  image_url FROM  topic
-        WHERE topic_id = #{id}
+        WHERE id = #{id}
     </select>
 
     <select id="queryImageByID" parameterType="Integer" resultType="com.hzdz.ls.db.entity.Topic">
         SELECT  * FROM  topic
+        WHERE topic_id = #{id}
+    </select>
+
+    <select id="queryImageByTopicID" parameterType="Integer" resultType="String">
+        SELECT image_url  FROM  topic
         WHERE topic_id = #{id}
     </select>
 

@@ -12,6 +12,7 @@ import java.util.List;
 public interface TopicMapper {
     int insertImage(@Param("topic_id") Integer topic_id, @Param("image_url") String image_url);
     List<String> queryImageById(Integer id);
+    List<String> queryImageByTopicID(Integer id);
     List<Topic> queryImageByID(Integer id);
     int deleteImage(Integer id);
 }
