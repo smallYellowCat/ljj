@@ -110,7 +110,7 @@ public class FileUtil {
                 .append(valueOfString(String.valueOf(calendar.get(Calendar.MINUTE)),2))
                 .append(valueOfString(String.valueOf(calendar.get(Calendar.SECOND)),2))
                 .append(valueOfString(String.valueOf(calendar.get(Calendar.MILLISECOND)),3));
-        return fileName.toString();
+        return fileName.toString() + NumberUtil.createNum(8);//时间加上8位随机数保证文件名的唯一
 
     }
 

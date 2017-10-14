@@ -225,6 +225,134 @@ a {
   </div>
 </body>
 <script src="./jquery.min.js"></script>
+<script type="text/javascript">
+  /*!
+ * PSC_lazyload v1.0.0
+ * Licensed under MIT ()
+ * Developer kimi
+ * update hzxulin #add: fadeIn Effect
+ */
+  ;(function(global, factory) {
+      if (typeof define === 'function' && define.amd) {
+          //AMD
+          define(factory);
+      } else if (typeof exports === 'object') {
+          //Node, CommonJS之类的
+          module.exports = factory();
+      } else {
+          //浏览器全局变量(global 即 window)
+          global.PSC_lazyload = factory(global);
+      }
+  }(typeof window !== "undefined" ? window : this, function() {
+
+      var PSC_lazyload = function(config) {
+          var _window = $(window),
+              eLnow = Date.now();
+          var settings = {
+              class: 'J_lazyload',
+              inViewTreshhold: 10,
+              fadeInSpeed: 600,
+              opacity: false,
+              opacityImg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MzIwREQ1OTA3RkY2MTFFNjg0NTdFN0I3NkU2OUEzRjIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MzIwREQ1OTE3RkY2MTFFNjg0NTdFN0I3NkU2OUEzRjIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozMjBERDU4RTdGRjYxMUU2ODQ1N0U3Qjc2RTY5QTNGMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDozMjBERDU4RjdGRjYxMUU2ODQ1N0U3Qjc2RTY5QTNGMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PnxqktAAAAAQSURBVHjaYvj//z8DQIABAAj8Av7bok0WAAAAAElFTkSuQmCC',
+              placeholder: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2QTA4RkM3QUYxQTIxMUU1OEI5OEExNjBDNUM5RkFCMCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2QTA4RkM3QkYxQTIxMUU1OEI5OEExNjBDNUM5RkFCMCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjZBMDhGQzc4RjFBMjExRTU4Qjk4QTE2MEM1QzlGQUIwIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjZBMDhGQzc5RjFBMjExRTU4Qjk4QTE2MEM1QzlGQUIwIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+ec5c0wAAAA9JREFUeNpi+PLlC0CAAQAFvALddHJsygAAAABJRU5ErkJggg=='
+          };
+
+          var imgHook = $('img.' + settings.class);
+          $.extend(settings, config);
+          var _lazyloadCss = '<style>img.'+settings.class+'_pre {opacity: 0;}img.'+settings.class+'_end {opacity: 1;-webkit-transition: opacity '+parseFloat(settings.fadeInSpeed/1000)+'s;transition: opacity '+parseFloat(settings.fadeInSpeed/1000)+'s;}</style>';
+          $('head').append(_lazyloadCss);
+
+          function imgView() {
+              // imgHook.each(function(i){
+              imgHook = $('img.' + settings.class);
+              $.each(imgHook, function(i) {
+                  var eLvW,
+                      elvH,
+                      _this = $(this);
+
+                  //inViewTreshhold值可以根据页面是否加载完动态改变大小，当页面加载完的时候增大，也可说页面负担小的时候预加载多一些
+
+                  eLvW = window.innerWidth + settings.inViewTreshhold;
+                  elvH = window.innerHeight + settings.inViewTreshhold;
+                  eLnegativeTreshhold = settings.inViewTreshhold * -1;
+                  rect = imgHook[i].getBoundingClientRect();
+
+                  if (!/.jpg|.png/gi.test(_this.attr('src')) || _this.attr('src') === undefined || _this.attr('src') === '' || _this.attr('src') === false) {
+                      if (_this.is("img")) {
+                          _this.attr("src", settings.opacity ? settings.opacityImg : settings.placeholder);
+                          if($(this).css('opacity') == 1) {
+                              $(this).addClass(settings.class+'_pre');
+                          }
+                      }
+                  };
+
+                  //判断是否在可视区域
+                  if ((eLbottom = rect.bottom) >= eLnegativeTreshhold &&
+                      (eLtop = rect.top) <= elvH &&
+                      (eLright = rect.right) >= eLnegativeTreshhold &&
+                      (eLleft = rect.left) <= eLvW &&
+                      (eLbottom || eLright || eLleft || eLtop)) {
+                      //图片要进行的动画
+                      var imgUrl = _this.attr('data-original');
+                      if(imgUrl) {
+                          if(_this.hasClass(settings.class+'_pre')) {
+                              _this.attr("src", imgUrl).removeClass(settings.class).addClass(settings.class+'_end').attr('data-original','')
+                          } else {
+                              _this.attr("src", imgUrl).removeClass(settings.class).attr('data-original','')
+                          }
+                      };
+                  }
+              })
+          };
+
+          //时间节流处理
+          var eventThrottling = (function() {
+              var timer, running;
+              var unblock = function() {
+                  running = false;
+              };
+              var run = function() {
+                  clearTimeout(timer);
+                  imgView();
+                  setTimeout(unblock);
+              };
+              return {
+                  debounce: function() {
+                      clearTimeout(timer);
+                      running = true;
+                      timer = setTimeout(run, 66);
+                  },
+                  throttled: function() {
+                      var delay;
+                      if (!running) {
+                          running = true;
+                          clearTimeout(timer);
+                          delay = Date.now() - eLnow;
+                          if (delay > 300) {
+                              delay = 9;
+                          } else {
+                              delay = 99;
+                          }
+                          timer = setTimeout(run, delay);
+                      }
+                  }
+              };
+          })();
+
+          imgView();
+
+          _window.on('scroll', eventThrottling.throttled);
+          _window.on('touchmove', eventThrottling.throttled);
+          _window.on('resize', eventThrottling.debounce);
+          _window.on('focus', eventThrottling.throttled);
+          _window.on('click', eventThrottling.throttled);
+          _window.on('touchstart', eventThrottling.throttled);
+          eventThrottling.throttled();
+      };
+
+      return PSC_lazyload;
+  }));
+</script>
 <script src="http://www.hducc.top/ljj/share.js"></script>
 <script>
 window.shareComponent.init({
@@ -234,28 +362,29 @@ window.shareComponent.init({
   link: window.location.href.split('#')[0]
 });
 </script>
-<script>
-$(function() {
-  const module = {
-    init: function() {
+<script type="text/javascript">
+'use strict';
+$(function () {
+  var module = {
+    init: function init() {
       this.host = 'http://www.hducc.top/ljj/';
       this.actId = this.fGetUrlParam(window.location.search, 'topic_id');
       this.view();
       this.listen();
     },
-    view: function() {
-      const self = this;
+    view: function view() {
+      var self = this;
       $.ajax({
-        url: `${self.host}topic/list`,
+        url: self.host + 'topic/list',
         type: 'post',
         contentType: 'application/x-www-form-urlencoded',
         data: {
           topic_id: self.actId
         },
         dataType: 'json',
-        success: function(data) {
+        success: function success(data) {
           if (data.code == 0) {
-            const imageUrls = data.data.imageUrls.reverse();
+            var imageUrls = data.data.imageUrls.reverse();
             $('.J_total').text(imageUrls.length);
             $('.J_actTitle').text('图片直播：' + data.data.topicName);
             self.fRenderPic(imageUrls);
@@ -263,51 +392,43 @@ $(function() {
             alert('数据获取失败!请重新扫描或刷新试试');
           }
         }
-      })
+      });
     },
-    listen: function() {
-      $('.J_refresh').on('click', function() {
+    listen: function listen() {
+      $('.J_refresh').on('click', function () {
         window.location.reload();
       });
-      $('.J_gotoTop').on('click', function() {
-        window.scrollTo(0,0);
+      $('.J_gotoTop').on('click', function () {
+        window.scrollTo(0, 0);
       });
-      $('.J_images').on('click', '.J_pic', function() {
-        const src = $(this).attr('data-src');
+      $('.J_images').on('click', '.J_pic', function () {
+        var src = $(this).attr('data-src');
         $('.J_pop_img').attr('src', src);
         $('.J_pop1').fadeIn();
       });
-      $('.J_mask').on('click', function() {
+      $('.J_mask').on('click', function () {
         $('.J_pop1').fadeOut();
-      })
+      });
     },
-    fGetUrlParam: function(_str, _name) {
-      let self = this;
-      let _reg = new RegExp('(^|&|\\?)' + _name + '=([^&]*)(&|$)'),
-          _r = _str.replace(/script|%22|%3E|%3C|'|"|>|<|\\/g,'_').match(_reg);
-      if (_r != null) return decodeURIComponent(_r[2]); return '';
+    fGetUrlParam: function fGetUrlParam(_str, _name) {
+      var self = this;
+      var _reg = new RegExp('(^|&|\\?)' + _name + '=([^&]*)(&|$)'),
+          _r = _str.replace(/script|%22|%3E|%3C|'|"|>|<|\\/g, '_').match(_reg);
+      if (_r != null) return decodeURIComponent(_r[2]);return '';
     },
-    fRenderPic: function(imageUrls) {
-      let imageUrlsArray = [].slice.call(imageUrls);
-      let html = '';
-      const self = this;
-      for (let i = 0; i < imageUrlsArray.length; i++) {
-        html += `
-          <div class="u-image">
-            <img class="lazyload J_pic" data-src="${this.host + imageUrlsArray[i]}"/>
-          </div>
-        `
+    fRenderPic: function fRenderPic(imageUrls) {
+      var imageUrlsArray = [].slice.call(imageUrls, 0);
+      var self = this;
+      for (var i = 0; i < imageUrlsArray.length; i++) {
+        var tpl = '\n          <div class="u-image">\n            <img class="J_lazyload J_pic" data-src="' + (this.host + encodeURI(imageUrlsArray[i].substring(1))) + '" data-original="' + (this.host + encodeURI(imageUrlsArray[i].substring(1))) + '"/>\n          </div>\n        ';
+        $('.J_images').append(tpl);
       }
-      html += `
-      <div class="u-clear-justify">
-      </div>
-      <div class="u-clear-justify">
-      </div>
-      <div class="u-clear-justify">
-      </div>
-      `
-      $('.J_images').append(html);
-      $("img.lazyload").lazyload();
+      var justify = '\n      <div class="u-clear-justify">\n      </div>\n      <div class="u-clear-justify">\n      </div>\n      <div class="u-clear-justify">\n      </div>\n      ';
+      $('.J_images').append(justify);
+      window.PSC_lazyload({
+        inViewTreshhold: 500,
+        opacity: true
+      });
     }
   };
   module.init();
