@@ -1,6 +1,7 @@
 package com.hzdz.ls.service;
 
 import com.hzdz.ls.common.FileUtil;
+import com.hzdz.ls.common.QRcodeUtil;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.db.entity.Topic;
@@ -86,5 +87,15 @@ public class TopicServer {
             data.put("msg", "删除失败");
         }
         return new ResultDetail(data);
+    }
+
+    public Result urlToQR(String imageUrl){
+        try {
+            QRcodeUtil.encode(imageUrl, imageUrl, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

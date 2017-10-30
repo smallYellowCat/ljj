@@ -53,4 +53,15 @@ public class TopicController {
     public Result delete(@RequestParam Integer id, HttpServletRequest request){
         return topicServer.delete(id, request.getSession().getServletContext().getRealPath("/"));
     }
+
+    /**
+     * 根据图片的url生成二维码
+     * @param imageUrl
+     * @return
+     */
+    @RequestMapping(value="urlToQR", method = RequestMethod.POST)
+    @ResponseBody
+    public Result urlToQR(String imageUrl){
+        return topicServer.urlToQR(imageUrl);
+    }
 }

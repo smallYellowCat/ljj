@@ -31,19 +31,6 @@ public class UserContrller {
         return new ResultDetail(personal);
     }
 
-    /**
-     * 测试用例
-     * @return
-     */
-    @RequestMapping(value = "/hello", method = RequestMethod.POST)
-    @ResponseJSONP
-    public Result postHello(){
-        Personal personal = new Personal();
-        personal.setId(1);
-        personal.setImage_url("/image/gi1111111rl.jpg");
-        return new ResultDetail(personal);
-    }
-
     /**获取微信签名*/
     @RequestMapping(value = "/getSign", method = RequestMethod.GET)
     @ResponseBody
