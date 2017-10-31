@@ -3,7 +3,9 @@
 <mapper namespace="com.hzdz.ls.db.entity.SystemActivity">
 
     <sql id="Base_Column">
-        id, activityName, addTime, belongManager, status, shareImage, shareText, updateTime
+        id, activityName, addTime, belongManager, status, shareImage, shareText, updateTime, templateId
     </sql>
+
+
 
 </mapper>
