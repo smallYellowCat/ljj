@@ -65,8 +65,8 @@
                
     <!-- 配置viewResolver,此视图解析器一定要放在其他视图解析器最后 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/"></property>
-        <property name="suffix" value=".jsp"></property>
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
     
    <!-- 上传文件的相关配置-->
@@ -78,8 +78,7 @@
 		<property name="resolveLazily" value="true"/>
 	</bean>
     
-    <import resource="beans.xml"/>
-    <import resource="interceptor.xml"/>
+
     <!-- 
     <import resource="verificationCodeBean.xml"/>
      -->
@@ -93,7 +92,7 @@
 
     <bean id="stringHttpMessageConverter"
           class="org.springframework.http.converter.StringHttpMessageConverter">
-        <constructor-arg value="UTF-8" index="0"></constructor-arg>
+        <constructor-arg value="UTF-8" index="0"/>
         <property name="supportedMediaTypes">
             <list>
                 <value>text/plain;charset=UTF-8</value>
@@ -117,7 +116,7 @@
                         <value>DisableCircularReferenceDetect</value>
                     </list>
                 </property>
-                <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"></property>
+                <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
             </bean>
         </property>
     </bean>
