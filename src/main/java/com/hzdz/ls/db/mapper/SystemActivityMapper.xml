@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hzdz.ls.db.entity.SystemActivity">
+<mapper namespace="com.hzdz.ls.db.impl.SystemActivityMapper">
 
     <sql id="Base_Column">
         id, activityName, addTime, belongManager, status, shareImage, shareText, updateTime, templateId
     </sql>
 
-
+    <select id="queryTemplateUrlById" parameterType="int" resultType="String">
+        SELECT
+          a.templateUrl
+        FROM
+          SYSTEM_TEMPLATE a, SYSTEM_ACTIVITY b
+        WHERE
+          b.id = #{activityId}
+        AND a.id = b.templateId
+    </select>
 
 </mapper>

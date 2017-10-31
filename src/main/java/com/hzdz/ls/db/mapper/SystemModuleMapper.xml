@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hzdz.ls.db.entity.SystemModule">
+<mapper namespace="com.hzdz.ls.db.impl.SystemModuleMapper">
 
     <sql id="Base_Column">
-        id, moduleName, addTime
+        id, moduleName, addTime, moduleUrl
     </sql>
 
+    <select id="getMaxModuleId" resultType="int">
+      SELECT
+        MAX(id)
+      FROM
+        SYSTEM_MODULE
+    </select>
+    <insert id="insertModule" parameterType="com.hzdz.ls.db.entity.SystemModule">
+        INSERT INTO
+          SYSTEM_MODULE
+        VALUES (null, #{moduleName}, #{addTime}, #{moduleUrl})
+    </insert>
 
 
 </mapper>

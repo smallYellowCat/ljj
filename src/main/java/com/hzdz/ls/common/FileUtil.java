@@ -190,8 +190,20 @@ public class FileUtil {
         return result;
     }
 
-    public static void main(){
 
+    public static  boolean mkDirs(String path){
+        if (!StringUtil.checkEmpty(path)){
+            return false;
+        }
+        try {
+            File f = new File(path);
+            if (!f.exists()){
+                f.mkdirs();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return true;
     }
 
 }

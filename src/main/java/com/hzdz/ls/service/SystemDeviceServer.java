@@ -7,17 +7,21 @@ import com.hzdz.ls.db.impl.SystemActivityMapper;
 import com.hzdz.ls.db.impl.SystemActivityModuleMapMapper;
 import com.hzdz.ls.db.impl.SystemDeviceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class SystemDeviceServer {
 
     @Autowired
     private SystemDeviceMapper systemDeviceMapper;
     @Autowired
     private SystemActivityModuleMapMapper systemActivityModuleMapMapper;
+    @Autowired
+    private SystemActivityMapper systemActivityMapper;
 
     /***
      * 开机初始化查询
@@ -33,6 +37,7 @@ public class SystemDeviceServer {
             return new ResultDetail(data);
         }
 
+        String templateUrl = systemActivityMapper.queryTemplateUrlById(activityId);
         List<SystemModule> modules = systemActivityModuleMapMapper.queryModuleIdsById(activityId);
         if (modules == null){
             data.put("code", -1);
@@ -42,6 +47,8 @@ public class SystemDeviceServer {
 
         data.put("activityId", activityId);
         data.put("modules", modules);
+        data.put("templateUrl", templateUrl);
+
         data.put("code", 0);
         data.put("msg", "初始化成功");
 
