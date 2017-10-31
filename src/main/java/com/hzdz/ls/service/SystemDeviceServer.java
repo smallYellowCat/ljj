@@ -55,4 +55,14 @@ public class SystemDeviceServer {
         return new ResultDetail(data);
 
     }
+
+    /**
+     * 新增设备
+     * @param DID
+     * @return
+     */
+    public Result addDevice(String DID){
+        Map<String, Object> data = new HashMap<>();
+        return new ResultDetail(data);
+    }
 }

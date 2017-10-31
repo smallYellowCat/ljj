@@ -9,5 +9,10 @@
       SELECT  activityId FROM SYSTEM_DEVICE
       WHERE  deviceId = #{deviceId}
     </select>
+    <insert id="insertDevice" parameterType="com.hzdz.ls.db.entity.SystemDevice">
+        INSERT INTO
+          SYSTEM_DEVICE(deviceId, addTime, updateTime, status)
+        VALUES (#{deviceId}, #{addTime}, #{updateTime}, #{status})
+    </insert>
 
 </mapper>
