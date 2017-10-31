@@ -11,4 +11,5 @@ public class SystemModule {
     private int id;
     private String moduleName;
     private Date addTime;
+    private String moduleUrl;
 }

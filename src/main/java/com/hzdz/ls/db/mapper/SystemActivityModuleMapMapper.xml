@@ -6,4 +6,8 @@
         id, activityId, moduleId, addTime
     </sql>
 
+    <select id="queryModuleIdsById" parameterType="int" resultType="com.hzdz.ls.db.entity.SystemModule">
+        SELECT b.id AS  a.moduleId,  FROM SYSTEM_ACTIVITY_MODULE_MAP a, SYSTEM_MODULE b
+        WHERE a.moduleId = b.id AND activityId = #{activityId}
+    </select>
 </mapper>

@@ -5,5 +5,9 @@
     <sql id="Base_Column">
         id, deviceId, addTime, belongManager, updateTime, status, activityId
     </sql>
+    <select id="queryActivityIdByDID" parameterType="String" resultType="String">
+      SELECT  activityId FROM SYSTEM_DEVICE
+      WHERE  deviceId = #{deviceId}
+    </select>
 
 </mapper>
