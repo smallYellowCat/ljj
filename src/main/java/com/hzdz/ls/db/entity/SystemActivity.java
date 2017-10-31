@@ -16,4 +16,5 @@ public class SystemActivity {
     private String shareImage;
     private String shareText;
     private Date updateTime;
+    private int templateId;
 }
