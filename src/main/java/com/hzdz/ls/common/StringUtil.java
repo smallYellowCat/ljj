@@ -5,6 +5,13 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
 
+    public static boolean isNull(String str){
+        if (null == str || str.length() == 0){
+            return true;
+        }
+        return false;
+    }
+
     public static boolean checkEmpty(String str){
         if (str != null){
             str = str.trim();
