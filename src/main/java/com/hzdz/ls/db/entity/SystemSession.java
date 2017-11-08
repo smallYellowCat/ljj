@@ -12,4 +12,5 @@ public class SystemSession {
     private int managerId;
     private int status;
     private Date addTime;
+    private Date outTime;
 }
