@@ -10,4 +10,10 @@
         VALUES (#{sid}, #{managerId}, #{status}, #{addTime}, #{outTime})
     </insert>
 
+    <update id="updateStatus">
+        UPDATE SYSTEM_SESSION
+        SET outTime = #{outTime}
+        WHERE sid = #{sid}
+    </update>
+
 </mapper>

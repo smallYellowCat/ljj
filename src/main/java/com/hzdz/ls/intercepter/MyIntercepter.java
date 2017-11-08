@@ -1,15 +1,11 @@
 package com.hzdz.ls.intercepter;
 
-import com.alibaba.druid.sql.visitor.functions.If;
 import com.hzdz.ls.common.BaseVar;
 import com.hzdz.ls.common.NumberUtil;
 import com.hzdz.ls.common.StringUtil;
 import com.hzdz.ls.db.entity.SystemSession;
 import com.hzdz.ls.service.SystemSessionServer;
-import org.apache.ibatis.plugin.Intercepts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.filter.ApplicationContextHeaderFilter;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,9 +43,8 @@ public class MyIntercepter implements HandlerInterceptor{
             return false;
         }
 
-        //设置失效时间
-        session.setOutTime(new Date(System.currentTimeMillis() + BaseVar.SESSION_OUTTIME));
-
+        //更新失效时间
+        systemSessionServer.updateOutTime(new Date(System.currentTimeMillis() + BaseVar.SESSION_OUTTIME), sid);
         return true;
     }
 
@@ -70,6 +65,9 @@ public class MyIntercepter implements HandlerInterceptor{
     public static void loginSuccess(HttpServletRequest request, SystemSession systemSession){
         String sid = System.currentTimeMillis() + "" + NumberUtil.createNum(6);
         systemSession.setSid(sid);
+        systemSession.setAddTime(new Date(System.currentTimeMillis()));
+        systemSession.setOutTime(new Date(System.currentTimeMillis() + BaseVar.SESSION_OUTTIME));
+        systemSession.setStatus(1);
 
         boolean result = systemSessionServer.add(systemSession);
         if (result){
@@ -85,10 +83,8 @@ public class MyIntercepter implements HandlerInterceptor{
      */
     public static int getManagerId(HttpServletRequest request){
         String sid = (String) request.getSession().getAttribute("sid");
-        int id = 0;
         SystemSession systemSession = sessionMap.get(sid);
-        id = systemSession.getManagerId();
-        return id;
+        return systemSession.getManagerId();
     }
 
     /**
