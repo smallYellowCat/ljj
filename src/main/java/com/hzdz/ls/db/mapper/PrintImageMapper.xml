@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzdz.ls.db.impl.PrintImageMapper">
+    <insert id="insert" parameterType="com.hzdz.ls.db.entity.PrintImage">
+        INSERT INTO pritn_image
+        VALUES (#{id}, #{imageUrl})
+    </insert>
+
+    <select id="queryUrlById" parameterType="int" resultType="String">
+        SELECT imageUrl FROM print_image
+        WHERE id = #{id}
+    </select>
+
+</mapper>
