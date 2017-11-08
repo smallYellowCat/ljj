@@ -5,5 +5,9 @@
     <sql id="Base_Column">
         sid, managerId, status, addTime
     </sql>
+    <insert id="add" parameterType="com.hzdz.ls.db.entity.SystemSession">
+        INSERT INTO SYSTEM_SESSION
+        VALUES (#{sid}, #{managerId}, #{status}, #{addTime}, #{outTime})
+    </insert>
 
 </mapper>
