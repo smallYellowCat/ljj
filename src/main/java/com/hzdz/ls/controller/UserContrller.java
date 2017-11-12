@@ -67,7 +67,7 @@ public class UserContrller {
                 String fileurl = "/upload/personal/"+fileUrl;
                 //进行图片合成
 
-                String codeUrl = "upload/personal/code/"+QRcodeUtil.encode("http://www.hducc.top/ljj/share.html?photo=" +fileurl,
+                String codeUrl = "upload/personal/code/"+QRcodeUtil.encode(BaseVar.BASE_URL+"/share.html?photo=" +fileurl,
                         "", CONTEXT_PATH+"upload/personal/code/", fileUrl, true);
                 data.put("code", 0);
                 data.put("msg", "照片上传成功！");
