@@ -34,5 +34,17 @@ public class SystemManagerController {
     public Result frozenManager(@RequestParam Integer id, HttpServletRequest request){
         return systemManagerServer.frozenManager(id, request);
     }
+
+    @RequestMapping("/resetPassword")
+    @ResponseBody
+    public Result resetPassword(@RequestParam Integer id){
+        return systemManagerServer.resetPassword(id);
+    }
+
+    @RequestMapping("/selectAllManager")
+    @ResponseBody
+    public Result selectAllManager(){
+        return systemManagerServer.selectAllManager();
+    }
 }
 

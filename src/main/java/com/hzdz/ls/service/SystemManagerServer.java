@@ -7,13 +7,16 @@ import com.hzdz.ls.db.entity.SystemManager;
 import com.hzdz.ls.db.impl.SystemManagerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class SystemManagerServer {
 
     @Autowired
@@ -88,13 +91,29 @@ public class SystemManagerServer {
         return new ResultDetail(data);
     }
 
-    /**
-     * 通过id查找管理员
-     * @param id 管理员id
-     * @return 返回该id对应的管理员
-     */
-    public SystemManager getManagerByID(int id){
-        //Map<String, Object> data = new HashMap<>();
-        return systemManagerMapper.getManagerByID(id);
+    public Result resetPassword(Integer id){
+        Map<String, Object> data = new HashMap<String, Object>();
+        if(systemManagerMapper.resetPassword(id) < 1){
+            data.put("code", -1);
+            data.put("msg", "重置密码失败！");
+        }else {
+            data.put("code", -1);
+            data.put("msg", "重置密码成功！");
+        }
+        return new ResultDetail(data);
+    }
+
+    public Result selectAllManager(){
+        Map<String, Object> data = new HashMap<String, Object>();
+        List<SystemManager> managerList = systemManagerMapper.selectAllManager();
+        if(managerList.size() == 0){
+            data.put("code", -1);
+            data.put("msg", "查询失败！");
+        }else {
+            data.put("code", -1);
+            data.put("msg", "查询成功！");
+            data.put("managerList", managerList);
+        }
+        return new ResultDetail(data);
     }
 }

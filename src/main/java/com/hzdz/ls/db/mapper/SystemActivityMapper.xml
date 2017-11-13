@@ -16,4 +16,23 @@
         AND a.id = b.templateId
     </select>
 
+    <select id="selectActivityById" parameterType="Integer" resultType="com.hzdz.ls.db.entity.SystemActivity">
+        SELECT
+    </select>
+
+    <insert id="addNewActivity" parameterType="com.hzdz.ls.db.entity.SystemActivity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO SYSTEM_ACTIVITY (activityName, addTime, belongManager, shareImage, shareText, updateTime, templateId)
+        VALUES (#{activityName}, #{addTime}, #{belongManager}, #{shareImage}, #{shareText}, #{updateTime}, #{templateId})
+    </insert>
+
+    <update id="updateShareImage" parameterType="com.hzdz.ls.db.entity.SystemActivity" >
+        UPDATE SYSTEM_ACTIVITY SET shareImage = #{shareImage}, shareText = #{shareText}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteActivity" parameterType="Integer">
+        DELETE FROM SYSTEM_ACTIVITY
+        WHERE id = ${id}
+    </delete>
+
 </mapper>

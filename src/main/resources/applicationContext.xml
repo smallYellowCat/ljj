@@ -18,6 +18,7 @@
 	<!-- 配置DispatcherServlet只对Controller注解的类扫描 -->
     <context:component-scan base-package="com.hzdz.ls">
         <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
     <!-- 开启注解-->
     <mvc:annotation-driven/>

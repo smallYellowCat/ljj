@@ -35,13 +35,16 @@ public class UserContrller {
      * 测试用例
      * @return
      */
-    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    @RequestMapping(value = "/imageTest", method = RequestMethod.POST)
     @ResponseJSONP
     public Result postHello(){
-        Personal personal = new Personal();
-        personal.setId(1);
-        personal.setImage_url("/image/gi1111111rl.jpg");
-        return new ResultDetail(personal);
+        Map<String, Object> data = new HashMap<String, Object>();
+        if(FileUtil.verifyImageType("ddddd.gif")){
+            data.put("code", "true");
+        }else{
+            data.put("code", "false");
+        }
+        return new ResultDetail(data);
     }
 
     /**获取微信签名*/
@@ -90,4 +93,6 @@ public class UserContrller {
         }
         return new ResultDetail(data);
     }
+
+
 }

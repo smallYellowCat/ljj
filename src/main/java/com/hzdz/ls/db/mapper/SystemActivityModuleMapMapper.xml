@@ -10,4 +10,10 @@
         SELECT b.id AS  a.moduleId,  FROM SYSTEM_ACTIVITY_MODULE_MAP a, SYSTEM_MODULE b
         WHERE a.moduleId = b.id AND activityId = #{activityId}
     </select>
+
+    <insert id="addNewMap" parameterType="com.hzdz.ls.db.entity.SystemActivityModuleMap">
+        INSERT INTO SYSTEM_ACTIVITY_MODULE_MAP (activityId, moduleId, addTime)
+        VALUES (#{activityId}, #{moduleId}, #{addTime})
+    </insert>
+
 </mapper>

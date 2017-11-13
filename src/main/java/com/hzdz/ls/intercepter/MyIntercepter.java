@@ -96,10 +96,11 @@ public class MyIntercepter implements HandlerInterceptor{
      * @param request 当前请求
      * @return 当前登陆管理员的所有信息
      */
-    public static SystemManager getManager(HttpServletRequest request){
+    /*public static SystemManager getManager(HttpServletRequest request){
         int id = getManagerId(request);
         return systemManagerServer.getManagerByID(id);
-    }
+    }*/
+
 
     /**
      * 退出登录

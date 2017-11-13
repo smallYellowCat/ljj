@@ -11,6 +11,11 @@
         WHERE userAccount = #{userAccount}
     </select>
 
+    <select id="selectAllManager" resultType="com.hzdz.ls.db.entity.SystemManager">
+        SELECT id, userAccount, managerType, addTime, lastLoginTime, frozen
+        FROM SYSTEM_MANAGER WHERE managerType = 1
+    </select>
+
     <insert id="addNewManager" parameterType="com.hzdz.ls.db.entity.SystemManager">
         INSERT INTO SYSTEM_MANAGER (userAccount, password, addTime, managerType)
         VALUES (#{userAccount}, #{password}, #{addTime}, #{managerType})
@@ -26,11 +31,9 @@
         WHERE id = #{id}
     </update>
 
-    <select id="getManagerByID" parameterType="int" resultType="com.hzdz.ls.db.entity.SystemManager">
-        SELECT
-        <include refid="Base_Column"/>
-        FROM SYSTEM_MANAGER
+    <update id="resetPassword" parameterType="Integer">
+        UPDATE SYSTEM_MANAGER SET password = "123456"
         WHERE id = #{id}
-    </select>
-    
+    </update>
+
 </mapper>

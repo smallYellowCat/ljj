@@ -18,6 +18,7 @@
 	<!-- 配置自动扫描，不扫描Controller注解的类 -->
 	<context:component-scan base-package="com.hzdz.ls">
 	    <!--<context:exclude-filter  type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
 	</context:component-scan>
 	<!-- 配置使用cglib代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
@@ -46,7 +47,7 @@
 	    <!-- 空闲连接回收器进行验证 -->
 	    <property name="testWhileIdle" value="${jdbc.testWhileIdel}"/>
 	</bean>
-	
+
 	<!-- 配置myBatis sqlSessionTemplateFactoryBean -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	    <property name="dataSource" ref="dataSource"/>
@@ -58,7 +59,7 @@
         <property name="basePackage" value="com.hzdz.ls.db.impl" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
-	
+
 	<!-- 配置sqlSessionTemplate -->
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 	    <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>

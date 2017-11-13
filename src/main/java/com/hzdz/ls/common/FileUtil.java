@@ -1,7 +1,10 @@
 package com.hzdz.ls.common;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.*;
 import java.io.*;
-import java.util.Calendar;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -11,10 +14,17 @@ import java.util.List;
  */
 public class FileUtil {
 
-    //上传文件的最大长度
+    // 上传文件的最大长度
     public static long maxFileSize = 1024 * 1024 * 1024 * 2L;//2G
-
-
+    // 图片后缀名
+    private static Set<String> suffix = new HashSet<String>();
+    static {
+        suffix.add("jgp");
+        suffix.add("jpeg");
+        suffix.add("bmp");
+        suffix.add("png");
+        suffix.add("gif");
+    }
     /**
      * 通过输入流来上传文件
      * @param is
@@ -191,7 +201,7 @@ public class FileUtil {
     }
 
 
-    public static  boolean mkDirs(String path){
+    public static boolean mkDirs(String path){
         if (!StringUtil.checkEmpty(path)){
             return false;
         }
@@ -204,6 +214,27 @@ public class FileUtil {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static boolean verifyImageType(String name){
+        String type = name.substring(name.indexOf(".")+1);
+        type = type.toLowerCase();
+        if(suffix.contains(type)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static boolean verifyImageByImageIO(String path, String name) throws IOException{
+        String fileName = getPath(path) + name;
+        ImageInputStream imageInputStream = ImageIO.createImageInputStream(new File(fileName));
+        Iterator iterator = ImageIO.getImageReaders(imageInputStream);
+        if(!iterator.hasNext()){
+            return false;
+        }else {
+            return true;
+        }
     }
 
 }

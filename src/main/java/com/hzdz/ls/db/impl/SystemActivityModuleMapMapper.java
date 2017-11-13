@@ -1,5 +1,6 @@
 package com.hzdz.ls.db.impl;
 
+import com.hzdz.ls.db.entity.SystemActivityModuleMap;
 import com.hzdz.ls.db.entity.SystemModule;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,6 @@ public interface SystemActivityModuleMapMapper {
      * @return
      */
     List<SystemModule> queryModuleIdsById(int activityId);
+
+    int addNewMap(SystemActivityModuleMap systemActivityModuleMap);
 }
