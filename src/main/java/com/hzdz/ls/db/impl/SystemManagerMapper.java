@@ -14,4 +14,5 @@ public interface SystemManagerMapper {
     int frozenManager(SystemManager systemManager);
     int resetPassword(Integer id);
     List<SystemManager> selectAllManager();
+    SystemManager getManagerByID(int id);
 }

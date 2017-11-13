@@ -116,4 +116,8 @@ public class SystemManagerServer {
         }
         return new ResultDetail(data);
     }
+
+    public SystemManager getManagerByID(int id){
+        return systemManagerMapper.getManagerByID(id);
+    }
 }
