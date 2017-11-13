@@ -10,4 +10,5 @@ public interface SystemManagerMapper {
     int addNewManager(SystemManager systemManager);
     int updatePassword(SystemManager systemManager);
     int frozenManager(SystemManager systemManager);
+    SystemManager getManagerByID(int id);
 }

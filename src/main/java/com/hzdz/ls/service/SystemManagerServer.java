@@ -87,4 +87,14 @@ public class SystemManagerServer {
         }
         return new ResultDetail(data);
     }
+
+    /**
+     * 通过id查找管理员
+     * @param id 管理员id
+     * @return 返回该id对应的管理员
+     */
+    public SystemManager getManagerByID(int id){
+        //Map<String, Object> data = new HashMap<>();
+        return systemManagerMapper.getManagerByID(id);
+    }
 }

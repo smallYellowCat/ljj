@@ -25,5 +25,12 @@
         UPDATE SYSTEM_MANAGER set frozen = 1
         WHERE id = #{id}
     </update>
+
+    <select id="getManagerByID" parameterType="int" resultType="com.hzdz.ls.db.entity.SystemManager">
+        SELECT
+        <include refid="Base_Column"/>
+        FROM SYSTEM_MANAGER
+        WHERE id = #{id}
+    </select>
     
 </mapper>
