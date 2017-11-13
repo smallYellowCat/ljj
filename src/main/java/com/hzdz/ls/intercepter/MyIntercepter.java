@@ -101,6 +101,9 @@ public class MyIntercepter implements HandlerInterceptor{
         return systemManagerServer.getManagerByID(id);
     }*/
 
+    public static SystemManager getManager2(HttpServletRequest request){
+        return new SystemManager();
+    }
 
     /**
      * 退出登录

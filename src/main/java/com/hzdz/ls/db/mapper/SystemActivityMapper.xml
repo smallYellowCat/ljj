@@ -17,7 +17,7 @@
     </select>
 
     <select id="selectActivityById" parameterType="Integer" resultType="com.hzdz.ls.db.entity.SystemActivity">
-        SELECT
+        SELECT <include refid="Base_Column"></include>
     </select>
 
     <insert id="addNewActivity" parameterType="com.hzdz.ls.db.entity.SystemActivity" useGeneratedKeys="true" keyProperty="id">
