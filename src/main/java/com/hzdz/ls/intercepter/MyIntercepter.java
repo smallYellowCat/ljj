@@ -3,7 +3,9 @@ package com.hzdz.ls.intercepter;
 import com.hzdz.ls.common.BaseVar;
 import com.hzdz.ls.common.NumberUtil;
 import com.hzdz.ls.common.StringUtil;
+import com.hzdz.ls.db.entity.SystemManager;
 import com.hzdz.ls.db.entity.SystemSession;
+import com.hzdz.ls.service.SystemManagerServer;
 import com.hzdz.ls.service.SystemSessionServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +21,8 @@ public class MyIntercepter implements HandlerInterceptor{
     private static final Map<String, SystemSession> sessionMap = new HashMap<>();
     @Autowired
     private static SystemSessionServer systemSessionServer;
+    @Autowired
+    private static SystemManagerServer systemManagerServer;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -85,6 +89,16 @@ public class MyIntercepter implements HandlerInterceptor{
         String sid = (String) request.getSession().getAttribute("sid");
         SystemSession systemSession = sessionMap.get(sid);
         return systemSession.getManagerId();
+    }
+
+    /**
+     * 获取当前登陆管理员
+     * @param request 当前请求
+     * @return 当前登陆管理员的所有信息
+     */
+    public static SystemManager getManager(HttpServletRequest request){
+        int id = getManagerId(request);
+        return systemManagerServer.getManagerByID(id);
     }
 
     /**
