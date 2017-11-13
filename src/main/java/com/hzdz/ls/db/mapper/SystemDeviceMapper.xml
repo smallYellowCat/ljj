@@ -14,5 +14,19 @@
           SYSTEM_DEVICE(deviceId, addTime, updateTime, status)
         VALUES (#{deviceId}, #{addTime}, #{updateTime}, #{status})
     </insert>
+    
+    <select id="queryDeviceListByManager" parameterType="com.hzdz.ls.db.entity.SystemManager" resultType="com.hzdz.ls.db.entity.SystemDevice">
+        SELECT 
+        <include refid="Base_Column"/>
+        FROM SYSTEM_DEVICE WHERE 1 = 1
+        <if test="managerType == 0">
+            AND belongManager = #{belongManager}
+        </if>
+    </select>
+
+    <delete id="deleteByid" parameterType="int">
+        DELETE SYSTEM_DEVICE
+        WHERE id = #{id}
+    </delete>
 
 </mapper>
