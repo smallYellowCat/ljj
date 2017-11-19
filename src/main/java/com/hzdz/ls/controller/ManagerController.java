@@ -44,8 +44,9 @@ public class ManagerController {
     @ResponseBody
     public Result getCode(@RequestParam String phoneNum) throws ClientException, InterruptedException {
         Map data = new HashMap();
-        if (!StringUtil.checkPhoneNum(phoneNum))
+        if (!StringUtil.checkPhoneNum(phoneNum)) {
             return new Result(-1, "手机号码错误");
+        }
         int code = NumberUtil.createNum(6);
         if(!SMSUtil.sendMsg(code)){
             data.put("code", -1);
