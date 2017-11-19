@@ -5,10 +5,19 @@
     <sql id="Base_Column">
         id, deviceId, addTime, belongManager, updateTime, status, activityId
     </sql>
+
     <select id="queryActivityIdByDID" parameterType="String" resultType="String">
       SELECT  activityId FROM SYSTEM_DEVICE
       WHERE  deviceId = #{deviceId}
     </select>
+
+    <select id="queryDeviceById" parameterType="Integer" resultType="com.hzdz.ls.db.entity.SystemDevice">
+        SELECT
+        <include refid="Base_Column" />
+        FROM SYSTEM_DEVICE
+        WHERE  id = #{id}
+    </select>
+
     <insert id="insertDevice" parameterType="com.hzdz.ls.db.entity.SystemDevice">
         INSERT INTO
           SYSTEM_DEVICE(deviceId, addTime, updateTime, status)
@@ -25,8 +34,18 @@
     </select>
 
     <delete id="deleteByid" parameterType="int">
-        DELETE SYSTEM_DEVICE
+        DELETE FROM SYSTEM_DEVICE
         WHERE id = #{id}
     </delete>
+
+    <update id="allocateDeviceToManager" parameterType="com.hzdz.ls.db.entity.SystemActivityModuleMap">
+        UPDATE SYSTEM_DEVICE SET belongManager = #{belongManager}, updateTime = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <update id="allocateActivityToDevice" parameterType="com.hzdz.ls.db.entity.SystemActivityModuleMap">
+        UPDATE SYSTEM_DEVICE SET updateTime = #{updateTime}, status = #{status}, activityId = #{activityId}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

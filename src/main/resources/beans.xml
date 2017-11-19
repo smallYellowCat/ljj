@@ -6,7 +6,7 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.1.xsd
@@ -73,6 +73,10 @@
 	
 	<!-- 配置使用注解来配置事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<!-- 给过滤器注入的bean-->
+	<bean id="systemSessionServer" class="com.hzdz.ls.service.SystemSessionServer"></bean>
+	<bean id="systemManagerServer" class="com.hzdz.ls.service.SystemManagerServer"></bean>
 
     <import resource="applicationContext.xml"/>
     <import resource="interceptor.xml"/>

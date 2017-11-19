@@ -17,7 +17,9 @@
     </select>
 
     <select id="selectActivityById" parameterType="Integer" resultType="com.hzdz.ls.db.entity.SystemActivity">
-        SELECT <include refid="Base_Column"></include>
+        SELECT <include refid="Base_Column" />
+        FROM SYSTEM_ACTIVITY
+        WHERE id = #{id}
     </select>
 
     <insert id="addNewActivity" parameterType="com.hzdz.ls.db.entity.SystemActivity" useGeneratedKeys="true" keyProperty="id">
@@ -26,13 +28,18 @@
     </insert>
 
     <update id="updateShareImage" parameterType="com.hzdz.ls.db.entity.SystemActivity" >
-        UPDATE SYSTEM_ACTIVITY SET shareImage = #{shareImage}, shareText = #{shareText}
+        UPDATE SYSTEM_ACTIVITY SET shareImage = #{shareImage}, shareText = #{shareText}, updateTime = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateQrCode" parameterType="com.hzdz.ls.db.entity.SystemActivity">
+        UPDATE SYSTEM_ACTIVITY SET QRCode = #{QRCode}
         WHERE id = #{id}
     </update>
 
     <delete id="deleteActivity" parameterType="Integer">
         DELETE FROM SYSTEM_ACTIVITY
-        WHERE id = ${id}
+        WHERE id = #{id}
     </delete>
 
 </mapper>

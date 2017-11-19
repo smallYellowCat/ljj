@@ -11,7 +11,7 @@ public class SystemDevice {
     private int id;
     private String deviceId;
     private Date addTime;
-    private int belongManager;
+    private Integer belongManager;
     private Date updateTime;
     private int status;
     private int activityId;

@@ -13,4 +13,7 @@ public interface SystemDeviceMapper {
     int insertDevice(SystemDevice device);
     List<SystemDevice> queryDeviceListByManager(SystemManager systemManager);
     int deleteByid(int id);
+    int allocateDeviceToManager(SystemDevice systemDevice);
+    int allocateActivityToDevice(SystemDevice systemDevice);
+    SystemDevice queryDeviceById(Integer id);
 }

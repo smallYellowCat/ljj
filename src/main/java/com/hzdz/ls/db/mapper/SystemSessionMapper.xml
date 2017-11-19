@@ -3,16 +3,29 @@
 <mapper namespace="com.hzdz.ls.db.impl.SystemSessionMapper">
 
     <sql id="Base_Column">
-        sid, managerId, status, addTime
+        sid, managerId, status, addTime, outTime
     </sql>
     <insert id="add" parameterType="com.hzdz.ls.db.entity.SystemSession">
         INSERT INTO SYSTEM_SESSION
         VALUES (#{sid}, #{managerId}, #{status}, #{addTime}, #{outTime})
     </insert>
 
-    <update id="updateStatus">
+    <update id="updateOutTime">
         UPDATE SYSTEM_SESSION
         SET outTime = #{outTime}
+        WHERE sid = #{sid}
+    </update>
+    
+    <select id="queryEffectiveSession" resultType="com.hzdz.ls.db.entity.SystemSession">
+        SELECT
+        <include refid="Base_Column"/>
+        FROM SYSTEM_SESSION
+        WHERE status = 1
+    </select>
+    
+    <update id="updateSessionStatus" parameterType="com.hzdz.ls.db.entity.SystemSession">
+        UPDATE SYSTEM_SESSION
+        SET status = #{status}
         WHERE sid = #{sid}
     </update>
 

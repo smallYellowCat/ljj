@@ -4,6 +4,8 @@ import com.alibaba.fastjson.support.spring.annotation.ResponseJSONP;
 import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.Personal;
 import com.hzdz.ls.db.entity.Sign;
+import com.hzdz.ls.service.UserServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,8 @@ import java.util.Map;
 @CrossOrigin(value = "*", maxAge = 3600)
 public class UserContrller {
 
+    @Autowired
+    private UserServer userServer;
 
     /**
      * 测试用例
@@ -65,33 +69,7 @@ public class UserContrller {
     @RequestMapping(value = "/getQRCode", method = RequestMethod.POST)
     @ResponseBody
     public Result getQRCode(@RequestParam MultipartFile file, HttpServletRequest request) throws Exception {
-        String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
-
-        Map data = new HashMap();
-        if (file.isEmpty()){
-            data.put("code", -1);
-            data.put("msg", "照片上传失败！");
-        }else {
-            String fileUrl = FileUtil.upload4Stream(file.getInputStream(),
-                    CONTEXT_PATH+"upload/personal",
-                    file.getOriginalFilename());
-            if (!StringUtil.checkEmpty(fileUrl)){
-                data.put("code", -1);
-                data.put("msg", "照片上传失败！");
-            }else {
-                //注意u的大小写差异
-                String fileurl = "/upload/personal/"+fileUrl;
-                //进行图片合成
-
-                String codeUrl = "upload/personal/code/"+QRcodeUtil.encode("http://www.hducc.top/ljj/share.html?photo=" +fileurl,
-                        "", CONTEXT_PATH+"upload/personal/code/", fileUrl, true);
-                data.put("code", 0);
-                data.put("msg", "照片上传成功！");
-                data.put("imageurl", fileurl);
-                data.put("QRcode", codeUrl);
-            }
-        }
-        return new ResultDetail(data);
+        return userServer.getQRCode(file, request);
     }
 
 

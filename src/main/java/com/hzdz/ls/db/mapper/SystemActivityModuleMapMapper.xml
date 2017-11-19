@@ -16,4 +16,9 @@
         VALUES (#{activityId}, #{moduleId}, #{addTime})
     </insert>
 
+    <delete id="deleteActivityById" parameterType="Integer">
+        DELETE FROM SYSTEM_ACTIVITY_MODULE_MAP
+        WHERE activityId = #{activityId}
+    </delete>
+
 </mapper>

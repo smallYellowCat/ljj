@@ -4,22 +4,20 @@ import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.SystemActivityServer;
 import com.hzdz.ls.service.SystemManagerServer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
-@RequestMapping("/systemActivity")
+@RequestMapping("/back/systemActivity")
 public class SystemActivityController {
 
     @Autowired
     private SystemActivityServer systemActivityServer;
 
-    @RequestMapping("/addNewActivity")
+    @RequestMapping(value = "/addNewActivity", method = RequestMethod.POST)
     @ResponseBody
     public Result addNewActivity(@RequestParam String activityName,
                                  @RequestParam Integer belongManager,
@@ -32,9 +30,17 @@ public class SystemActivityController {
         return systemActivityServer.addNewActivity(activityName, belongManager, templateId, shareImage, shareText, moduleIds, request);
     }
 
-    @RequestMapping("/deleteActivity")
+    @RequestMapping(value = "/deleteActivity", method = RequestMethod.POST)
     @ResponseBody
     public Result deleteActivity(@RequestParam Integer activityId, HttpServletRequest request){
         return systemActivityServer.deleteActivity(activityId, request);
     }
+
+    @RequestMapping(value = "/updateShareImage", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateShareImage(@RequestParam Integer activityId, @RequestParam MultipartFile shareImage, @RequestParam String shareText, HttpServletRequest request) throws IOException{
+        return systemActivityServer.updateShareImage(activityId, shareImage, shareText, request);
+    }
+
+
 }

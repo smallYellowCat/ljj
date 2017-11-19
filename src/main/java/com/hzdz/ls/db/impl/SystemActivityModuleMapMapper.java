@@ -17,4 +17,6 @@ public interface SystemActivityModuleMapMapper {
     List<SystemModule> queryModuleIdsById(int activityId);
 
     int addNewMap(SystemActivityModuleMap systemActivityModuleMap);
+
+    int deleteActivityById(Integer activityId);
 }

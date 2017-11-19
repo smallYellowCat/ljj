@@ -8,6 +8,7 @@ import com.hzdz.ls.db.entity.SystemSession;
 import com.hzdz.ls.service.SystemManagerServer;
 import com.hzdz.ls.service.SystemSessionServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,12 +18,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class MyIntercepter implements HandlerInterceptor{
     private static final Map<String, SystemSession> sessionMap = new HashMap<>();
-    @Autowired
+
     private static SystemSessionServer systemSessionServer;
-    @Autowired
+
+    public void setSystemSessionServer(SystemSessionServer systemSessionServer){
+        this.systemSessionServer = systemSessionServer;
+    }
+
     private static SystemManagerServer systemManagerServer;
+
+    public void setSystemManagerServer(SystemManagerServer systemManagerServer){
+        this.systemManagerServer = systemManagerServer;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -66,8 +76,10 @@ public class MyIntercepter implements HandlerInterceptor{
      * 登录成功，记录登录信息
      * @return
      */
-    public static void loginSuccess(HttpServletRequest request, SystemSession systemSession){
+    public static void loginSuccess(HttpServletRequest request, int managerId){
         String sid = System.currentTimeMillis() + "" + NumberUtil.createNum(6);
+        SystemSession systemSession = new SystemSession();
+        systemSession.setManagerId(managerId);
         systemSession.setSid(sid);
         systemSession.setAddTime(new Date(System.currentTimeMillis()));
         systemSession.setOutTime(new Date(System.currentTimeMillis() + BaseVar.SESSION_OUTTIME));
@@ -99,10 +111,6 @@ public class MyIntercepter implements HandlerInterceptor{
     public static SystemManager getManager(HttpServletRequest request){
         int id = getManagerId(request);
         return systemManagerServer.getManagerByID(id);
-    }
-
-    public static SystemManager getManager2(HttpServletRequest request){
-        return new SystemManager();
     }
 
     /**

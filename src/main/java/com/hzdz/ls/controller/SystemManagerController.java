@@ -3,48 +3,116 @@ package com.hzdz.ls.controller;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.SystemManagerServer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/systemManager")
+@RequestMapping("/back/systemManager")
 public class SystemManagerController {
 
     @Autowired
     private SystemManagerServer systemManagerServer;
 
-    @RequestMapping("/addNewManager")
+    /***
+     * 新增管理员
+     * @param userAccount
+     * @param password
+     * @param managerType
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/addNewManager", method = RequestMethod.POST)
     @ResponseBody
     public Result addNewManager(@RequestParam String userAccount, @RequestParam String password, @RequestParam Integer managerType, HttpServletRequest request){
         return systemManagerServer.addNewManager(userAccount, password, managerType, request);
     }
 
-    @RequestMapping("/updatePassword")
+    /**
+     * 更改密码
+     * @param password
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     @ResponseBody
-    public Result updatePassword(@RequestParam Integer id, @RequestParam String password, HttpServletRequest request){
-        return systemManagerServer.updatePassword(id, password, request);
+    public Result updatePassword(@RequestParam String password, HttpServletRequest request){
+        return systemManagerServer.updatePassword(password, request);
     }
 
-    @RequestMapping("/frozenManager")
+    /**
+     * 冻结管理员
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/frozenManager", method = RequestMethod.POST)
     @ResponseBody
     public Result frozenManager(@RequestParam Integer id, HttpServletRequest request){
         return systemManagerServer.frozenManager(id, request);
     }
 
-    @RequestMapping("/resetPassword")
+    /**
+     * 重置密码
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     @ResponseBody
-    public Result resetPassword(@RequestParam Integer id){
-        return systemManagerServer.resetPassword(id);
+    public Result resetPassword(@RequestParam Integer id, HttpServletRequest request){
+        return systemManagerServer.resetPassword(id, request);
     }
 
-    @RequestMapping("/selectAllManager")
+    /**
+     * 查询所有管理员（不含超管）
+     * @param request
+     * @return
+     */
+    @RequestMapping("/queryAllManager")
     @ResponseBody
-    public Result selectAllManager(){
+    public Result selectAllManager(HttpServletRequest request){
         return systemManagerServer.selectAllManager();
+    }
+
+    /**
+     * 登录验证
+     * @param userAccount
+     * @param password
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/loginVerify", method = RequestMethod.POST)
+    @ResponseBody
+    public Result loginVerify(@RequestParam String userAccount, @RequestParam String password, HttpServletRequest request){
+        return systemManagerServer.loginVerify(userAccount, password, request);
+    }
+
+    /**
+     * 退出登录
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public Result logout(HttpServletRequest request){
+        return systemManagerServer.logout(request);
+    }
+
+    /**
+     * 管理员多文件上传
+     * @param files
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/multiupload", method = RequestMethod.POST)
+    @ResponseBody
+    public Result multiUploadImage(@RequestParam MultipartFile[] files,
+                                   @RequestParam Integer activityId,
+                                   HttpServletRequest request) throws Exception {
+        return systemManagerServer.multiUploadImage(files, activityId, request);
     }
 }
 

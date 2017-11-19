@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzdz.ls.db.impl.SystemActivityImageMapper">
+
+    <sql id="Base_Column">
+        id, image_url, activity_id
+    </sql>
+
+    <insert id="addActivityImage" >
+        INSERT INTO SYSTEM_ACTIVITY_IMAGE (image_url, activity_id)
+        VALUES (#{image_url}, #{activity_id})
+    </insert>
+
+
+</mapper>

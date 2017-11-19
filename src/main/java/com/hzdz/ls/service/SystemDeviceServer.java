@@ -35,10 +35,10 @@ public class SystemDeviceServer {
      * @param deviceId
      * @return
      */
-    public Result startQuery(String deviceId){
+    public Result startQuery(String deviceId) {
         Map<String, Object> data = new HashMap<>();
         int activityId = systemDeviceMapper.queryActivityIdByDID(deviceId);
-        if (activityId < 0){
+        if (activityId < 0) {
             data.put("code", -1);
             data.put("msg", "该设备未开启任何活动");
             return new ResultDetail<>(data);
@@ -46,7 +46,7 @@ public class SystemDeviceServer {
 
         String templateUrl = systemActivityMapper.queryTemplateUrlById(activityId);
         List<SystemModule> modules = systemActivityModuleMapMapper.queryModuleIdsById(activityId);
-        if (modules == null){
+        if (modules == null) {
             data.put("code", -1);
             data.put("msg", "该活动未配置可用模块");
             return new ResultDetail<>(data);
@@ -65,26 +65,27 @@ public class SystemDeviceServer {
 
     /**
      * 新增设备
+     *
      * @param DID 设备id
      * @return
      */
-    public Result addDevice(String DID){
+    public Result addDevice(String DID) {
         Map<String, Object> data = new HashMap<>();
-        if (!StringUtil.checkEmpty(DID) || DID.length() != BaseVar.DID_LENGTH){
+        if (!StringUtil.checkEmpty(DID) || DID.length() != BaseVar.DID_LENGTH) {
             data.put("code", -1);
             data.put("msg", "设备号不正确！");
-        }else {
+        } else {
             SystemDevice device = new SystemDevice();
             device.setDeviceId(DID);
             device.setAddTime(new Date(System.currentTimeMillis()));
             device.setUpdateTime(new Date(System.currentTimeMillis()));
             device.setStatus(0);
-            if (systemDeviceMapper.insertDevice(device) != 1){
+            if (systemDeviceMapper.insertDevice(device) != 1) {
                 data.put("code", -1);
                 data.put("msg", "系统错误！");
-            }else {
+            } else {
                 data.put("code", 0);
-                data.put("msg", "新增成功！");
+                data.put("msg", "新增设备成功！");
             }
         }
         return new ResultDetail<>(data);
@@ -92,32 +93,98 @@ public class SystemDeviceServer {
 
     /**
      * 设备管理查看列表
+     *
      * @param request
      * @return
      */
-    public Result list(HttpServletRequest request){
+    public Result list(HttpServletRequest request) {
         Map<String, Object> data = new HashMap<>();
         List<SystemDevice> deviceList = null;
         SystemManager manager = MyIntercepter.getManager(request);
-       if (manager == null){
-           data.put("code", -1);
-           data.put("msg", "系统错误！");
-       }else {
+        if (manager == null) {
+            data.put("code", -1);
+            data.put("msg", "系统错误！");
+        } else {
             deviceList = systemDeviceMapper.queryDeviceListByManager(manager);
             data.put("deviceList", deviceList);
-       }
+        }
         return new ResultDetail<>(data);
     }
 
     /**
      * 删除设备
+     *
      * @param id 主键id
      * @return
      */
-    public Result deleteByid(int id){
-        if (systemDeviceMapper.deleteByid(id) != 1){
+    public Result deleteByid(int id) {
+        if (systemDeviceMapper.deleteByid(id) != 1) {
             return Result.FAILURE;
         }
         return Result.SUCCESS;
+    }
+
+    /**
+     * 分配设备给管理员（超管操作）
+     *
+     * @return
+     */
+    public Result allocateDeviceToManager(Integer id, Integer managerId, HttpServletRequest request) {
+        Map<String, Object> data = new HashMap<>();
+        SystemManager systemManager = MyIntercepter.getManager(request);
+        if (systemManager.getManagerType() == 1) {
+            SystemDevice systemDevice = systemDeviceMapper.queryDeviceById(id);
+            if (systemDevice.getBelongManager() == null) {
+                systemDevice.setBelongManager(managerId);
+                systemDevice.setUpdateTime(new Date(System.currentTimeMillis()));
+                if (systemDeviceMapper.allocateDeviceToManager(systemDevice) < 1) {
+                    data.put("code", -1);
+                    data.put("msg", "无法分配设备！");
+                } else {
+                    data.put("code", 0);
+                    data.put("msg", "分配成功");
+                }
+            } else {
+                data.put("code", -1);
+                data.put("msg", "该设备已经被分配！");
+            }
+        } else {
+            data.put("code", -1);
+            data.put("msg", "非超管不能分配设备！");
+        }
+        return new ResultDetail<>(data);
+    }
+
+    /**
+     * 分配活动给设备（管理员操作）
+     *
+     * @return
+     */
+    public Result allocateActivityToDevice(Integer id, Integer activityId, HttpServletRequest request) {
+        Map<String, Object> data = new HashMap<>();
+        SystemManager nowSystemManager = MyIntercepter.getManager(request);
+        SystemDevice systemDevice = systemDeviceMapper.queryDeviceById(id);
+        if (nowSystemManager.getId() == systemDevice.getBelongManager() || nowSystemManager.getManagerType() == 1) {
+            if (systemDevice.getStatus() == 0){
+                systemDevice.setUpdateTime(new Date(System.currentTimeMillis()));
+                systemDevice.setStatus(1);
+                systemDevice.setActivityId(activityId);
+                if(systemDeviceMapper.allocateActivityToDevice(systemDevice) < 1){
+                    data.put("code", -1);
+                    data.put("msg", "分配活动失败！");
+                }else {
+                    data.put("code", 0);
+                    data.put("msg", "分配活动成功！");
+                }
+            }else {
+                data.put("code", -1);
+                data.put("msg", "该设备已分配活动！");
+            }
+        } else {
+            data.put("code", -1);
+            data.put("msg", "不能分配不属于自己的设备！");
+        }
+
+        return new ResultDetail<>(data);
     }
 }

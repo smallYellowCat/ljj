@@ -19,6 +19,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,16 +110,68 @@ public class SystemActivityServer {
         return new ResultDetail(data);
     }
 
+    @Transactional(rollbackForClassName = "Exception")
     public Result deleteActivity(Integer activityId, HttpServletRequest request){
         Map<String, Object> data = new HashMap<String, Object>();
-        SystemManager systemManager = MyIntercepter.getManager2(request);
-        if(systemManager.getManagerType() == 1){
-            systemActivityMapper.deleteActivity(activityId);
+        boolean roollerBackFlag = false;
+        SystemManager systemManager = MyIntercepter.getManager(request);
+        SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
+        int belongId = systemActivity.getBelongManager();
+        if(systemManager.getManagerType() == 1 || belongId == systemManager.getId()){
+            if(systemActivityMapper.deleteActivity(activityId) < 1){
+                data.put("code", -1);
+                data.put("msg", "删除活动失败！");
+            }else{
+                if(systemActivityModuleMapMapper.deleteActivityById(activityId) < 1){
+                    roollerBackFlag = true;
+                    data.put("code", -1);
+                    data.put("msg", "删除活动失败！");
+                }else {
+                    data.put("code", 0);
+                    data.put("msg", "删除活动成功！");
+                }
+            }
         }else{
-
+            data.put("code", -1);
+            data.put("msg", "删除活动失败，非超管不能删除不属于自己的活动！");
         }
+        //判断是否回滚事务
+        if (roollerBackFlag){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return new ResultDetail(data);
+    }
 
-
+    public Result updateShareImage(Integer activityId, MultipartFile shareImage, String shareText, HttpServletRequest request) throws IOException{
+        Map<String, Object> data = new HashMap<>();
+        if (shareImage.isEmpty()) {
+            data.put("code", -1);
+            data.put("msg", "图片上传失败！");
+        }else {
+            SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
+            Integer belongManager = systemActivity.getBelongManager();
+            String customaryPath = systemActivity.getShareImage();
+            String originalPath = request.getSession().getServletContext().getRealPath("/");
+            String imagePath = "upload/" + belongManager + "/" + activityId;
+            // 进行文件上传操作
+            String fileUrl = FileUtil.upload4Stream(shareImage.getInputStream(), originalPath + imagePath, shareImage.getOriginalFilename());
+            if (!StringUtil.checkEmpty(fileUrl)) {
+                data.put("code", -1);
+                data.put("msg", "图片上传失败！");
+            }else {
+                systemActivity.setShareImage(imagePath + "/" + fileUrl);
+                systemActivity.setShareText(shareText);
+                systemActivity.setUpdateTime(new Date(System.currentTimeMillis()));
+                if (systemActivityMapper.updateShareImage(systemActivity) < 1) {
+                    data.put("code", -1);
+                    data.put("msg", "更新图文信息失败！");
+                } else {
+                    FileUtil.delete(originalPath+customaryPath);
+                    data.put("code", 0);
+                    data.put("msg", "更新图文信息成功！");
+                }
+            }
+        }
         return new ResultDetail(data);
     }
 

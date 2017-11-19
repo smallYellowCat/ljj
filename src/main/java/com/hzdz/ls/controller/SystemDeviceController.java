@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/systemDevice")
+@RequestMapping("/back/systemDevice")
 public class SystemDeviceController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class SystemDeviceController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Result inserDevice(@RequestParam String DID){
+    public Result insertDevice(@RequestParam String DID){
         return  systemDeviceServer.addDevice(DID);
     }
 
@@ -46,5 +46,25 @@ public class SystemDeviceController {
     @ResponseBody
     public Result delete(int id){
         return systemDeviceServer.deleteByid(id);
+    }
+
+    /**
+     * 分配设备给管理员（超管操作）
+     * @return
+     */
+    @RequestMapping(value="allocateDeviceToManager", method = RequestMethod.POST)
+    @ResponseBody
+    public Result allocateDeviceToManager(@RequestParam Integer id, @RequestParam Integer managerId, HttpServletRequest request){
+        return systemDeviceServer.allocateDeviceToManager(id, managerId, request);
+    }
+
+    /**
+     * 分配活动给设备
+     * @return
+     */
+    @RequestMapping(value = "allocateActivityToDevice", method = RequestMethod.POST)
+    @ResponseBody
+    public Result allocateActivityToDevice(@RequestParam Integer id, @RequestParam Integer activityId, HttpServletRequest request){
+        return systemDeviceServer.allocateActivityToDevice(id, activityId, request);
     }
 }

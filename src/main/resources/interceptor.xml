@@ -17,8 +17,20 @@
 	<!-- 配置拦截器 -->
 	<mvc:interceptors>
 	    <mvc:interceptor>
-	        <mvc:mapping path="/*"/>
-	        <bean class="com.hzdz.ls.intercepter.MyIntercepter"></bean>
+	        <mvc:mapping path="/back/**"/>
+			<mvc:exclude-mapping path="/back/systemManager/loginVerify"/>
+			<bean class="com.hzdz.ls.intercepter.MyIntercepter">
+				<property name="systemSessionServer">
+					<ref bean="systemSessionServer"></ref>
+				</property>
+				<property name="systemManagerServer">
+					<ref bean="systemManagerServer"></ref>
+				</property>
+			</bean>
 	    </mvc:interceptor>
 	</mvc:interceptors>
-	</beans>
+
+	<task:annotation-driven scheduler="myScheduler"/>
+	<task:scheduler id="myScheduler" pool-size="5"/>
+
+</beans>
