@@ -20,7 +20,7 @@ public class MyTask implements ITask {
     @Autowired
     private SystemSessionMapper systemSessionMapper;
 
-    @Scheduled(cron = "* 0/5 *  * * ? ")   //每分钟执行一次
+    @Scheduled(cron = "0 0/5 *  * * ? ")   //每分钟执行一次
     @Override
     public void checkSession() {
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
