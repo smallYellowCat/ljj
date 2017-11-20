@@ -18,5 +18,11 @@
         VALUES (null, #{moduleName}, #{addTime}, #{moduleUrl})
     </insert>
 
+    <select id="queryAllModule" resultType="com.hzdz.ls.db.entity.SystemModule">
+        SELECT
+        <include refid="Base_Column"/>
+        FROM SYSTEM_MODULE
+    </select>
+
 
 </mapper>
