@@ -22,16 +22,16 @@ import java.util.Map;
 public class MyIntercepter implements HandlerInterceptor{
     private static final Map<String, SystemSession> sessionMap = new HashMap<>();
 
-    private static SystemSessionServer systemSessionServer;
+    private static  SystemSessionServer systemSessionServer;
 
     public void setSystemSessionServer(SystemSessionServer systemSessionServer){
-        this.systemSessionServer = systemSessionServer;
+        MyIntercepter.systemSessionServer = systemSessionServer;
     }
 
     private static SystemManagerServer systemManagerServer;
 
     public void setSystemManagerServer(SystemManagerServer systemManagerServer){
-        this.systemManagerServer = systemManagerServer;
+        MyIntercepter.systemManagerServer = systemManagerServer;
     }
 
     @Override

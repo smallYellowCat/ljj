@@ -32,23 +32,7 @@ public class UserContrller {
         Personal personal = new Personal();
         personal.setId(1);
         personal.setImage_url("/image/gi1111111rl.jpg");
-        return new ResultDetail(personal);
-    }
-
-    /**
-     * 测试用例
-     * @return
-     */
-    @RequestMapping(value = "/imageTest", method = RequestMethod.POST)
-    @ResponseJSONP
-    public Result postHello(){
-        Map<String, Object> data = new HashMap<String, Object>();
-        if(FileUtil.verifyImageType("ddddd.gif")){
-            data.put("code", "true");
-        }else{
-            data.put("code", "false");
-        }
-        return new ResultDetail(data);
+        return new ResultDetail<>(personal);
     }
 
     /**获取微信签名*/
@@ -56,7 +40,7 @@ public class UserContrller {
     @ResponseBody
     public Result verify(String url){
         Sign sign = WxUtil.getSign(url);
-        return new ResultDetail(sign);
+        return new ResultDetail<>(sign);
     }
 
 
