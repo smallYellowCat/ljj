@@ -56,5 +56,14 @@ public class UserContrller {
         return userServer.getQRCode(file, request);
     }
 
+    @RequestMapping(value = "/test1", method = RequestMethod.POST)
+    @ResponseBody
+    public Result test1(@RequestParam String input, HttpServletRequest request) throws Exception{
+        Map<String, Object> data = new HashMap<>();
+        String path = request.getSession().getServletContext().getRealPath("/");
+        String p = Base64Util.decodeBase64(path+ "test.txt", input);
+        return new ResultDetail<>(data);
+    }
+
 
 }

@@ -32,7 +32,7 @@ public class SystemModuleController {
         return systemModuleServer.addModule(moduleName, moduleUrl, request);
     }
 
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryModule", method = RequestMethod.POST)
     @ResponseBody
     public Result queryModule(HttpServletRequest request){
         return systemModuleServer.queryModule(request);
