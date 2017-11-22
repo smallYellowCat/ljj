@@ -53,6 +53,22 @@
 	    <property name="dataSource" ref="dataSource"/>
 	    <property name="typeAliasesPackage" value="com.hzdz.ls.db.entity"/>
 	    <property name="mapperLocations" value="classpath*:com/hzdz/ls/db/mapper/*.xml"/>
+        <!-- mybatis分页插件配置 -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <!--使用下面的方式配置参数，一行配置一个 -->
+                        <value>
+                            helperDialect=mysql
+                            reasonable=true
+                            offsetAsPageNum=true
+                            pageSizeZero=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
 	</bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -75,8 +91,8 @@
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<!-- 给过滤器注入的bean-->
-	<bean id="systemSessionServer" class="com.hzdz.ls.service.SystemSessionServer"></bean>
-	<bean id="systemManagerServer" class="com.hzdz.ls.service.SystemManagerServer"></bean>
+	<bean id="systemSessionServer" class="com.hzdz.ls.service.SystemSessionServer"/>
+	<bean id="systemManagerServer" class="com.hzdz.ls.service.SystemManagerServer"/>
 
     <import resource="applicationContext.xml"/>
     <import resource="interceptor.xml"/>

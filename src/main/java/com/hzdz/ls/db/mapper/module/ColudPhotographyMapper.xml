@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzdz.ls.db.impl.module.CloudPhotographyMapper">
+    <sql id="Base_Column">
+        id, activityId, imageUrl, addTime
+    </sql>
+    <select id="queryAllByActivityId" parameterType="int" resultType="com.hzdz.ls.db.entity.module.CloudPhotography">
+      SELECT
+        <include refid="Base_Column"/>
+      FROM
+        CLOUD_PHOTOGRAPHY
+      WHERE
+        activityId = #{activityId}
+    </select>
+</mapper>
