@@ -177,6 +177,11 @@
             <artifactId>pagehelper</artifactId>
             <version>5.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.6</version>
+        </dependency>
     </dependencies>
   <build>
     <finalName>ljj</finalName>
@@ -184,7 +189,6 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.5</version>
               <configuration>
                   <source>1.8</source>
                   <target>1.8</target>
