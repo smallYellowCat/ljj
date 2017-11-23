@@ -188,7 +188,7 @@ public class SystemManagerServer {
         Map<String, Object> data = new HashMap<>();
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
         SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
-        String activityName = systemActivity.getActivityName();
+        //String activityName = systemActivity.getActivityName();
         if (systemActivity != null){
             //二维码名称，使用最后一个文件的名字
             String codeName = "";
@@ -201,7 +201,7 @@ public class SystemManagerServer {
                 for (int i = 0; i < n; i++) {
                     MultipartFile file = files[i];
                     codeName = FileUtil.upload4Stream(file.getInputStream(),
-                            CONTEXT_PATH + "upload/manager/"+activityName,
+                            CONTEXT_PATH + "upload/manager/"+activityId,
                             file.getOriginalFilename());
                     if (!StringUtil.checkEmpty(codeName)) {
                         data.put("code", -1);
@@ -209,12 +209,12 @@ public class SystemManagerServer {
                         return new ResultDetail<>(data);
                     }else {
                         //将图片名称存起来
-                        imageList.add("/upload/manager/" + activityName + "/" + codeName);
+                        imageList.add("/upload/manager/" + activityId + "/" + codeName);
                     }
                 }
-                String codeUrl = "upload/manager/" + activityName + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?activityId="+activityId,
-                        "", CONTEXT_PATH + "upload/manager/" + activityName +"/code/", codeName, true);
-                systemActivity.setQrCode(codeUrl);
+                String codeUrl = "upload/manager/" + activityId + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?activityId="+activityId,
+                        "", CONTEXT_PATH + "upload/manager/" + activityId +"/code/", codeName, true);
+                systemActivity.setQRCode(codeUrl);
                 if(systemActivityMapper.updateQrCode(systemActivity) < 1){
                     data.put("code", -1);
                     data.put("msg", "照片上传失败！");

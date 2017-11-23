@@ -105,7 +105,7 @@ public class SystemManagerController {
     }
 
     /**
-     * 管理员多文件上传
+     * 云摄影上传照片
      * @param files
      * @param request
      * @return

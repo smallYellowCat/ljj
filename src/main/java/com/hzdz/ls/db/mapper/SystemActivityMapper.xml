@@ -3,7 +3,7 @@
 <mapper namespace="com.hzdz.ls.db.impl.SystemActivityMapper">
 
     <sql id="Base_Column">
-        id, activityName, addTime, belongManager, status, shareImage, shareText, updateTime, templateId
+        id, activityName, addTime, belongManager, status, shareImage, shareText, updateTime, templateId, QRCode
     </sql>
 
     <select id="queryTemplateUrlById" parameterType="int" resultType="String">

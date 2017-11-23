@@ -4,10 +4,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.SystemActivity;
+import com.hzdz.ls.db.entity.SystemManager;
 import com.hzdz.ls.db.entity.module.CloudPhotography;
 import com.hzdz.ls.db.impl.SystemActivityMapper;
 import com.hzdz.ls.db.impl.module.CloudPhotographyMapper;
 import com.hzdz.ls.db.pagehelper.PageContent;
+import com.hzdz.ls.intercepter.MyIntercepter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +51,8 @@ public class CloudPhotographyServer {
         Map<String, Object> data = new HashMap<>();
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
         SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
-        String activityName = systemActivity.getActivityName();
+        Integer managerId = MyIntercepter.getManagerId(request);
+        //String activityName = systemActivity.getActivityName();
         if (systemActivity != null){
             //二维码名称，使用最后一个文件的名字
             String codeName = "";
@@ -62,7 +65,7 @@ public class CloudPhotographyServer {
                 for (int i = 0; i < n; i++) {
                     MultipartFile file = files[i];
                     codeName = FileUtil.upload4Stream(file.getInputStream(),
-                            CONTEXT_PATH + "upload/manager/"+activityName,
+                            CONTEXT_PATH + "upload/manager/"+managerId+"/"+activityId+"/1",
                             file.getOriginalFilename());
                     if (!StringUtil.checkEmpty(codeName)) {
                         data.put("code", -1);
@@ -70,12 +73,12 @@ public class CloudPhotographyServer {
                         return new ResultDetail<>(data);
                     }else {
                         //将图片名称存起来
-                        imageList.add("/upload/manager/" + activityName + "/" + codeName);
+                        imageList.add("/upload/manager/"+managerId+"/" + activityId +"/1" + "/" + codeName);
                     }
                 }
-                String codeUrl = "upload/manager/" + activityName + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?activityId="+activityId,
-                        "", CONTEXT_PATH + "upload/manager/" + activityName +"/code/", codeName, true);
-                systemActivity.setQrCode(codeUrl);
+                String codeUrl = "upload/manager/"+ managerId + "/" + activityId + "/1" + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?activityId="+activityId,
+                        "", CONTEXT_PATH + "upload/manager/" + managerId + "/" + activityId + "/1" +"/code/", codeName, true);
+                systemActivity.setQRCode(codeUrl);
                 if(systemActivityMapper.updateQrCode(systemActivity) < 1){
                     data.put("code", -1);
                     data.put("msg", "照片上传失败！");

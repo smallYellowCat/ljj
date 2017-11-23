@@ -3,7 +3,7 @@
 <mapper namespace="com.hzdz.ls.db.impl.SystemManagerMapper">
 
     <sql id="Base_Column">
-        id, userAccount, password, managerType, addTime, lastLoginTime, frozen, QRCode
+        id, userAccount, password, managerType, addTime, lastLoginTime, frozen
     </sql>
     
     <select id="isRepeat" parameterType="String" resultType="Integer">

@@ -61,7 +61,7 @@ public class SystemActivityServer {
             }else {
                 // 新增后主键ID作为文件夹名
                 int systemActivityId = systemActivity.getId();
-                String imagePath = "upload/" + belongManager + "/" + systemActivityId;
+                String imagePath = "upload/manager/" + belongManager + "/" + systemActivityId;
                 // 进行文件上传操作
                 String fileUrl = FileUtil.upload4Stream(shareImage.getInputStream(), path + imagePath, shareImage.getOriginalFilename());
                 if (!StringUtil.checkEmpty(fileUrl)) {

@@ -17,5 +17,5 @@ public class SystemActivity {
     private String shareText;
     private Date updateTime;
     private int templateId;
-    private String qrCode;
+    private String QRCode;
 }
