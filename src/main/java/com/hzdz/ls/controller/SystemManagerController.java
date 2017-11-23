@@ -111,7 +111,7 @@ public class SystemManagerController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value="/multiupload", method = RequestMethod.POST)
+    @RequestMapping(value="/cloudUpload", method = RequestMethod.POST)
     @ResponseBody
     public Result multiUploadImage(@RequestParam MultipartFile[] files,
                                    @RequestParam Integer activityId,
