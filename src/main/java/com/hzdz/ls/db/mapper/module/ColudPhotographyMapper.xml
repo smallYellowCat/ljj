@@ -12,4 +12,9 @@
       WHERE
         activityId = #{activityId}
     </select>
+    
+    <insert id="addCloudPhotography" parameterType="com.hzdz.ls.db.entity.module.CloudPhotography">
+        INSERT INTO CLOUD_PHOTOGRAPHY (imageUrl, activityId, addTime)
+        VALUES (#{imageUrl}, #{activityId}, #{addTime})
+    </insert>
 </mapper>

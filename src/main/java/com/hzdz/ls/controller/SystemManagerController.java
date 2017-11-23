@@ -2,6 +2,7 @@ package com.hzdz.ls.controller;
 
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.SystemManagerServer;
+import com.hzdz.ls.service.module.CloudPhotographyServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,9 @@ public class SystemManagerController {
 
     @Autowired
     private SystemManagerServer systemManagerServer;
+
+    @Autowired
+    private CloudPhotographyServer cloudPhotographyServer;
 
     /***
      * 新增管理员
@@ -112,7 +116,7 @@ public class SystemManagerController {
     public Result multiUploadImage(@RequestParam MultipartFile[] files,
                                    @RequestParam Integer activityId,
                                    HttpServletRequest request) throws Exception {
-        return systemManagerServer.multiUploadImage(files, activityId, request);
+        return cloudPhotographyServer.multiUploadImage(files, activityId, request);
     }
 }
 
