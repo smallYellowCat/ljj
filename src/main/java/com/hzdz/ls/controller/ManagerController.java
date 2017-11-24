@@ -1,6 +1,5 @@
 package com.hzdz.ls.controller;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.Manager;
 import com.hzdz.ls.db.impl.ManagerMapper;
@@ -33,13 +32,13 @@ public class ManagerController {
     @Autowired
     private TopicMapServer topicMapServer;
 
-    /**
+   /* *//**
      * 发送短信验证码
      * @param phoneNum
      * @return
      * @throws ClientException
      * @throws InterruptedException
-     */
+     *//*
     @RequestMapping(value = "/send/code", method =  RequestMethod.POST)
     @ResponseBody
     public Result getCode(@RequestParam String phoneNum) throws ClientException, InterruptedException {
@@ -56,7 +55,7 @@ public class ManagerController {
             data.put("msg", "验证码发送成功");
         }
         return new ResultDetail<>(data);
-    }
+    }*/
 
 
     /**
