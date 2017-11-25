@@ -3,20 +3,20 @@
 <mapper namespace="com.hzdz.ls.db.impl.SystemModuleMapper">
 
     <sql id="Base_Column">
-        id, moduleName, addTime, moduleUrl
+        id, moduleName, addTime, description, icon
     </sql>
 
-    <select id="getMaxModuleId" resultType="int">
-      SELECT
-        MAX(id)
-      FROM
-        SYSTEM_MODULE
-    </select>
-    <insert id="insertModule" parameterType="com.hzdz.ls.db.entity.SystemModule">
+    <insert id="insertModule" parameterType="com.hzdz.ls.db.entity.SystemModule" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-          SYSTEM_MODULE
-        VALUES (null, #{moduleName}, #{addTime}, #{moduleUrl})
+          SYSTEM_MODULE (moduleName, addTime, description)
+        VALUES (#{moduleName}, #{addTime}, #{description})
     </insert>
+
+    <update id="updateIcon" parameterType="com.hzdz.ls.db.entity.SystemModule">
+        UPDATE SYSTEM_MODULE
+        SET icon = #{icon}
+        WHERE id = #{id}
+    </update>
 
     <select id="queryAllModule" resultType="com.hzdz.ls.db.entity.SystemModule">
         SELECT

@@ -52,7 +52,6 @@ public class CloudPhotographyServer {
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
         SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
         Integer managerId = MyIntercepter.getManagerId(request);
-        //String activityName = systemActivity.getActivityName();
         if (systemActivity != null){
             //二维码名称，使用最后一个文件的名字
             String codeName = "";

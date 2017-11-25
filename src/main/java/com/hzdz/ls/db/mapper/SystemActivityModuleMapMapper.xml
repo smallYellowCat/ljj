@@ -3,7 +3,7 @@
 <mapper namespace="com.hzdz.ls.db.impl.SystemActivityModuleMapMapper">
 
     <sql id="Base_Column">
-        id, activityId, moduleId, addTime
+        id, activityId, moduleId, addTime, sortNum
     </sql>
 
     <select id="queryModuleIdsById" parameterType="int" resultType="com.hzdz.ls.db.entity.SystemModule">
@@ -12,13 +12,17 @@
     </select>
 
     <insert id="addNewMap" parameterType="com.hzdz.ls.db.entity.SystemActivityModuleMap">
-        INSERT INTO SYSTEM_ACTIVITY_MODULE_MAP (activityId, moduleId, addTime)
-        VALUES (#{activityId}, #{moduleId}, #{addTime})
+        INSERT INTO SYSTEM_ACTIVITY_MODULE_MAP (activityId, moduleId, addTime, sortNum)
+        VALUES (#{activityId}, #{moduleId}, #{addTime}, #{sortNum})
     </insert>
 
     <delete id="deleteActivityById" parameterType="Integer">
         DELETE FROM SYSTEM_ACTIVITY_MODULE_MAP
         WHERE activityId = #{activityId}
     </delete>
+
+    <select id="updateModuleOrder" parameterType="com.hzdz.ls.db.entity.SwapData" statementType="CALLABLE" resultType="Integer">
+        CALL swapSortNum(#{id1}, #{id2}, #{result,mode=OUT,jdbcType=INTEGER})
+    </select>
 
 </mapper>

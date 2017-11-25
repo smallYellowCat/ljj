@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzdz.ls.db.impl.module.ProfessionalExhibitionMapper">
+
+    <sql id="Base_Column">
+        id, imageUrl, vrUrl, addTime, status, activityId
+    </sql>
+
+    <insert id="addNewProfessionalExhibition" parameterType="com.hzdz.ls.db.entity.module.ProfessionalExhibition" >
+        INSERT INTO PROFESSIONAL_EXHIBITION
+          (imageUrl, vrUrl, addTime, activityId)
+        VALUES (#{imageUrl}, #{vrUrl}, #{addTime}, #{activityId})
+    </insert>
+
+    <update id="updateImageUrl" parameterType="com.hzdz.ls.db.entity.module.ProfessionalExhibition">
+        UPDATE PROFESSIONAL_EXHIBITION
+        SET imageUrl = #{imageUrl}
+        WHERE id = #{id}
+    </update>
+
+    <select id="queryProfessionalExhibition" parameterType="Integer" resultType="com.hzdz.ls.db.entity.module.ProfessionalExhibition">
+        SELECT <include refid="Base_Column"/>
+        FROM PROFESSIONAL_EXHIBITION
+        WHERE activityId = #{activityId}
+    </select>
+
+</mapper>

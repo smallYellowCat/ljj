@@ -4,16 +4,15 @@ import com.hzdz.ls.common.FileUtil;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.common.StringUtil;
+import com.hzdz.ls.db.entity.SwapData;
 import com.hzdz.ls.db.entity.SystemActivity;
 import com.hzdz.ls.db.entity.SystemActivityModuleMap;
 import com.hzdz.ls.db.entity.SystemManager;
 import com.hzdz.ls.db.impl.SystemActivityMapper;
 import com.hzdz.ls.db.impl.SystemActivityModuleMapMapper;
 import com.hzdz.ls.intercepter.MyIntercepter;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,10 +80,11 @@ public class SystemActivityServer {
                         SystemActivityModuleMap systemActivityModuleMap = null;
                         boolean setMapFlag = false;
                         // 遍历模版数组ID
-                        for (int moduleId : moduleIds){
+                        for (int i = 0; i < moduleIds.length; i++){
                             systemActivityModuleMap = new SystemActivityModuleMap();
                             systemActivityModuleMap.setActivityId(systemActivityId);
-                            systemActivityModuleMap.setModuleId(moduleId);
+                            systemActivityModuleMap.setModuleId(moduleIds[i]);
+                            systemActivityModuleMap.setSortNum(i+1);
                             systemActivityModuleMap.setAddTime(new Date(System.currentTimeMillis()));
                             if(systemActivityModuleMapMapper.addNewMap(systemActivityModuleMap) < 1){
                                 setMapFlag = true;
@@ -173,6 +173,22 @@ public class SystemActivityServer {
             }
         }
         return new ResultDetail(data);
+    }
+
+    public Result updateModuleOrder(Integer id1, Integer id2, HttpServletRequest request) throws IOException{
+        Map<String, Object> data = new HashMap<>();
+        SwapData swapData = new SwapData();
+        swapData.setId1(id1);
+        swapData.setId2(id2);
+        systemActivityModuleMapMapper.updateModuleOrder(swapData);
+        if (swapData.getResult() == 1){
+            data.put("code", 0);
+            data.put("msg", "更新排序成功！");
+        }else{
+            data.put("code", -1);
+            data.put("msg", "更新排序失败！");
+        }
+        return new ResultDetail<>(data);
     }
 
 }

@@ -60,8 +60,8 @@ public class UserContrller {
     @ResponseBody
     public Result test1(@RequestParam String input, HttpServletRequest request) throws Exception{
         Map<String, Object> data = new HashMap<>();
-        String path = request.getSession().getServletContext().getRealPath("/");
-        String p = Base64Util.decodeBase64(path+ "test.txt", input);
+        String mac = IPUtil.getMACAddress(request);
+        data.put("mac", mac);
         return new ResultDetail<>(data);
     }
 

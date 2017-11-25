@@ -4,6 +4,7 @@ import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.SystemModuleServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,14 +23,13 @@ public class SystemModuleController {
     /**
      * 新增模块
      * @param moduleName
-     * @param moduleUrl
      * @param request
      * @return
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public Result insertModule(@RequestParam String moduleName, @RequestParam String moduleUrl, HttpServletRequest request){
-        return systemModuleServer.addModule(moduleName, moduleUrl, request);
+    public Result insertModule(@RequestParam String moduleName, @RequestParam String description, @RequestParam MultipartFile icon, HttpServletRequest request) throws Exception{
+        return systemModuleServer.addModule(moduleName, description, icon, request);
     }
 
     @RequestMapping(value = "/queryModule", method = RequestMethod.POST)

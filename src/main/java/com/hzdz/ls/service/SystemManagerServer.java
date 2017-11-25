@@ -160,6 +160,7 @@ public class SystemManagerServer {
                 data.put("code", -1);
                 data.put("msg", "该用户已被冻结！");
             }else {
+                systemManager.setLastLoginTime(new Date(System.currentTimeMillis()));
                 if(systemManagerMapper.loginSucceed(systemManager) < 1){
                     data.put("code", -1);
                     data.put("msg", "登录失败！");

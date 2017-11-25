@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public interface SystemModuleMapper {
-    int getMaxModuleId();
-    int insertModule(SystemModule module);
+    int insertModule(SystemModule systemModule);
+    int updateIcon(SystemModule systemModule);
     List<SystemModule> queryAllModule();
 }

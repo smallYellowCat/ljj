@@ -12,4 +12,5 @@ public class SystemActivityModuleMap {
     private int activityId;
     private int moduleId;
     private Date addTime;
+    private int sortNum;
 }

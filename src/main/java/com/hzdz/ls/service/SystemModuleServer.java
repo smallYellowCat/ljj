@@ -1,14 +1,15 @@
 package com.hzdz.ls.service;
 
-import com.hzdz.ls.common.FileUtil;
-import com.hzdz.ls.common.Result;
-import com.hzdz.ls.common.ResultDetail;
+import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.SystemManager;
 import com.hzdz.ls.db.entity.SystemModule;
 import com.hzdz.ls.db.impl.SystemModuleMapper;
 import com.hzdz.ls.intercepter.MyIntercepter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -26,35 +27,47 @@ public class SystemModuleServer {
     /**
      * 新增模块（模块的文件手动上传到/ljj/module/moduleId的目录下，先在后台新增模块然后上传文件）
      * @param moduleName 模块中文名
-     * @param moduleUrl 模块的html文件名
      * @return
      */
-    public Result addModule(String moduleName, String moduleUrl, HttpServletRequest request){
+    @Transactional(rollbackForClassName = "Exception")
+    public Result addModule(String moduleName, String description, MultipartFile icon, HttpServletRequest request) throws Exception{
         Map<String, Object> data = new HashMap<>();
-        //得到当前最后一条id
-        int currentMaxId = systemModuleMapper.getMaxModuleId()+1;
-        //递归创建文件夹
-        boolean result = FileUtil.mkDirs(getPath(request, currentMaxId));
-        if (!result){
+        boolean roollerBackFlag = false;
+        SystemModule systemModule = new SystemModule();
+        systemModule.setModuleName(moduleName);
+        systemModule.setDescription(description);
+        systemModule.setAddTime(new Date(System.currentTimeMillis()));
+        if (systemModuleMapper.insertModule(systemModule) < 1){
             data.put("code", -1);
-            data.put("msg", "创建目录失败");
-            return new ResultDetail(data);
+            data.put("msg", "新建模版失败！");
+        }else {
+            Integer moduleId = systemModule.getId();
+            // 获取当前项目根路径
+            String path = request.getSession().getServletContext().getRealPath("/");
+            String iconPath = BaseVar.MODULE_URL + moduleId;
+            String iconUrl = FileUtil.upload4Stream(icon.getInputStream(), path + iconPath, icon.getOriginalFilename());
+            if (!StringUtil.checkEmpty(iconUrl)) {
+                data.put("code", -1);
+                data.put("msg", "图片上传失败！");
+                roollerBackFlag = true;
+            }else {
+                // 更新图片路径
+                systemModule.setIcon(iconPath + "/" + iconUrl);
+                if (systemModuleMapper.updateIcon(systemModule) < 1) {
+                    data.put("code", -1);
+                    data.put("msg", "创建模块失败！");
+                    roollerBackFlag = true;
+                }else {
+                    data.put("code", 0);
+                    data.put("msg", "创建模块成功！");
+                }
+            }
         }
-
-        SystemModule module = new SystemModule();
-        module.setModuleName(moduleName);
-        module.setModuleUrl(getPath(request,currentMaxId) + moduleUrl);
-        module.setAddTime(new Date(System.currentTimeMillis()));
-        int resultNum = systemModuleMapper.insertModule(module);
-        if (resultNum < 1){
-            data.put("code", -1);
-            data.put("msg", "数据库系统错误");
-            return new ResultDetail(data);
+        //判断是否回滚事务
+        if (roollerBackFlag){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
-
-        data.put("code", 0);
-        data.put("msg", "新增成功");
-        return new ResultDetail(data);
+        return new ResultDetail<>(data);
     }
 
     private String getPath(HttpServletRequest request, int moduleId){
