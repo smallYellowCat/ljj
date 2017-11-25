@@ -7,4 +7,8 @@ public class BaseVar {
     public static final int DID_LENGTH = 16;
     public static final String PERSONAL_PHOTO_FILE = "upload/personal/";//用户上传照片保存路径
     public static final String PERSONAL_CODE_FILE = "upload/personal/code/";//用户上传照片二维码保存路径
+    public static final String MANAGER_URL = "upload/manager/";
+    public static final String MODULE_URL = "upload/module/";//模块路径
+    public static final String CLOUD_PHOTOGRAPHY_URL = "1/";//云摄影路径
+    public static final String PROFESSIONAL_EXHIBITION_URL = "2/";//vr路径
 }

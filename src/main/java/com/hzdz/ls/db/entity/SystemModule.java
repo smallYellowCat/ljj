@@ -10,6 +10,7 @@ import java.util.Date;
 public class SystemModule {
     private int id;
     private String moduleName;
+    private String description;
+    private String icon;
     private Date addTime;
-    private String moduleUrl;
 }

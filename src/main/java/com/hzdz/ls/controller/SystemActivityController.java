@@ -42,5 +42,11 @@ public class SystemActivityController {
         return systemActivityServer.updateShareImage(activityId, shareImage, shareText, request);
     }
 
+    @RequestMapping(value = "/updateModuleOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateModuleOrder(@RequestParam Integer id1, @RequestParam Integer id2, HttpServletRequest request) throws IOException{
+        return systemActivityServer.updateModuleOrder(id1, id2, request);
+    }
+
 
 }
