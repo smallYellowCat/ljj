@@ -177,11 +177,6 @@
             <artifactId>pagehelper</artifactId>
             <version>5.1.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>2.6</version>
-        </dependency>
     </dependencies>
   <build>
     <finalName>ljj</finalName>
@@ -189,9 +184,25 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.1</version>
               <configuration>
                   <source>1.8</source>
                   <target>1.8</target>
+                  <compilerVersion>1.8</compilerVersion>
+                  <encoding>UTF-8</encoding>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.2</version>
+              <configuration>
+                  <!-- 注意此处的url -->
+                  <url>http://101.132.147.167/manager/text</url>
+                  <username>deploy</username>  <!--此处用户名及密码也和第2步一致，反正我是这样的 -->
+                  <password>tomcat</password>
+                  <server>tomcat8</server> <!-- 此处的名字必须和setting.xml中配置的ID一致-->
+                  <path>/ljj</path> <!-- 此处的名字是项目发布的工程名-->
               </configuration>
           </plugin>
       </plugins>

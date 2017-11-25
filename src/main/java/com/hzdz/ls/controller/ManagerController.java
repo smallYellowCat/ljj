@@ -1,14 +1,11 @@
 package com.hzdz.ls.controller;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.Manager;
 import com.hzdz.ls.db.impl.ManagerMapper;
 import com.hzdz.ls.service.TopicMapServer;
 import com.hzdz.ls.service.TopicServer;
-import com.sun.org.glassfish.gmbal.ParameterNames;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,13 +30,13 @@ public class ManagerController {
     @Autowired
     private TopicMapServer topicMapServer;
 
-    /**
+   /* *//**
      * 发送短信验证码
      * @param phoneNum
      * @return
      * @throws ClientException
      * @throws InterruptedException
-     */
+     *//*
     @RequestMapping(value = "/send/code", method =  RequestMethod.POST)
     @ResponseBody
     public Result getCode(@RequestParam String phoneNum) throws ClientException, InterruptedException {
@@ -56,7 +53,7 @@ public class ManagerController {
             data.put("msg", "验证码发送成功");
         }
         return new ResultDetail<>(data);
-    }
+    }*/
 
 
     /**
