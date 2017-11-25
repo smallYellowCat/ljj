@@ -195,10 +195,10 @@
           <plugin>
               <groupId>org.apache.tomcat.maven</groupId>
               <artifactId>tomcat7-maven-plugin</artifactId>
-              <version>2.2</version>
+              <version>2.1</version>
               <configuration>
                   <!-- 注意此处的url -->
-                  <url>http://101.132.147.167/manager/html</url>
+                  <url>http://101.132.147.167/manager/text</url>
                   <username>deploy</username>  <!--此处用户名及密码也和第2步一致，反正我是这样的 -->
                   <password>tomcat</password>
                   <server>tomcat8</server> <!-- 此处的名字必须和setting.xml中配置的ID一致-->
