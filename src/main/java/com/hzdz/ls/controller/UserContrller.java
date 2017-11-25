@@ -58,13 +58,20 @@ public class UserContrller {
 
     @RequestMapping(value = "/test1", method = RequestMethod.POST)
     @ResponseBody
-    public Result test1(@RequestParam String input, HttpServletRequest request) throws Exception{
+    public Result test1(HttpServletRequest request) throws Exception{
         Map<String, Object> data = new HashMap<>();
         String mac = IPUtil.getMACAddress(request);
         data.put("mac", mac);
         return new ResultDetail<>(data);
     }
 
-
+    @RequestMapping(value = "/test2", method = RequestMethod.POST)
+    @ResponseBody
+    public Result test2(HttpServletRequest request) throws Exception{
+        Map<String, Object> data = new HashMap<>();
+        String ip = IPUtil.getIp(request);
+        data.put("ip", ip);
+        return new ResultDetail<>(data);
+    }
 
 }
