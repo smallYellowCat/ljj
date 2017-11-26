@@ -198,8 +198,8 @@
               <version>2.1</version>
               <configuration>
                   <!-- 注意此处的url -->
-                  <url>http://101.132.147.167/manager/html</url>
-                  <username>deploy</username>  <!--此处用户名及密码也和第2步一致，反正我是这样的 -->
+                  <url>http://101.132.147.167:8080/manager/ttext</url>
+                  <username>tomcat</username>  <!--此处用户名及密码也和第2步一致，反正我是这样的 -->
                   <password>tomcat</password>
                   <server>tomcat8</server> <!-- 此处的名字必须和setting.xml中配置的ID一致-->
                   <path>/ljj</path> <!-- 此处的名字是项目发布的工程名-->
