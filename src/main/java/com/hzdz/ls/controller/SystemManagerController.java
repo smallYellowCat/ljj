@@ -42,8 +42,8 @@ public class SystemManagerController {
      */
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     @ResponseBody
-    public Result updatePassword(@RequestParam String password, HttpServletRequest request){
-        return systemManagerServer.updatePassword(password, request);
+    public Result updatePassword(@RequestParam Integer id, @RequestParam String password, @RequestParam String oldPassword, HttpServletRequest request){
+        return systemManagerServer.updatePassword(id, password, oldPassword, request);
     }
 
     /**
