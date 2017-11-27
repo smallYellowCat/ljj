@@ -68,7 +68,7 @@ public class SystemManagerServer {
         return new ResultDetail(data);
     }
 
-    public Result updatePassword(String password, HttpServletRequest request){
+    public Result updatePassword(Integer id, String password, String oldPassword, HttpServletRequest request){
         Map<String, Object> data = new HashMap<String, Object>();
         if (password.length() > 16 || password.length() < 6){
             data.put("code", -1);
@@ -77,13 +77,23 @@ public class SystemManagerServer {
         }
         password = MD5Util.toMd5(password);
         SystemManager systemManager = MyIntercepter.getManager(request);
-        systemManager.setPassword(password);
-        if (systemManagerMapper.updatePassword(systemManager) < 1){
-            data.put("code", -1);
-            data.put("msg", "修改密码失败！");
+        if (id == systemManager.getId() || systemManager.getManagerType() == 1) {
+            if (oldPassword.equals(systemManager.getPassword())) {
+                systemManager.setPassword(password);
+                if (systemManagerMapper.updatePassword(systemManager) < 1) {
+                    data.put("code", -1);
+                    data.put("msg", "修改密码失败！");
+                } else {
+                    data.put("code", 0);
+                    data.put("msg", "修改密码成功！");
+                }
+            } else {
+                data.put("code", -1);
+                data.put("msg", "旧密码错误！");
+            }
         }else{
-            data.put("code", 0);
-            data.put("msg", "修改密码成功！");
+            data.put("code", -1);
+            data.put("msg", "非超管只能修改自己的密码！");
         }
         return new ResultDetail(data);
     }
