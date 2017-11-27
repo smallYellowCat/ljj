@@ -18,7 +18,7 @@ public class InitController {
 
     @RequestMapping(value = "/init", method = RequestMethod.POST)
     @ResponseBody
-    public Result init(@RequestParam("mac") String macAddress){
+    public Result init(@RequestParam("macAddress") String macAddress){
         return initServer.init(macAddress);
     }
 }
