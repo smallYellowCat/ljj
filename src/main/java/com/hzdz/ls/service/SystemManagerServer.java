@@ -185,7 +185,7 @@ public class SystemManagerServer {
         return new ResultDetail<>(data);
     }
 
-    @Transactional(rollbackForClassName = "Exception")
+    /*@Transactional(rollbackForClassName = "Exception")
     public Result multiUploadImage(MultipartFile[] files, Integer activityId, HttpServletRequest request) throws Exception{
         Map<String, Object> data = new HashMap<>();
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
@@ -237,5 +237,5 @@ public class SystemManagerServer {
             data.put("msg", "该活动不存在！");
         }
         return new ResultDetail<>(data);
-    }
+    }*/
 }

@@ -24,5 +24,12 @@
         FROM SYSTEM_MODULE
     </select>
 
+    <select id="queryModuleById" parameterType="Integer" resultType="com.hzdz.ls.db.entity.SystemModule">
+        SELECT
+        <include refid="Base_Column"/>
+        FROM SYSTEM_MODULE
+        WHERE id = #{id}
+    </select>
+
 
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+@CrossOrigin(value = "*", maxAge = 3600)
 @RequestMapping("/back/systemManager")
 public class SystemManagerController {
 

@@ -74,6 +74,7 @@ public class IPUtil {
         String line = "";
         String macAddress = "";
         final String MAC_ADDRESS_PREFIX = "MAC Address = ";
+        final String MAC_ADDRESS_PREFIX_CHINESE = "MAC 地址 = ";
         final String LOOPBACK_ADDRESS = "127.0.0.1";
         //如果为127.0.0.1,则获取本地MAC地址。
         if (LOOPBACK_ADDRESS.equals(ip)) {
@@ -97,14 +98,19 @@ public class IPUtil {
         }
         //获取非本地IP的MAC地址
         try {
-            Process p = Runtime.getRuntime().exec("nbtstat -A " + ip);
+            //Process p = Runtime.getRuntime().exec("nbtstat -A " + ip);
+            //Process p = Runtime.getRuntime().exec("netstat -A " + ip);
+            Process p = Runtime.getRuntime().exec("arp " + ip);
             InputStreamReader isr = new InputStreamReader(p.getInputStream());
             BufferedReader br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
                 if (line != null) {
                     int index = line.indexOf(MAC_ADDRESS_PREFIX);
+                    int index_chinese = line.indexOf(MAC_ADDRESS_PREFIX_CHINESE);
                     if (index != -1) {
                         macAddress = line.substring(index + MAC_ADDRESS_PREFIX.length()).trim().toUpperCase();
+                    }else if (index_chinese != -1){
+                        macAddress = line.substring(index_chinese + MAC_ADDRESS_PREFIX_CHINESE.length()).trim().toUpperCase();
                     }
                 }
             }

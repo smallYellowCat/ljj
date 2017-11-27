@@ -25,4 +25,11 @@
         CALL swapSortNum(#{id1}, #{id2}, #{result,mode=OUT,jdbcType=INTEGER})
     </select>
 
+
+    <select id="queryModuleByActivityId" parameterType="Integer" resultType="com.hzdz.ls.db.entity.SystemActivityModuleMap">
+        SELECT id, moduleId, sortNum
+        FROM SYSTEM_ACTIVITY_MODULE_MAP
+        WHERE activityId = #{activityId}
+    </select>
+
 </mapper>

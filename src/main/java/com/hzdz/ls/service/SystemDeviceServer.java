@@ -1,9 +1,6 @@
 package com.hzdz.ls.service;
 
-import com.hzdz.ls.common.BaseVar;
-import com.hzdz.ls.common.Result;
-import com.hzdz.ls.common.ResultDetail;
-import com.hzdz.ls.common.StringUtil;
+import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.SystemDevice;
 import com.hzdz.ls.db.entity.SystemManager;
 import com.hzdz.ls.db.entity.SystemModule;
@@ -35,7 +32,7 @@ public class SystemDeviceServer {
      * @param deviceId
      * @return
      */
-    public Result startQuery(String deviceId) {
+    /*public Result startQuery(String deviceId) {
         Map<String, Object> data = new HashMap<>();
         int activityId = systemDeviceMapper.queryActivityIdByDID(deviceId);
         if (activityId < 0) {
@@ -61,15 +58,13 @@ public class SystemDeviceServer {
 
         return new ResultDetail<>(data);
 
-    }
+    }*/
 
     /**
      * 新增设备
-     *
-     * @param DID 设备id
      * @return
      */
-    public Result addDevice(String DID) {
+    public Result addDevice(String DID){
         Map<String, Object> data = new HashMap<>();
         if (!StringUtil.checkEmpty(DID) || DID.length() != BaseVar.DID_LENGTH) {
             data.put("code", -1);

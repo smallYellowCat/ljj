@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 *时间:
 */
 @RestController
+@CrossOrigin(value = "*", maxAge = 3600)
 @RequestMapping("/back/systemModule")
 public class SystemModuleController {
 

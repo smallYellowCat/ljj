@@ -15,6 +15,7 @@ public interface SystemManagerMapper {
     int resetPassword(Integer id);
     List<SystemManager> selectAllManager();
     SystemManager getManagerByID(int id);
+    SystemManager queryManagerByID(@Param("id") Integer id);
     SystemManager loginVerify(@Param("userAccount") String userAccount, @Param("password") String password);
     int loginSucceed(SystemManager systemManager);
 }
