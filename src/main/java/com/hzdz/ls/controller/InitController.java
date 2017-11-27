@@ -16,9 +16,9 @@ public class InitController {
     @Autowired
     private InitServer initServer;
 
-    @RequestMapping(value = "/init", method = RequestMethod.GET)
+    @RequestMapping(value = "/init", method = RequestMethod.POST)
     @ResponseBody
-    public Result init(HttpServletRequest request) throws Exception{
-        return initServer.init(request);
+    public Result init(@RequestParam("macAddress") String macAddress){
+        return initServer.init(macAddress);
     }
 }

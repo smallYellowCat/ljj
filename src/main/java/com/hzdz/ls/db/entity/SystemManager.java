@@ -14,5 +14,6 @@ public class SystemManager {
     private int managerType;
     private Date addTime;
     private Date lastLoginTime;
+    private String remarks;
     private int frozen;
 }

@@ -10,7 +10,8 @@ import java.util.List;
 @Repository
 public interface SystemDeviceMapper {
 
-    int queryActivityIdByDID(@Param("deviceId") String deviceId);
+    int queryActivityIdByDID(String deviceId);
+    int queryBelongManagerByDID(String deviceID);
     int insertDevice(SystemDevice device);
     List<SystemDevice> queryDeviceListByManager(SystemManager systemManager);
     int deleteByid(int id);

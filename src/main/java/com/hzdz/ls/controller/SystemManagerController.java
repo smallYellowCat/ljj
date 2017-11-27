@@ -30,8 +30,8 @@ public class SystemManagerController {
      */
     @RequestMapping(value = "/addNewManager", method = RequestMethod.POST)
     @ResponseBody
-    public Result addNewManager(@RequestParam String userAccount, @RequestParam String password, @RequestParam Integer managerType, HttpServletRequest request){
-        return systemManagerServer.addNewManager(userAccount, password, managerType, request);
+    public Result addNewManager(@RequestParam String userAccount, @RequestParam String password, @RequestParam Integer managerType, @RequestParam String remarks, HttpServletRequest request){
+        return systemManagerServer.addNewManager(userAccount, password, managerType, remarks, request);
     }
 
     /**
