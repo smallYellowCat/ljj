@@ -3,7 +3,7 @@
 <mapper namespace="com.hzdz.ls.db.impl.SystemManagerMapper">
 
     <sql id="Base_Column">
-        id, userAccount, password, managerType, addTime, lastLoginTime, frozen
+        id, userAccount, password, managerType, addTime, lastLoginTime, remarks, frozen
     </sql>
     
     <select id="isRepeat" parameterType="String" resultType="Integer">
@@ -12,13 +12,13 @@
     </select>
 
     <select id="selectAllManager" resultType="com.hzdz.ls.db.entity.SystemManager">
-        SELECT id, userAccount, managerType, addTime, lastLoginTime, frozen
+        SELECT id, userAccount, managerType, addTime, lastLoginTime, remarks, frozen
         FROM SYSTEM_MANAGER WHERE managerType = 0
     </select>
 
     <insert id="addNewManager" parameterType="com.hzdz.ls.db.entity.SystemManager">
-        INSERT INTO SYSTEM_MANAGER (userAccount, password, addTime, managerType)
-        VALUES (#{userAccount}, #{password}, #{addTime}, #{managerType})
+        INSERT INTO SYSTEM_MANAGER (userAccount, password, addTime, managerType, remarks)
+        VALUES (#{userAccount}, #{password}, #{addTime}, #{managerType}, #{remarks})
     </insert>
 
     <update id="updatePassword" parameterType="com.hzdz.ls.db.entity.SystemManager">

@@ -3,7 +3,17 @@
 <mapper namespace="com.hzdz.ls.db.impl.SystemTemplateMapper">
 
     <sql id="Base_Column">
-        sid, templateName, templateUrl, addTime
+        id, templateName, templateUrl, addTime
     </sql>
+    <insert id="addTemplate" parameterType="com.hzdz.ls.db.entity.SystemTemplate">
+        INSERT INTO
+          SYSTEM_TEMPLATE
+        VALUES (null, #{templateName}, #{templateUrl}, #{addTime})
+    </insert>
+
+    <select id="queryAll" resultType="com.hzdz.ls.db.entity.SystemTemplate">
+        SELECT *  FROM SYSTEM_TEMPLATE
+    </select>
+
 
 </mapper>

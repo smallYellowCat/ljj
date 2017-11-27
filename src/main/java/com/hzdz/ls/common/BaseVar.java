@@ -11,4 +11,6 @@ public class BaseVar {
     public static final String MODULE_URL = "upload/module/";//模块路径
     public static final String CLOUD_PHOTOGRAPHY_URL = "1/";//云摄影路径
     public static final String PROFESSIONAL_EXHIBITION_URL = "2/";//vr路径
+    /**模版保存路径*/
+    public static final String TEMPLATE_FILE = BASE_URL +"upload/template/";
 }
