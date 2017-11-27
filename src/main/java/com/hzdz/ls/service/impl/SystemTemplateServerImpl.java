@@ -1,8 +1,9 @@
-package com.hzdz.ls.service;
+package com.hzdz.ls.service.impl;
 
 import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.SystemTemplate;
 import com.hzdz.ls.db.impl.SystemTemplateMapper;
+import com.hzdz.ls.service.SystemTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,13 +13,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+*
+*@author 豆豆
+*时间:
+*/
 @Service
-public class SystemTemplateServer {
+public class SystemTemplateServerImpl implements SystemTemplateService{
 
     @Autowired
     private SystemTemplateMapper templateMapper;
 
+    @Override
     public Result addTemplate(String templateName, MultipartFile templateFile){
         Map<String, Object> data = new HashMap<>();
         if (templateFile == null || templateFile.isEmpty()){
@@ -52,6 +58,7 @@ public class SystemTemplateServer {
         return Result.SUCCESS;
     }
 
+    @Override
     public Result queryAll(){
         Map<String, Object> data = new HashMap<>();
         List<SystemTemplate> templates =  templateMapper.queryAll();
