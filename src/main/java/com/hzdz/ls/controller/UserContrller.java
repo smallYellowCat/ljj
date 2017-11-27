@@ -56,7 +56,7 @@ public class UserContrller {
         return userServer.getQRCode(file, request);
     }
 
-    @RequestMapping(value = "/test1", method = RequestMethod.POST)
+    @RequestMapping(value = "/test1", method = RequestMethod.GET)
     @ResponseBody
     public Result test1(HttpServletRequest request) throws Exception{
         Map<String, Object> data = new HashMap<>();

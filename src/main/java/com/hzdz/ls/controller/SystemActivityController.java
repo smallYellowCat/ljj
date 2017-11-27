@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin(value = "*", maxAge = 3600)
 @RequestMapping("/back/systemActivity")
 public class SystemActivityController {
 

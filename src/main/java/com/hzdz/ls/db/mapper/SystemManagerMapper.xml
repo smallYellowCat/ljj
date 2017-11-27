@@ -42,6 +42,14 @@
         FROM SYSTEM_MANAGER
         WHERE id = #{id}
     </select>
+
+    <select id="queryManagerByID" parameterType="int" resultType="com.hzdz.ls.db.entity.SystemManager">
+        SELECT
+        <include refid="Base_Column"/>
+        FROM SYSTEM_MANAGER
+        WHERE id = #{id}
+        AND frozen = 0
+    </select>
     
     <select id="loginVerify" resultType="com.hzdz.ls.db.entity.SystemManager">
         SELECT

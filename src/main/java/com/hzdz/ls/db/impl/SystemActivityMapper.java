@@ -11,6 +11,7 @@ public interface SystemActivityMapper {
     int updateShareImage(SystemActivity systemActivity);
     int deleteActivity(@Param("id") Integer id);
     int updateQrCode(SystemActivity systemActivity);
-    SystemActivity selectActivityById(Integer id);
+    SystemActivity selectActivityById(@Param("id") Integer id);
     String queryTemplateUrlById(int activityId);
+    SystemActivity queryActivityById(@Param("id") Integer id);
 }

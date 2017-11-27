@@ -23,4 +23,6 @@ public interface SystemActivityModuleMapMapper {
     int deleteActivityById(Integer activityId);
 
     SwapData updateModuleOrder(SwapData swapData);
+
+    List<SystemActivityModuleMap> queryModuleByActivityId(@Param("activityId") Integer activityId);
 }
