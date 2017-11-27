@@ -5,7 +5,18 @@ import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+*
+*@author 豆豆
+*时间:
+*/
 @Repository
 public interface InitServer {
-    Result init(HttpServletRequest request) throws Exception;
+    /**
+     * 开机初始化
+     * @param macAddress mac地址
+     * @return 返回初始化信息
+     * @throws Exception 异常信息
+     */
+    Result init(String macAddress);
 }
