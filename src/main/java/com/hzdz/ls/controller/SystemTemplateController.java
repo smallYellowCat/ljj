@@ -9,5 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(value = "*", maxAge = 3600)
 public class SystemTemplateController {
 
+    //public
 
 }
