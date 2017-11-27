@@ -69,8 +69,10 @@ public class UserContrller {
     @ResponseBody
     public Result test2(HttpServletRequest request) throws Exception{
         Map<String, Object> data = new HashMap<>();
-        String ip = IPUtil.getIp(request);
-        data.put("ip", ip);
+        String path = request.getSession().getServletContext().getRealPath("/");
+        path = path + "upload/111/1";
+        Boolean b = FileUtil.batchDeleteByRecursion(path);
+        data.put("b", b);
         return new ResultDetail<>(data);
     }
 

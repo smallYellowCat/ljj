@@ -171,8 +171,10 @@ public class FileUtil {
         boolean result = false;
         try {
             File file = new File(path);
-            file.delete();
-            result = true;
+            if (file.isFile() && file.exists()) {
+                file.delete();
+                result = true;
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -198,6 +200,44 @@ public class FileUtil {
             e.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * 递归删除文件夹
+     * @param path
+     * @return
+     */
+    public static boolean batchDeleteByRecursion(String path){
+        if(!path.endsWith(File.separator)){
+            path = path + File.separator;
+        }
+        File file = new File(path);
+        if (!file.exists() || !file.isDirectory()){
+            return false;
+        }
+        Boolean flag = true;
+        File[] files = file.listFiles();
+        for (int i = 0; i < files.length; i++){
+            if (files[i].isFile()){
+                flag = delete(files[i].getAbsolutePath());
+                if (!flag){
+                    break;
+                }
+            }else {
+                flag = batchDeleteByRecursion(files[i].getAbsolutePath());
+                if (!flag){
+                    break;
+                }
+            }
+        }
+        if (!flag){
+            return false;
+        }
+        if (file.delete()){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 

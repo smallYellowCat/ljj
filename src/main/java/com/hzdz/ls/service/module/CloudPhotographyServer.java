@@ -64,7 +64,7 @@ public class CloudPhotographyServer {
                 for (int i = 0; i < n; i++) {
                     MultipartFile file = files[i];
                     codeName = FileUtil.upload4Stream(file.getInputStream(),
-                            CONTEXT_PATH + "upload/manager/"+managerId+"/"+activityId+"/1",
+                            CONTEXT_PATH + BaseVar.MANAGER_URL + managerId+"/" + activityId + BaseVar.CLOUD_PHOTOGRAPHY_URL,
                             file.getOriginalFilename());
                     if (!StringUtil.checkEmpty(codeName)) {
                         data.put("code", -1);
@@ -72,11 +72,11 @@ public class CloudPhotographyServer {
                         return new ResultDetail<>(data);
                     }else {
                         //将图片名称存起来
-                        imageList.add("/upload/manager/"+managerId+"/" + activityId +"/1" + "/" + codeName);
+                        imageList.add("/" + BaseVar.MANAGER_URL + managerId+"/" + activityId + BaseVar.CLOUD_PHOTOGRAPHY_URL + "/" + codeName);
                     }
                 }
-                String codeUrl = "upload/manager/"+ managerId + "/" + activityId + "/1" + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?activityId="+activityId,
-                        "", CONTEXT_PATH + "upload/manager/" + managerId + "/" + activityId + "/1" +"/code/", codeName, true);
+                String codeUrl = BaseVar.MANAGER_URL+ managerId + "/" + activityId + BaseVar.CLOUD_PHOTOGRAPHY_URL + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?activityId="+activityId,
+                        "", CONTEXT_PATH + BaseVar.MANAGER_URL + managerId + "/" + activityId + BaseVar.CLOUD_PHOTOGRAPHY_URL +"/code/", codeName, true);
                 systemActivity.setQRCode(codeUrl);
                 if(systemActivityMapper.updateQrCode(systemActivity) < 1){
                     data.put("code", -1);
