@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class FileUtil {
 
-    // 上传文件的最大长度
-    public static long maxFileSize = 1024 * 1024 * 1024 * 2L;//2G
-    // 图片后缀名
-    private static Set<String> suffix = new HashSet<String>();
+    /** 上传文件的最大长度 2G*/
+    private static long maxFileSize = 1024 * 1024 * 1024 * 2L;
+    /**图片后缀名*/
+    private static Set<String> suffix = new HashSet<>();
     static {
         suffix.add("jgp");
         suffix.add("jpeg");
@@ -27,9 +27,9 @@ public class FileUtil {
     }
     /**
      * 通过输入流来上传文件
-     * @param is
-     * @param path
-     * @return
+     * @param is 输入流
+     * @param path 保存文件夹
+     * @return  文件相对路径
      * @throws IOException
      */
     public static String upload4Stream(InputStream is, String path, String name) throws IOException {

@@ -31,5 +31,12 @@
         WHERE id = #{id}
     </select>
 
+    <delete id="deleteModuleById" parameterType="Integer">
+        DELETE FROM SYSTEM_MODULE
+        WHERE id = #{moduleId}
+    </delete>
+
+
+
 
 </mapper>

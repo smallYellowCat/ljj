@@ -33,10 +33,21 @@ public class SystemModuleController {
         return systemModuleServer.addModule(moduleName, description, icon, request);
     }
 
+    /**
+     * 查询所有模块
+     * */
     @RequestMapping(value = "/queryModule", method = RequestMethod.POST)
     @ResponseBody
     public Result queryModule(HttpServletRequest request){
         return systemModuleServer.queryModule(request);
+    }
+
+
+    @RequestMapping(value="/delete", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Result deleteModule(@RequestParam Integer moduleId, HttpServletRequest request){
+
+        return systemModuleServer.deleteModule(moduleId, request);
     }
 
 }

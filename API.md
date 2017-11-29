@@ -525,6 +525,27 @@
 传参：   
 返回：  
 
+26.删除模块（超管接口）  
+路径：/back/systemModule/delete   
+方法：delete   
+传参：  
+Integer moduleId 模块id     
+返回：
+
+修改活动
+路径：/back/systemActivity/modify   
+方法：post   
+传参：   
+  Integer activityId   
+  String activityName  
+  Integer belongManager  
+  MultipartFile shareImage  非必填
+  String shareText  
+  Integer templateId  
+  Integer[] moduleIds  
+返回：
+  
+
 26.查询活动
 路径:/back/systemActivity/queryActivity
 方法:POST

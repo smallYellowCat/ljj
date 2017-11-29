@@ -32,4 +32,13 @@
         WHERE activityId = #{activityId}
     </select>
 
+    <update id="updateActivityModule">
+        UPDATE SYSTEM_ACTIVITY_MODULE_MAP
+            <foreach collection="moduleIds" item="item">
+                SET moduleId = #{item}
+            </foreach>
+        WHERE activityId = #{activityId}
+    </update>
+
+
 </mapper>
