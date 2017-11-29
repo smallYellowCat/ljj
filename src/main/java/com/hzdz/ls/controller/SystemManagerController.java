@@ -3,11 +3,13 @@ package com.hzdz.ls.controller;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.SystemManagerServer;
 import com.hzdz.ls.service.module.CloudPhotographyServer;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @CrossOrigin(value = "*", maxAge = 3600)
@@ -77,8 +79,11 @@ public class SystemManagerController {
      */
     @RequestMapping("/queryAllManager")
     @ResponseBody
-    public Result selectAllManager(HttpServletRequest request){
-        return systemManagerServer.selectAllManager();
+    public Result selectAllManager(@RequestParam(required = false) Integer id,
+                                   @RequestParam(required = false) String userAccount,
+                                   @RequestParam(required = false) Integer frozen,
+                                   HttpServletRequest request){
+        return systemManagerServer.selectAllManager(id, userAccount, frozen, request);
     }
 
     /**

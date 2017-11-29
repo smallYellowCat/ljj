@@ -49,6 +49,37 @@
         WHERE id = #{id}
     </delete>
 
+    <select id="queryActivityByOrdinaryManager" resultType="com.hzdz.ls.db.entity.SystemActivity">
+        SELECT <include refid="Base_Column" />
+        FROM SYSTEM_ACTIVITY
+        WHERE belongManager = #{belongManager}
+        <if test="id != null ">
+            AND id = #{id}
+        </if>
+        <if test="activityName != null">
+            AND activityName LIKE %${activityName}%'
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+    </select>
 
+    <select id="queryActivityBySuperManager" resultType="com.hzdz.ls.db.entity.SystemActivity">
+        SELECT <include refid="Base_Column" />
+        FROM SYSTEM_ACTIVITY
+        WHERE 1 = 1
+        <if test="id != null ">
+            AND id = #{id}
+        </if>
+        <if test="activityName != null">
+            AND activityName LIKE '%${activityName}%'
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="belongManager != null">
+            AND belongManager = #{belongManager}
+        </if>
+    </select>
 
 </mapper>

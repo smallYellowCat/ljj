@@ -39,7 +39,10 @@ public class SystemActivityController {
 
     @RequestMapping(value = "/updateShareImage", method = RequestMethod.POST)
     @ResponseBody
-    public Result updateShareImage(@RequestParam Integer activityId, @RequestParam MultipartFile shareImage, @RequestParam String shareText, HttpServletRequest request) throws IOException{
+    public Result updateShareImage(@RequestParam Integer activityId,
+                                   @RequestParam(required = false) MultipartFile shareImage,
+                                   @RequestParam(required = false) String shareText,
+                                   HttpServletRequest request) throws IOException{
         return systemActivityServer.updateShareImage(activityId, shareImage, shareText, request);
     }
 
@@ -47,6 +50,16 @@ public class SystemActivityController {
     @ResponseBody
     public Result updateModuleOrder(@RequestParam Integer id1, @RequestParam Integer id2, HttpServletRequest request) throws IOException{
         return systemActivityServer.updateModuleOrder(id1, id2, request);
+    }
+
+    @RequestMapping(value = "/queryActivity", method = RequestMethod.POST)
+    @ResponseBody
+    public Result queryActivity(@RequestParam(required = false) Integer id,
+                                @RequestParam(required = false) String activityName,
+                                @RequestParam(required = false) Integer belongManager,
+                                @RequestParam(required = false) Integer status,
+                                HttpServletRequest request){
+        return systemActivityServer.queryActivity(id, activityName, belongManager, status, request);
     }
 
 
