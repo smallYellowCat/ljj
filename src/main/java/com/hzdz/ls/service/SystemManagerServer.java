@@ -195,57 +195,5 @@ public class SystemManagerServer {
         return new ResultDetail<>(data);
     }
 
-    /*@Transactional(rollbackForClassName = "Exception")
-    public Result multiUploadImage(MultipartFile[] files, Integer activityId, HttpServletRequest request) throws Exception{
-        Map<String, Object> data = new HashMap<>();
-        String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
-        SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
-        //String activityName = systemActivity.getActivityName();
-        if (systemActivity != null){
-            //二维码名称，使用最后一个文件的名字
-            String codeName = "";
-            int n = files.length;
-            List<String> imageList = new ArrayList<>();
-            if (n < 1){
-                data.put("code", -1);
-                data.put("msg", "空文件！");
-            }else {
-                for (int i = 0; i < n; i++) {
-                    MultipartFile file = files[i];
-                    codeName = FileUtil.upload4Stream(file.getInputStream(),
-                            CONTEXT_PATH + "upload/manager/"+activityId,
-                            file.getOriginalFilename());
-                    if (!StringUtil.checkEmpty(codeName)) {
-                        data.put("code", -1);
-                        data.put("msg", "照片上传失败！");
-                        return new ResultDetail<>(data);
-                    }else {
-                        //将图片名称存起来
-                        imageList.add("/upload/manager/" + activityId + "/" + codeName);
-                    }
-                }
-                String codeUrl = "upload/manager/" + activityId + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL+"/index.html?activityId="+activityId,
-                        "", CONTEXT_PATH + "upload/manager/" + activityId +"/code/", codeName, true);
-                systemActivity.setQRCode(codeUrl);
-                if(systemActivityMapper.updateQrCode(systemActivity) < 1){
-                    data.put("code", -1);
-                    data.put("msg", "照片上传失败！");
-                }else {
-                    for (String image : imageList){
-                        if (systemActivityImageMapper.addActivityImage(image, activityId) < 1){
-                            data.put("code", -1);
-                            data.put("msg", "照片上传失败！");
-                            return new ResultDetail<>(data);
-                        }
-                    }
-                    data.put("code", 0);
-                    data.put("msg", "照片上传成功！");
-                }
-            }
-        } else {
-            data.put("code", -1);
-            data.put("msg", "该活动不存在！");
-        }
-        return new ResultDetail<>(data);
-    }*/
+
 }
