@@ -1,9 +1,6 @@
 package com.hzdz.ls.service;
 
-import com.hzdz.ls.common.FileUtil;
-import com.hzdz.ls.common.Result;
-import com.hzdz.ls.common.ResultDetail;
-import com.hzdz.ls.common.StringUtil;
+import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.SwapData;
 import com.hzdz.ls.db.entity.SystemActivity;
 import com.hzdz.ls.db.entity.SystemActivityModuleMap;
@@ -34,7 +31,13 @@ public class SystemActivityServer {
     private SystemActivityModuleMapMapper systemActivityModuleMapMapper;
 
 
-    public Result addNewActivity(String activityName, Integer belongManager, Integer templateId, MultipartFile shareImage, String shareText, Integer[] moduleIds, HttpServletRequest request) throws Exception {
+    public Result addNewActivity(String activityName,
+                                 Integer belongManager,
+                                 Integer templateId,
+                                 MultipartFile shareImage,
+                                 String shareText,
+                                 Integer[] moduleIds,
+                                 HttpServletRequest request) throws Exception {
         Map<String, Object> data = new HashMap<String, Object>();
         boolean roollerBackFlag = false;
         // 判断上传文件是否为空
@@ -190,5 +193,68 @@ public class SystemActivityServer {
         }
         return new ResultDetail<>(data);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Result modifyActivity(Integer activityId,
+                                 String activityName,
+                                 Integer belongManager,
+                                 Integer templateId,
+                                 MultipartFile shareImage,
+                                 String shareText,
+                                 Integer[] moduleIds,
+                                 HttpServletRequest request){
+        //事务回滚标志
+        boolean transactionFlag = false;
+        SystemManager manager = MyIntercepter.getManager(request);
+        if (manager == null || manager.getManagerType() != 1){
+            return Result.FAILURE;
+        }
+
+        if (activityId == null || !StringUtil.checkEmpty(activityName) || belongManager == null
+                || templateId == null || !StringUtil.checkEmpty(shareText)){
+            return Result.FAILURE;
+        }
+
+        SystemActivity activity = new SystemActivity();
+        activity.setId(activityId);
+        activity.setActivityName(activityName);
+        activity.setBelongManager(belongManager);
+        activity.setTemplateId(templateId);
+        activity.setActivityName(shareText);
+
+        if (shareImage != null && !shareImage.isEmpty()){
+            try {
+                //图片上传
+                String imageUrl = FileUtil.upload4Stream(shareImage.getInputStream(),
+                        BaseVar.MANAGER_URL + belongManager + "/" + activityId + "/",
+                        shareImage.getOriginalFilename());
+                if (StringUtil.checkEmpty(imageUrl)){
+                    activity.setShareImage(imageUrl);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        int num = systemActivityMapper.modifyActivity(activity);
+
+        if (moduleIds != null && moduleIds .length > 0){
+            //更新模块映射
+            if (systemActivityModuleMapMapper.updateActivityModule(moduleIds, activityId) == moduleIds.length
+                    && num == 1){
+                transactionFlag = true;
+            }
+        }
+
+        //事务回滚
+        if (!transactionFlag){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return Result.FAILURE;
+        }
+
+        return Result.SUCCESS;
+    }
+
 
 }

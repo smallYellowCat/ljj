@@ -25,4 +25,12 @@ public interface SystemActivityModuleMapMapper {
     SwapData updateModuleOrder(SwapData swapData);
 
     List<SystemActivityModuleMap> queryModuleByActivityId(@Param("activityId") Integer activityId);
+
+    /**
+     * 修改活动接口
+     * @param moduleIds
+     * @param activityId
+     * @return
+     */
+    int updateActivityModule(@Param("moduleIds") Integer[] moduleIds, @Param("activityId") Integer activityId);
 }

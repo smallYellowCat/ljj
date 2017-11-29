@@ -88,4 +88,14 @@ public class SystemModuleServer {
         }
         return new ResultDetail<>(data);
     }
+
+    public Result deleteModule(Integer moduleId, HttpServletRequest request){
+        SystemManager manager = MyIntercepter.getManager(request);
+        if (manager != null && manager.getManagerType() == 1){
+            if (systemModuleMapper.deleteModuleById(moduleId) == 1){
+                return Result.SUCCESS;
+            }
+        }
+        return Result.FAILURE;
+    }
 }

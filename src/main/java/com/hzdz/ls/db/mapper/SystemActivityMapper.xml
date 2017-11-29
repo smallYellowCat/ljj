@@ -49,6 +49,30 @@
         WHERE id = #{id}
     </delete>
 
+    <update id="updateShareImageById">
+        UPDATE SYSTEM_ACTIVITY
+        SET shareImage = #{imageUrl}
+        WHERE id = #{activityId}
+    </update>
 
+    <update id="updateShareTextById">
+        UPDATE SYSTEM_ACTIVITY
+        SET shareText = #{shareText}
+        WHERE id = #{activityId}
+    </update>
+
+    <update id="modifyActivity" parameterType="com.hzdz.ls.db.entity.SystemActivity">
+       UPDATE
+        SYSTEM_ACTIVITY
+       SET
+        activityName = #{activityName},
+        belongManager = #{belongManager},
+        templateId = #{templateId},
+        shareText = #{shareText}
+        <if test="shareImage != null">
+            , shareImage = #{shareImage}
+        </if>
+      WHERE id = #{id}
+    </update>
 
 </mapper>

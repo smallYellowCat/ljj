@@ -12,4 +12,13 @@ public interface SystemModuleMapper {
     int updateIcon(SystemModule systemModule);
     List<SystemModule> queryAllModule();
     SystemModule queryModuleById(@Param("id") Integer id);
+
+    /***
+     * 删除模块
+     * @param moduleId 模块id
+     * @return 被删除模块数
+     */
+    int deleteModuleById(Integer moduleId);
+
+
 }
