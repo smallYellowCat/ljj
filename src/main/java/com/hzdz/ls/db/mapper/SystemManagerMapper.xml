@@ -13,7 +13,17 @@
 
     <select id="selectAllManager" resultType="com.hzdz.ls.db.entity.SystemManager">
         SELECT id, userAccount, managerType, addTime, lastLoginTime, remarks, frozen
-        FROM SYSTEM_MANAGER WHERE managerType = 0
+        FROM SYSTEM_MANAGER
+        WHERE managerType = 0
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="userAccount != null">
+            AND userAccount = #{userAccount}
+        </if>
+        <if test="frozen != null">
+            AND frozen = #{frozen}
+        </if>
     </select>
 
     <insert id="addNewManager" parameterType="com.hzdz.ls.db.entity.SystemManager">

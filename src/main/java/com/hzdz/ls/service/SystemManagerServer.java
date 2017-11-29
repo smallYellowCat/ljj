@@ -141,9 +141,9 @@ public class SystemManagerServer {
         return new ResultDetail(data);
     }
 
-    public Result selectAllManager(){
+    public Result selectAllManager(Integer id, String userAccount, Integer frozen, HttpServletRequest request){
         Map<String, Object> data = new HashMap<String, Object>();
-        List<SystemManager> managerList = systemManagerMapper.selectAllManager();
+        List<SystemManager> managerList = systemManagerMapper.selectAllManager(id, userAccount, frozen);
         if(managerList.size() == 0){
             data.put("code", -1);
             data.put("msg", "查询失败！");
