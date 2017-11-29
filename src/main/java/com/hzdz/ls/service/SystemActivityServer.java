@@ -1,9 +1,6 @@
 package com.hzdz.ls.service;
 
-import com.hzdz.ls.common.FileUtil;
-import com.hzdz.ls.common.Result;
-import com.hzdz.ls.common.ResultDetail;
-import com.hzdz.ls.common.StringUtil;
+import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.SwapData;
 import com.hzdz.ls.db.entity.SystemActivity;
 import com.hzdz.ls.db.entity.SystemActivityModuleMap;
@@ -61,7 +58,7 @@ public class SystemActivityServer {
             } else {
                 // 新增后主键ID作为文件夹名
                 int systemActivityId = systemActivity.getId();
-                String imagePath = "upload/manager/" + belongManager + "/" + systemActivityId;
+                String imagePath = BaseVar.MANAGER_URL + belongManager + "/" + systemActivityId;
                 // 进行文件上传操作
                 String fileUrl = FileUtil.upload4Stream(shareImage.getInputStream(), path + imagePath, shareImage.getOriginalFilename());
                 if (!StringUtil.checkEmpty(fileUrl)) {
@@ -165,7 +162,7 @@ public class SystemActivityServer {
             // 获取服务器根路径
             String originalPath = request.getSession().getServletContext().getRealPath("/");
             // 拼接图片路径
-            String imagePath = "upload/" + belongManager + "/" + activityId;
+            String imagePath = BaseVar.MANAGER_URL + belongManager + "/" + activityId;
             // 进行文件上传操作
             String fileUrl = FileUtil.upload4Stream(shareImage.getInputStream(), originalPath + imagePath, shareImage.getOriginalFilename());
             if (!StringUtil.checkEmpty(fileUrl)) {

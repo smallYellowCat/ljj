@@ -57,7 +57,7 @@
             AND id = #{id}
         </if>
         <if test="activityName != null">
-            AND activityName LIKE %${activityName}%'
+            AND activityName LIKE '%${activityName}%'
         </if>
         <if test="status != null">
             AND status = #{status}

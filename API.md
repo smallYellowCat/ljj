@@ -130,8 +130,10 @@
 7：查询所有管理员（不含超管）  
 路径：/back/systemManager/queryAllManager  
 方法：POST  
-传参：   
-返回：  
+传参：   Integer id          （非必填）
+        String userAccount  （非必填）
+        Integer frozen      （非必填）
+返回：   
 ```json
 {
   "code":0,
@@ -207,8 +209,8 @@
 方法：POST  
 传参：   
 	Integer activityId  
-	MultipartFile shareImage  
-	String shareText  
+	MultipartFile shareImage  （非必填）
+	String shareText          （非必填）
 返回：  
 ```json
 {
@@ -522,3 +524,35 @@
 方法：get  
 传参：   
 返回：  
+
+26.查询活动
+路径:/back/systemActivity/queryActivity
+方法:POST
+传参:Integer id              （非必填）
+    String activityName     （非必填）
+    Integer belongManager   （非必填）
+    Integer status          （非必填）
+返回:
+```json
+{
+  "code": 0,
+  "data": {
+    "msg": "查询成功！",
+    "code": 0,
+    "activityList": [
+      {
+        "activityName": "天天打豆豆13",
+        "addTime": "2017-11-06 16:37:42",
+        "belongManager": 111,
+        "id": 14,
+        "shareImage": "Z:\\idea\\workspace\\ljj\\target\\ljj\\",
+        "shareText": "吃饭睡觉打豆豆3",
+        "status": 0,
+        "templateId": 222,
+        "updateTime": "2017-11-06 16:37:42"
+      }
+    ]
+  },
+  "msg": "请求成功"
+}
+```
