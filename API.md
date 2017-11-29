@@ -532,7 +532,7 @@
 Integer moduleId 模块id     
 返回：
 
-修改活动
+27.修改活动
 路径：/back/systemActivity/modify   
 方法：post   
 传参：   
@@ -546,7 +546,7 @@ Integer moduleId 模块id
 返回：
   
 
-26.查询活动
+28.查询活动
 路径:/back/systemActivity/queryActivity
 方法:POST
 传参:Integer id              （非必填）
