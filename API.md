@@ -130,9 +130,9 @@
 7：查询所有管理员（不含超管）  
 路径：/back/systemManager/queryAllManager  
 方法：POST  
-传参：   Integer id          （非必填）
-        String userAccount  （非必填）
-        Integer frozen      （非必填）
+传参：   Integer id          （非必填）  
+        String userAccount  （非必填）  
+        Integer frozen      （非必填）  
 返回：   
 ```json
 {
@@ -209,8 +209,8 @@
 方法：POST  
 传参：   
 	Integer activityId  
-	MultipartFile shareImage  （非必填）
-	String shareText          （非必填）
+	MultipartFile shareImage  （非必填）  
+	String shareText          （非必填）  
 返回：  
 ```json
 {
@@ -546,13 +546,13 @@ Integer moduleId 模块id
 返回：
   
 
-28.查询活动
-路径:/back/systemActivity/queryActivity
-方法:POST
-传参:Integer id              （非必填）
-    String activityName     （非必填）
-    Integer belongManager   （非必填）
-    Integer status          （非必填）
+28.查询活动  
+路径:/back/systemActivity/queryActivity  
+方法:POST  
+传参:Integer id              （非必填）  
+    String activityName     （非必填）  
+    Integer belongManager   （非必填）  
+    Integer status          （非必填）  
 返回:
 ```json
 {
@@ -571,6 +571,69 @@ Integer moduleId 模块id
         "status": 0,
         "templateId": 222,
         "updateTime": "2017-11-06 16:37:42"
+      }
+    ]
+  },
+  "msg": "请求成功"
+}
+```
+
+29.新增专业展示  
+路径:/professionalExhibition/addNewProfessionalExhibition  
+方法:POST  
+传参:   
+     MultipartFile image  
+     String vrUrl  
+     Integer activityId  
+返回:
+```json
+{
+    "code":0,
+    "data":
+        {
+            "msg":"新增成功！",
+            "code":0
+        },
+        "msg":"请求成功"
+}
+```
+
+30.查看专业展示  
+路径:/professionalExhibition/list  
+方法:POST    
+传参:   
+Integer activityId  
+返回:  
+```json
+{
+  "code": 0,
+  "data": {
+    "msg": "查询成功！",
+    "code": 0,
+    "list": [
+      {
+        "activityId": 28,
+        "addTime": "2017-11-25 00:00:00",
+        "id": 1,
+        "imageUrl": "Z:\\idea\\workspace\\ljj\\target\\ljj\\upload/manager/8/28/2//2017112513302691518552864.jpg",
+        "status": 0,
+        "vrUrl": "gdsfgfsdfghsd"
+      },
+      {
+        "activityId": 28,
+        "addTime": "2017-11-25 00:00:00",
+        "id": 2,
+        "imageUrl": "upload/manager/8/28/2//2017112513323482240606263.jpg",
+        "status": 0,
+        "vrUrl": "gdsfgfsdfghsd"
+      },
+      {
+        "activityId": 28,
+        "addTime": "2017-11-25 00:00:00",
+        "id": 3,
+        "imageUrl": "upload/manager/8/28/2/2017112513333684860941331.jpg",
+        "status": 0,
+        "vrUrl": "gdsfgfsdfghsd"
       }
     ]
   },
