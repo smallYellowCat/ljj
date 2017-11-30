@@ -61,6 +61,18 @@ public class SystemManagerController {
     }
 
     /**
+     * 管理员解冻
+     * @param id 管理员id
+     * @param request 请求
+     * @return 返回操作结果
+     */
+    @RequestMapping(value = "/thawManager", method = RequestMethod.POST)
+    @ResponseBody
+    public Result thawManager(@RequestParam Integer id, HttpServletRequest request){
+        return systemManagerServer.thawManager(id, request);
+    }
+
+    /**
      * 重置密码
      * @param id
      * @param request
@@ -109,6 +121,7 @@ public class SystemManagerController {
     public Result logout(HttpServletRequest request){
         return systemManagerServer.logout(request);
     }
+
 
 
 
