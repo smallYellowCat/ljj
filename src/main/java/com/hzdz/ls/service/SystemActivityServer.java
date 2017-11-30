@@ -53,6 +53,7 @@ public class SystemActivityServer {
             systemActivity.setActivityName(activityName);
             systemActivity.setAddTime(new Date(System.currentTimeMillis()));
             systemActivity.setBelongManager(belongManager);
+            systemActivity.setStatus(0);
             systemActivity.setShareImage(path);
             systemActivity.setShareText(shareText);
             systemActivity.setUpdateTime(new Date(System.currentTimeMillis()));
@@ -100,6 +101,7 @@ public class SystemActivityServer {
                             data.put("msg", "添加活动模块失败！");
                             roollerBackFlag = true;
                         } else {
+                            data.put("systemActivity", systemActivity);
                             data.put("code", 0);
                             data.put("msg", "创建活动成功！");
                         }
