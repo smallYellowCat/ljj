@@ -44,6 +44,7 @@ public class ProfessionalExhibitionServer {
         professionalExhibition.setVrUrl(vrUrl);
         professionalExhibition.setAddTime(new Date(System.currentTimeMillis()));
         professionalExhibition.setActivityId(activityId);
+        professionalExhibition.setStatus(0);
         //存放图片
         String imagePath = BaseVar.MANAGER_URL + managerId + "/" + activityId + "/" + BaseVar.PROFESSIONAL_EXHIBITION_URL;
         String imageName = FileUtil.upload4Stream(image.getInputStream(), CONTEXT_PATH + imagePath, image.getOriginalFilename());
@@ -54,6 +55,7 @@ public class ProfessionalExhibitionServer {
             data.put("msg", "新增失败！");
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }else {
+            data.put("professionalExhibition", professionalExhibition);
             data.put("code", 0);
             data.put("msg", "新增成功！");
         }

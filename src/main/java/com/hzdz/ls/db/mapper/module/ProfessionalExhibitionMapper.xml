@@ -6,7 +6,7 @@
         id, imageUrl, vrUrl, addTime, status, activityId
     </sql>
 
-    <insert id="addNewProfessionalExhibition" parameterType="com.hzdz.ls.db.entity.module.ProfessionalExhibition" >
+    <insert id="addNewProfessionalExhibition" parameterType="com.hzdz.ls.db.entity.module.ProfessionalExhibition" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO PROFESSIONAL_EXHIBITION
           (imageUrl, vrUrl, addTime, activityId)
         VALUES (#{imageUrl}, #{vrUrl}, #{addTime}, #{activityId})

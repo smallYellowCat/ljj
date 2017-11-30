@@ -590,13 +590,20 @@ Integer moduleId 模块id
 返回:
 ```json
 {
-    "code":0,
-    "data":
-        {
-            "msg":"新增成功！",
-            "code":0
-        },
-        "msg":"请求成功"
+  "code": 0,
+  "data": {
+    "msg": "新增成功！",
+    "code": 0,
+    "professionalExhibition": {
+      "activityId": 32,
+      "addTime": "2017-11-30 13:49:55",
+      "id": 4,
+      "imageUrl": "upload/manager/8/32/2/2017113013495572577704532.jpg",
+      "status": 0,
+      "vrUrl": "www.baidu.com"
+    }
+  },
+  "msg": "请求成功"
 }
 ```
 
