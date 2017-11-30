@@ -17,4 +17,16 @@
         INSERT INTO CLOUD_PHOTOGRAPHY (imageUrl, activityId, addTime)
         VALUES (#{imageUrl}, #{activityId}, #{addTime})
     </insert>
+
+    <select id="queryById" resultType="com.hzdz.ls.db.entity.module.CloudPhotography">
+        SELECT <include refid="Base_Column"/>
+        FROM CLOUD_PHOTOGRAPHY
+        WHERE id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM CLOUD_PHOTOGRAPHY
+        WHERE id = #{id}
+    </delete>
+
 </mapper>

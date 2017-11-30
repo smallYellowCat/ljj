@@ -5,13 +5,16 @@ import com.hzdz.ls.db.entity.SystemActivity;
 import com.hzdz.ls.db.entity.SystemActivityImage;
 import com.hzdz.ls.db.entity.SystemManager;
 import com.hzdz.ls.db.entity.SystemSession;
+import com.hzdz.ls.db.entity.module.CloudPhotography;
 import com.hzdz.ls.db.impl.SystemActivityImageMapper;
 import com.hzdz.ls.db.impl.SystemActivityMapper;
 import com.hzdz.ls.db.impl.SystemManagerMapper;
 import com.hzdz.ls.intercepter.MyIntercepter;
+import com.hzdz.ls.service.module.CloudPhotographyServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -194,6 +197,8 @@ public class SystemManagerServer {
         data.put("msg", "退出成功！");
         return new ResultDetail<>(data);
     }
+
+
 
 
 }

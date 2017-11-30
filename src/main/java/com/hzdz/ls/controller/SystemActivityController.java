@@ -1,6 +1,10 @@
 package com.hzdz.ls.controller;
 
 import com.hzdz.ls.common.Result;
+import com.hzdz.ls.common.ResultDetail;
+import com.hzdz.ls.db.entity.SystemManager;
+import com.hzdz.ls.db.entity.module.CloudPhotography;
+import com.hzdz.ls.intercepter.MyIntercepter;
 import com.hzdz.ls.service.SystemActivityServer;
 import com.hzdz.ls.service.SystemManagerServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(value = "*", maxAge = 3600)

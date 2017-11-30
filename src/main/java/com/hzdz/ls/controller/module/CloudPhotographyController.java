@@ -7,6 +7,9 @@ import com.hzdz.ls.db.pagehelper.PageContent;
 import com.hzdz.ls.service.module.CloudPhotographyServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
 *云摄影
@@ -14,23 +17,38 @@ import org.springframework.web.bind.annotation.*;
 *时间:
 */
 @RestController
-@RequestMapping("/cloudPhotography")
+@RequestMapping("back/cloudPhotography")
+@CrossOrigin(value = "*", maxAge = 3600)
 public class CloudPhotographyController {
 
     @Autowired
     private CloudPhotographyServer cloudPhotographyServer;
 
     /**
-     * 云摄影图片查看
-     * @param id 活动id
-     * @param pageNo 当前页码
-     * @param pageSize 分页大小
-     * @return 图片集合和分页信息
+     * 云摄影上传照片
+     * @param files
+     * @param request
+     * @return
+     * @throws Exception
      */
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value="/cloudUpload", method = RequestMethod.POST)
     @ResponseBody
-    public Result list(@RequestParam int id, @RequestParam int pageNo, @RequestParam int pageSize){
-        PageContent<CloudPhotography> pageContent = cloudPhotographyServer.list(id, pageNo, pageSize);
-        return new ResultDetail<>(pageContent);
+    public Result multiUploadImage(@RequestParam MultipartFile[] files,
+                                   @RequestParam Integer activityId,
+                                   HttpServletRequest request) throws Exception {
+        return cloudPhotographyServer.multiUploadImage(files, activityId, request);
     }
+
+    /**
+     * 删除云摄影照片
+     * @param ids
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "deleteCloudUpload", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteCloudUpload(@RequestParam Integer[] ids, HttpServletRequest request){
+        return cloudPhotographyServer.deleteCloudUpload(ids, request);
+    }
+
 }

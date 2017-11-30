@@ -22,6 +22,27 @@
         SELECT <include refid="Base_Column"/>
         FROM PROFESSIONAL_EXHIBITION
         WHERE activityId = #{activityId}
+        AND status != 2
+    </select>
+
+    <update id="modify">
+        UPDATE PROFESSIONAL_EXHIBITION
+        SET imageUrl = #{imageUrl},
+        vrUrl = #{vrUrl},
+        status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete" parameterType="Integer">
+        UPDATE PROFESSIONAL_EXHIBITION
+        SET status = 2
+        WHERE id = #{id}
+    </update>
+
+    <select id="getById" parameterType="Integer" resultType="com.hzdz.ls.db.entity.module.ProfessionalExhibition">
+        SELECT <include refid="Base_Column"/>
+        FROM PROFESSIONAL_EXHIBITION
+        WHERE id = #{id}
     </select>
 
 </mapper>

@@ -110,19 +110,8 @@ public class SystemManagerController {
         return systemManagerServer.logout(request);
     }
 
-    /**
-     * 云摄影上传照片
-     * @param files
-     * @param request
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value="/cloudUpload", method = RequestMethod.POST)
-    @ResponseBody
-    public Result multiUploadImage(@RequestParam MultipartFile[] files,
-                                   @RequestParam Integer activityId,
-                                   HttpServletRequest request) throws Exception {
-        return cloudPhotographyServer.multiUploadImage(files, activityId, request);
-    }
+
+
+
 }
 

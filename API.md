@@ -331,7 +331,7 @@
 
 
 16：管理员云摄影上传照片接口  
-路径：/back/systemManager/cloudUpload  
+路径：/back/cloudPhotography/cloudUpload  
 方法：POST  
 传参：   
 	MultipartFile[] files  
@@ -349,8 +349,8 @@
 }
 ```
 
-17：用户云摄影上传照片返回二维码接口  
-路径：/user/getQRCode  
+17：个人展示（用户云摄影上传照片返回二维码接口）  
+路径：/machine/getQRCode  
 方法：POST  
 传参：   
 	MultipartFile[] file  
@@ -370,7 +370,7 @@
 ```
 
 18：云摄影图片查看接口  
-路径：/cloudPhotography/list  
+路径：/machine/cloudPhotographyList  
 方法：POST  
 传参：   
 	int id  
@@ -599,7 +599,7 @@ Integer moduleId 模块id
 ```
 
 30.查看专业展示  
-路径:/professionalExhibition/list  
+路径:/machine/professionalExhibitionList  
 方法:POST    
 传参:   
 Integer activityId  
@@ -636,6 +636,79 @@ Integer activityId
         "vrUrl": "gdsfgfsdfghsd"
       }
     ]
+  },
+  "msg": "请求成功"
+}
+```
+
+31.批量删除云摄影  
+路径:back/cloudPhotography/deleteCloudUpload       
+方法:POST      
+传参:   
+Integer[] ids  
+返回:  
+```json
+{
+  "code": 0,
+  "data": {
+    "msg": "删除成功！",
+    "code": 0
+  },
+  "msg": "请求成功"
+}
+```
+
+32.获取微信签名
+路径:machine/getSign     
+方法:POST      
+传参:   
+String url
+返回:  
+```json
+{
+  "code": 0,
+  "data": {
+    "appid": "wxa8edc412f0f47073",
+    "nonceStr": "5ecac616-2c51-401e-9f4f-2d82980f6749",
+    "signature": "bb0cedda5ee2d45e7f9e91c2736e50574774159f",
+    "timestamp": "1512018228"
+  },
+  "msg": "请求成功"
+}
+```
+
+33.修改专业展示  
+路径:back/professionalExhibition/modify     
+方法:POST      
+传参:   
+Integer activityId    
+MultipartFile image （非必填）  
+String vrUrl        （非必填）  
+Integer status      （非必填）  
+返回:  
+```json
+{
+  "code": 0,
+  "data": {
+    "msg": "修改成功！",
+    "code": 0
+  },
+  "msg": "请求成功"
+}
+```
+
+34.删除专业展示  
+路径:back/professionalExhibition/delete   
+方法:POST      
+传参:   
+Integer activityId  
+返回:  
+```json
+{
+  "code": 0,
+  "data": {
+    "msg": "删除成功！",
+    "code": 0
   },
   "msg": "请求成功"
 }

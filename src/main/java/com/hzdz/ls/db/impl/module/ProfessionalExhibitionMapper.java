@@ -11,4 +11,7 @@ public interface ProfessionalExhibitionMapper {
     int addNewProfessionalExhibition(ProfessionalExhibition professionalExhibition);
     int updateImageUrl(ProfessionalExhibition professionalExhibition);
     List<ProfessionalExhibition> queryProfessionalExhibition(@Param("activityId") Integer activityId);
+    int modify(ProfessionalExhibition professionalExhibition);
+    int delete(@Param("id") Integer id);
+    ProfessionalExhibition getById(@Param("id") Integer id);
 }
