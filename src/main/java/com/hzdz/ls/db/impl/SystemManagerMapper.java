@@ -12,6 +12,7 @@ public interface SystemManagerMapper {
     int addNewManager(SystemManager systemManager);
     int updatePassword(SystemManager systemManager);
     int frozenManager(SystemManager systemManager);
+    int thawManager(SystemManager systemManager);
     int resetPassword(Integer id);
     List<SystemManager> selectAllManager(@Param("id") Integer id, @Param("userAccount") String userAccount, @Param("frozen") Integer frozen);
     SystemManager getManagerByID(int id);

@@ -41,6 +41,11 @@
         WHERE id = #{id}
     </update>
 
+    <update id="thawManager" parameterType="com.hzdz.ls.db.entity.SystemManager">
+        UPDATE SYSTEM_MANAGER set frozen = 0
+        WHERE id = #{id}
+    </update>
+
     <update id="resetPassword" parameterType="Integer">
         UPDATE SYSTEM_MANAGER SET password = "123456"
         WHERE id = #{id}

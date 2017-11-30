@@ -123,8 +123,34 @@ public class SystemManagerServer {
                 }
             }
         }
-        return new ResultDetail(data);
+        return new ResultDetail<>(data);
     }
+
+
+    public Result thawManager(int id, HttpServletRequest request){
+        Map<String, Object> data = new HashMap<String, Object>();
+        SystemManager nowSystemManager = MyIntercepter.getManager(request);
+        if(nowSystemManager.getManagerType() != 1) {
+            data.put("code", -1);
+            data.put("msg", "非超管不能解冻冻帐号！");
+        }else {
+            SystemManager systemManager = getManagerByID(id);
+            if (systemManager.getFrozen() == 0){
+                data.put("code", -1);
+                data.put("msg", "该帐号已被解冻！");
+            }else {
+                if (systemManagerMapper.thawManager(systemManager) < 1) {
+                    data.put("code", -1);
+                    data.put("msg", "解冻帐号失败！");
+                } else {
+                    data.put("code", 0);
+                    data.put("msg", "解冻帐号成功！");
+                }
+            }
+        }
+        return new ResultDetail<>(data);
+    }
+
 
     public Result resetPassword(Integer id, HttpServletRequest request){
         Map<String, Object> data = new HashMap<String, Object>();

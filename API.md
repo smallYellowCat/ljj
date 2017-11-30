@@ -715,3 +715,20 @@ Integer id
   "msg": "请求成功"
 }
 ```
+35：解冻管理员接口（只有超管可以调用）  
+路径：/back/systemManager/thawManager  
+方法：POST  
+传参：   
+	Integer id  被解冻管理员id
+返回：  
+```json
+{
+  "code":0,
+  "data":
+  {
+    "msg":"解冻帐号成功！",
+    "code":0
+  },
+  "msg":"请求成功"
+}
+```
