@@ -39,7 +39,7 @@ public class SystemTemplateServerImpl implements SystemTemplateService{
             e.printStackTrace();
         }
 
-        if (StringUtil.checkEmpty(templateUrl)){
+        if (!StringUtil.checkEmpty(templateUrl)){
             data.put("code", -1);
             data.put("msg", "文件上传失败");
             return new ResultDetail<>(data);
@@ -52,10 +52,12 @@ public class SystemTemplateServerImpl implements SystemTemplateService{
         if (templateMapper.addTemplate(template) < 1){
             data.put("code", -1);
             data.put("msg", "系统错误");
-            return new ResultDetail<>(data);
+        }else {
+            data.put("systemTemplate", template);
+            data.put("code", 0);
+            data.put("msg", "新增成功");
         }
-
-        return Result.SUCCESS;
+        return new ResultDetail<>(data);
     }
 
     @Override

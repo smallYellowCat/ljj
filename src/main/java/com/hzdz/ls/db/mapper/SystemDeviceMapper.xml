@@ -19,7 +19,7 @@
         WHERE  id = #{id}
     </select>
 
-    <insert id="insertDevice" parameterType="com.hzdz.ls.db.entity.SystemDevice">
+    <insert id="insertDevice" parameterType="com.hzdz.ls.db.entity.SystemDevice" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
           SYSTEM_DEVICE(deviceId, addTime, updateTime, status)
         VALUES (#{deviceId}, #{addTime}, #{updateTime}, #{status})

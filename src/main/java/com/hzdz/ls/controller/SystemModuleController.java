@@ -46,7 +46,6 @@ public class SystemModuleController {
     @RequestMapping(value="/delete", method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteModule(@RequestParam Integer moduleId, HttpServletRequest request){
-
         return systemModuleServer.deleteModule(moduleId, request);
     }
 

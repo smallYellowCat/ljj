@@ -77,14 +77,21 @@
 返回：  
 ```json
 {
-  "code":0,
-  "data":
-  {
-    "msg":"新增管理员成功！",
-    "code":0
+  "code": 0,
+  "data": {
+    "msg": "新增管理员成功！",
+    "code": 0,
+    "systemManager": {
+      "addTime": "2017-11-30 14:13:18",
+      "frozen": 0,
+      "id": 33,
+      "managerType": 0,
+      "password": "e1cadcfba8873bc19a0ebebd16264b72",
+      "remarks": "test",
+      "userAccount": "user11"
+    }
   },
-  "msg":
-  "请求成功"
+  "msg": "请求成功"
 }
 ```
 
@@ -176,13 +183,23 @@
 返回：
 ```json
 {
-  "code":0,
-  "data":
-  {
-  "msg":"创建活动成功！",
-  "code":0
+  "code": 0,
+  "data": {
+    "msg": "创建活动成功！",
+    "code": 0,
+    "systemActivity": {
+      "activityName": "上树",
+      "addTime": "2017-11-30 14:22:27",
+      "belongManager": 8,
+      "id": 34,
+      "shareImage": "upload/manager/8/34/2017113014222722194578585.jpg",
+      "shareText": "树上",
+      "status": 0,
+      "templateId": 1,
+      "updateTime": "2017-11-30 14:22:27"
+    }
   },
-  "msg":"请求成功"
+  "msg": "请求成功"
 }
 ```
 
@@ -233,13 +250,20 @@
 返回：  
 ```json
 {
-  "code":0,
-  "data":
-  {
-    "msg":"新增设备成功！",
-    "code":0
+  "code": 0,
+  "data": {
+    "msg": "新增设备成功！",
+    "code": 0,
+    "systemDevice": {
+      "activityId": 0,
+      "addTime": "2017-11-30 14:06:53",
+      "deviceId": "10-C3-7B-23-3A-E2",
+      "id": 4,
+      "status": 0,
+      "updateTime": "2017-11-30 14:06:53"
+    }
   },
-  "msg":"请求成功"
+  "msg": "请求成功"
 }
 ```
 
@@ -411,13 +435,19 @@ String deviceId（非必填,MAC地址17位）
 返回：  
 ```json
 {
-    "code":0,
-    "data":
-        {
-            "msg":"新增成功",
-            "code":0
-        },
-    "msg":"请求成功"
+  "code": 0,
+  "data": {
+    "msg": "创建模块成功！",
+    "code": 0,
+    "systemModule": {
+      "addTime": "2017-11-30 14:20:37",
+      "description": "小小小",
+      "icon": "upload/module/13/2017113014203763167227206.jpg",
+      "id": 13,
+      "moduleName": "大大大"
+    }
+  },
+  "msg": "请求成功"
 }
 ```
 
@@ -517,15 +547,52 @@ String deviceId（非必填,MAC地址17位）
 路径：/back/systemTemplate/add  
 方法：POST  
 传参： String templateName,  模版名  
-        MultipartFile templateFile  模版文件  
+      MultipartFile templateFile  模版文件  
 返回：  
-
+```json
+{
+  "code": 0,
+  "data": {
+    "msg": "新增成功",
+    "code": 0,
+    "systemTemplate": {
+      "addTime": "2017-11-30 15:09:04",
+      "id": 2,
+      "templateName": "狂打豆豆",
+      "templateUrl": "2017113015090468619907247.jpg"
+    }
+  },
+  "msg": "请求成功"
+}
+```
 
 25.查询所有模版接口  
 路径：/back/systemTemplate/query  
 方法：get  
 传参：   
 返回：  
+```json
+{
+  "code": 0,
+  "data": {
+    "templates": [
+      {
+        "addTime": "2017-11-30 15:07:16",
+        "id": 1,
+        "templateName": "狂打豆豆",
+        "templateUrl": "2017113015071615860988403.jpg"
+      },
+      {
+        "addTime": "2017-11-30 15:09:05",
+        "id": 2,
+        "templateName": "狂打豆豆",
+        "templateUrl": "2017113015090468619907247.jpg"
+      }
+    ]
+  },
+  "msg": "请求成功"
+}
+```
 
 26.删除模块（超管接口）  
 路径：/back/systemModule/delete   
@@ -533,6 +600,12 @@ String deviceId（非必填,MAC地址17位）
 传参：  
 Integer moduleId 模块id     
 返回：
+```json
+{
+  "code": 0,
+  "msg": "请求成功"
+}
+```
 
 27.修改活动
 路径：/back/systemActivity/modify   
@@ -546,6 +619,12 @@ Integer moduleId 模块id
   Integer templateId  
   Integer[] moduleIds  
 返回：
+```json
+{
+  "code": 0,
+  "msg": "请求成功"
+}
+```
   
 
 28.查询活动  

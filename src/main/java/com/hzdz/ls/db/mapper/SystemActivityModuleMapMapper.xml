@@ -33,13 +33,12 @@
         ORDER BY sortNum ASC
     </select>
 
-    <update id="updateActivityModule">
-        UPDATE SYSTEM_ACTIVITY_MODULE_MAP
-            <foreach collection="moduleIds" item="item">
-                SET moduleId = #{item}
-            </foreach>
+    <delete id="deteleByActivityId" parameterType="Integer">
+        DELETE FROM SYSTEM_ACTIVITY_MODULE_MAP
         WHERE activityId = #{activityId}
-    </update>
+    </delete>
+
+
 
 
 </mapper>

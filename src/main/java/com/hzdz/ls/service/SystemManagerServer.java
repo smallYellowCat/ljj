@@ -29,9 +29,6 @@ public class SystemManagerServer {
     @Autowired
     private SystemActivityMapper systemActivityMapper;
 
-    @Autowired
-    private SystemActivityImageMapper systemActivityImageMapper;
-
     public Result addNewManager(String userAccount, String password, Integer managerType, String remarks, HttpServletRequest request){
         Map<String, Object> data = new HashMap<String, Object>();
         SystemManager nowSystemManager = MyIntercepter.getManager(request);
@@ -62,10 +59,12 @@ public class SystemManagerServer {
         systemManager.setAddTime(new Date(System.currentTimeMillis()));
         systemManager.setManagerType(managerType);
         systemManager.setRemarks(remarks);
+        systemManager.setFrozen(0);
         if (systemManagerMapper.addNewManager(systemManager) < 1){
             data.put("code", -1);
             data.put("msg", "新增管理员失败！");
         }else{
+            data.put("systemManager", systemManager);
             data.put("code", 0);
             data.put("msg", "新增管理员成功！");
         }
