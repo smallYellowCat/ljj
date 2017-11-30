@@ -26,7 +26,7 @@
         </if>
     </select>
 
-    <insert id="addNewManager" parameterType="com.hzdz.ls.db.entity.SystemManager">
+    <insert id="addNewManager" parameterType="com.hzdz.ls.db.entity.SystemManager" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO SYSTEM_MANAGER (userAccount, password, addTime, managerType, remarks)
         VALUES (#{userAccount}, #{password}, #{addTime}, #{managerType}, #{remarks})
     </insert>

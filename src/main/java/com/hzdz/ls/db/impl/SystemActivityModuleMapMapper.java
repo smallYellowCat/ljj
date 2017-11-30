@@ -20,17 +20,18 @@ public interface SystemActivityModuleMapMapper {
 
     int addNewMap(SystemActivityModuleMap systemActivityModuleMap);
 
-    int deleteActivityById(Integer activityId);
+    int deleteActivityById(@Param("activityId") Integer activityId);
 
     SwapData updateModuleOrder(SwapData swapData);
 
     List<SystemActivityModuleMap> queryModuleByActivityId(@Param("activityId") Integer activityId);
 
+    int deteleByActivityId(@Param("activityId") Integer activityId);
     /**
      * 修改活动接口
      * @param moduleIds
      * @param activityId
      * @return
      */
-    int updateActivityModule(@Param("moduleIds") Integer[] moduleIds, @Param("activityId") Integer activityId);
+    //int updateActivityModule(@Param("moduleIds") Integer[] moduleIds, @Param("activityId") Integer activityId);
 }

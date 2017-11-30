@@ -58,6 +58,7 @@ public class SystemModuleServer {
                     data.put("msg", "创建模块失败！");
                     roollerBackFlag = true;
                 }else {
+                    data.put("systemModule", systemModule);
                     data.put("code", 0);
                     data.put("msg", "创建模块成功！");
                 }

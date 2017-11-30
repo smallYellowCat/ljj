@@ -5,7 +5,7 @@
     <sql id="Base_Column">
         id, templateName, templateUrl, addTime
     </sql>
-    <insert id="addTemplate" parameterType="com.hzdz.ls.db.entity.SystemTemplate">
+    <insert id="addTemplate" parameterType="com.hzdz.ls.db.entity.SystemTemplate" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
           SYSTEM_TEMPLATE
         VALUES (null, #{templateName}, #{templateUrl}, #{addTime})

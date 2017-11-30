@@ -79,6 +79,7 @@ public class SystemDeviceServer {
                 data.put("code", -1);
                 data.put("msg", "系统错误！");
             } else {
+                data.put("systemDevice", device);
                 data.put("code", 0);
                 data.put("msg", "新增设备成功！");
             }

@@ -179,7 +179,7 @@ public class SystemActivityServer {
             } else {
                 // 设置新的图片
                 systemActivity.setShareImage(imagePath + "/" + fileUrl);
-                if (shareText != null){
+                if (shareText != null) {
                     systemActivity.setShareText(shareText);
                 }
                 systemActivity.setUpdateTime(new Date(System.currentTimeMillis()));
@@ -220,16 +220,16 @@ public class SystemActivityServer {
                                  MultipartFile shareImage,
                                  String shareText,
                                  Integer[] moduleIds,
-                                 HttpServletRequest request){
+                                 HttpServletRequest request) {
         //事务回滚标志
         boolean transactionFlag = false;
         SystemManager manager = MyIntercepter.getManager(request);
-        if (manager == null || manager.getManagerType() != 1){
+        if (manager == null || manager.getManagerType() != 1) {
             return Result.FAILURE;
         }
 
         if (activityId == null || !StringUtil.checkEmpty(activityName) || belongManager == null
-                || templateId == null || !StringUtil.checkEmpty(shareText)){
+                || templateId == null || !StringUtil.checkEmpty(shareText)) {
             return Result.FAILURE;
         }
 
@@ -238,15 +238,19 @@ public class SystemActivityServer {
         activity.setActivityName(activityName);
         activity.setBelongManager(belongManager);
         activity.setTemplateId(templateId);
-        activity.setActivityName(shareText);
+        activity.setShareText(shareText);
 
-        if (shareImage != null && !shareImage.isEmpty()){
+        if (shareImage != null && !shareImage.isEmpty()) {
             try {
+                SystemActivity customaryActivity = systemActivityMapper.selectActivityById(activityId);
+                FileUtil.delete(BaseVar.BASE_URL + customaryActivity.getShareImage());
                 //图片上传
-                String imageUrl = FileUtil.upload4Stream(shareImage.getInputStream(),
-                        BaseVar.MANAGER_URL + belongManager + "/" + activityId + "/",
+                String imagePath = BaseVar.MANAGER_URL + belongManager + "/" + activityId + "/";
+                String imageName = FileUtil.upload4Stream(shareImage.getInputStream(),
+                         BaseVar.BASE_URL + imagePath,
                         shareImage.getOriginalFilename());
-                if (StringUtil.checkEmpty(imageUrl)){
+                String imageUrl = imagePath + imageName;
+                if (StringUtil.checkEmpty(imageUrl)) {
                     activity.setShareImage(imageUrl);
                 }
             } catch (IOException e) {
@@ -257,16 +261,30 @@ public class SystemActivityServer {
 
         int num = systemActivityMapper.modifyActivity(activity);
 
-        if (moduleIds != null && moduleIds .length > 0){
+        if (moduleIds != null && moduleIds.length > 0) {
             //更新模块映射
-            if (systemActivityModuleMapMapper.updateActivityModule(moduleIds, activityId) == moduleIds.length
-                    && num == 1){
+            systemActivityModuleMapMapper.deleteActivityById(activityId);
+            // 新增活动与模版间的映射
+            SystemActivityModuleMap systemActivityModuleMap = null;
+            boolean setMapFlag = false;
+            for (int i = 0; i < moduleIds.length; i++) {
+                systemActivityModuleMap = new SystemActivityModuleMap();
+                systemActivityModuleMap.setActivityId(activityId);
+                systemActivityModuleMap.setModuleId(moduleIds[i]);
+                systemActivityModuleMap.setSortNum(i + 1);
+                systemActivityModuleMap.setAddTime(new Date(System.currentTimeMillis()));
+                if (systemActivityModuleMapMapper.addNewMap(systemActivityModuleMap) < 1) {
+                    setMapFlag = true;
+                    break;
+                }
+            }
+            if (!setMapFlag){
                 transactionFlag = true;
             }
         }
 
         //事务回滚
-        if (!transactionFlag){
+        if (!transactionFlag) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return Result.FAILURE;
         }
@@ -287,11 +305,11 @@ public class SystemActivityServer {
     public Result queryActivityByOrdinaryManager(Integer id, String activityName, SystemManager systemManager, Integer status) {
         Map<String, Object> data = new HashMap<>();
         List<SystemActivity> list = systemActivityMapper.queryActivityByOrdinaryManager(id, activityName, status, systemManager.getId());
-        if (list != null && list.size() != 0){
+        if (list != null && list.size() != 0) {
             data.put("activityList", list);
             data.put("code", 0);
             data.put("msg", "查询成功！");
-        }else {
+        } else {
             data.put("code", -1);
             data.put("msg", "查询失败！");
         }
@@ -301,11 +319,11 @@ public class SystemActivityServer {
     public Result queryActivityBySuperManager(Integer id, String activityName, Integer belongManager, Integer status) {
         Map<String, Object> data = new HashMap<>();
         List<SystemActivity> list = systemActivityMapper.queryActivityBySuperManager(id, activityName, status, belongManager);
-        if (list != null && list.size() != 0){
+        if (list != null && list.size() != 0) {
             data.put("activityList", list);
             data.put("code", 0);
             data.put("msg", "查询成功！");
-        }else {
+        } else {
             data.put("code", -1);
             data.put("msg", "查询失败！");
         }
