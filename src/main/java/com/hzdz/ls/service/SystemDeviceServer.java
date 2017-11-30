@@ -92,15 +92,14 @@ public class SystemDeviceServer {
      * @param request
      * @return
      */
-    public Result list(HttpServletRequest request) {
+    public Result list(String deviceId, HttpServletRequest request) {
         Map<String, Object> data = new HashMap<>();
-        List<SystemDevice> deviceList = null;
         SystemManager manager = MyIntercepter.getManager(request);
         if (manager == null) {
             data.put("code", -1);
             data.put("msg", "系统错误！");
         } else {
-            deviceList = systemDeviceMapper.queryDeviceListByManager(manager);
+            List<SystemDevice> deviceList = systemDeviceMapper.queryDeviceListByManager(manager.getManagerType(), manager.getId(), deviceId);
             data.put("deviceList", deviceList);
         }
         return new ResultDetail<>(data);

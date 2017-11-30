@@ -246,8 +246,9 @@
 
 12：查询管理员拥有的设备接口（超管拥有所有的设备，普通管理员只能查看分配到的设备）  
 路径：/back/systemDevice/list  
-方法：GET  
+方法：POST  
 传参：   
+String deviceId（非必填,MAC地址17位）  
 返回：  
 ```json
 {
@@ -405,7 +406,8 @@
 方法：POST  
 传参：   
 	String moduleName  
-	String moduleUrl  
+	String description  
+	MultipartFile icon  
 返回：  
 ```json
 {
@@ -462,8 +464,8 @@
 路径：/back/systemActivity/updateModuleOrder  
 方法：POST  
 传参：   
-	Integer id1  
-	Integer id2  
+	Integer id1  （主键记录id）  
+	Integer id2  （主键记录id）  
 返回：  
 ```json
 {
@@ -681,7 +683,7 @@ String url
 路径:back/professionalExhibition/modify     
 方法:POST      
 传参:   
-Integer activityId    
+Integer id   
 MultipartFile image （非必填）  
 String vrUrl        （非必填）  
 Integer status      （非必填）  
@@ -701,7 +703,7 @@ Integer status      （非必填）
 路径:back/professionalExhibition/delete   
 方法:POST      
 传参:   
-Integer activityId  
+Integer id 
 返回:  
 ```json
 {

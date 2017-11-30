@@ -32,10 +32,10 @@ public class SystemDeviceController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public Result list(HttpServletRequest request){
-        return systemDeviceServer.list(request);
+    public Result list(@RequestParam(required = false) String deviceId, HttpServletRequest request){
+        return systemDeviceServer.list(deviceId, request);
     }
 
     /**

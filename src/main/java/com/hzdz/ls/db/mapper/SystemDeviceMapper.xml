@@ -25,12 +25,15 @@
         VALUES (#{deviceId}, #{addTime}, #{updateTime}, #{status})
     </insert>
     
-    <select id="queryDeviceListByManager" parameterType="com.hzdz.ls.db.entity.SystemManager" resultType="com.hzdz.ls.db.entity.SystemDevice">
+    <select id="queryDeviceListByManager"  resultType="com.hzdz.ls.db.entity.SystemDevice">
         SELECT 
         <include refid="Base_Column"/>
-        FROM SYSTEM_DEVICE WHERE 1 = 1
+        FROM SYSTEM_DEVICE
         <if test="managerType == 0">
             AND belongManager = #{belongManager}
+        </if>
+        <if test="deviceId != null and deviceId != '' ">
+            AND deviceId = #{deviceId}
         </if>
     </select>
 

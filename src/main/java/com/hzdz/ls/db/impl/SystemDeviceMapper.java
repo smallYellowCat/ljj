@@ -13,7 +13,7 @@ public interface SystemDeviceMapper {
     int queryActivityIdByDID(String deviceId);
     int queryBelongManagerByDID(String deviceID);
     int insertDevice(SystemDevice device);
-    List<SystemDevice> queryDeviceListByManager(SystemManager systemManager);
+    List<SystemDevice> queryDeviceListByManager(@Param("managerType") Integer managerType, @Param("belongManager") Integer belongManager, @Param("deviceId") String deviceId);
     int deleteByid(int id);
     int allocateDeviceToManager(SystemDevice systemDevice);
     int allocateActivityToDevice(SystemDevice systemDevice);
