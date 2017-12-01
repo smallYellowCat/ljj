@@ -26,6 +26,8 @@ public interface SystemActivityModuleMapMapper {
 
     List<SystemActivityModuleMap> queryModuleByActivityId(@Param("activityId") Integer activityId);
 
+
+
     int deteleByActivityId(@Param("activityId") Integer activityId);
     /**
      * 修改活动接口

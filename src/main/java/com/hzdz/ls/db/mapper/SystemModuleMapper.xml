@@ -36,7 +36,13 @@
         WHERE id = #{moduleId}
     </delete>
 
-
+    <select id="getModuleByActivityId" parameterType="Integer" resultType="com.hzdz.ls.db.entity.SystemModule">
+        SELECT a.id, a.moduleName, a.addTime, a.description, a.icon
+        FROM SYSTEM_MODULE a, SYSTEM_ACTIVITY_MODULE_MAP b
+        WHERE b.moduleID = a.id
+        AND b.activityId = #{activityId}
+        order by b.sortNum
+    </select>
 
 
 </mapper>

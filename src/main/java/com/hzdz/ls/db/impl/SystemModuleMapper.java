@@ -20,5 +20,6 @@ public interface SystemModuleMapper {
      */
     int deleteModuleById(Integer moduleId);
 
+    List<SystemModule> getModuleByActivityId(@Param("activityId") Integer activityId);
 
 }

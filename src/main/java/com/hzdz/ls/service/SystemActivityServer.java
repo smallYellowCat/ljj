@@ -1,13 +1,12 @@
 package com.hzdz.ls.service;
 
 import com.hzdz.ls.common.*;
-import com.hzdz.ls.db.entity.SwapData;
-import com.hzdz.ls.db.entity.SystemActivity;
-import com.hzdz.ls.db.entity.SystemActivityModuleMap;
-import com.hzdz.ls.db.entity.SystemManager;
+import com.hzdz.ls.db.entity.*;
 import com.hzdz.ls.db.impl.SystemActivityMapper;
 import com.hzdz.ls.db.impl.SystemActivityModuleMapMapper;
+import com.hzdz.ls.db.impl.SystemModuleMapper;
 import com.hzdz.ls.intercepter.MyIntercepter;
+import com.hzdz.ls.vo.ActivityVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional(rollbackForClassName = "Exception")
@@ -30,6 +26,9 @@ public class SystemActivityServer {
 
     @Autowired
     private SystemActivityModuleMapMapper systemActivityModuleMapMapper;
+
+    @Autowired
+    private SystemModuleMapper systemModuleMapper;
 
 
     public Result addNewActivity(String activityName,
@@ -306,7 +305,8 @@ public class SystemActivityServer {
         Map<String, Object> data = new HashMap<>();
         List<SystemActivity> list = systemActivityMapper.queryActivityByOrdinaryManager(id, activityName, status, systemManager.getId());
         if (list != null && list.size() != 0) {
-            data.put("activityList", list);
+            List<ActivityVO> activityVOList = getVOList(list);
+            data.put("activityVOList", activityVOList);
             data.put("code", 0);
             data.put("msg", "查询成功！");
         } else {
@@ -320,7 +320,8 @@ public class SystemActivityServer {
         Map<String, Object> data = new HashMap<>();
         List<SystemActivity> list = systemActivityMapper.queryActivityBySuperManager(id, activityName, status, belongManager);
         if (list != null && list.size() != 0) {
-            data.put("activityList", list);
+            List<ActivityVO> activityVOList = getVOList(list);
+            data.put("activityVOList", activityVOList);
             data.put("code", 0);
             data.put("msg", "查询成功！");
         } else {
@@ -328,6 +329,19 @@ public class SystemActivityServer {
             data.put("msg", "查询失败！");
         }
         return new ResultDetail<>(data);
+    }
+
+    public List<ActivityVO> getVOList(List<SystemActivity> list){
+        List<ActivityVO> activityVOList = new ArrayList<>();
+        for (SystemActivity activity : list) {
+            ActivityVO activityVO = new ActivityVO();
+            Integer activityId = activity.getId();
+            List<SystemModule> moduleList = systemModuleMapper.getModuleByActivityId(activityId);
+            activityVO.setSystemActivity(activity);
+            activityVO.setModuleList(moduleList);
+            activityVOList.add(activityVO);
+        }
+        return activityVOList;
     }
 
 }

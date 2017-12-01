@@ -1,6 +1,21 @@
 # 智能交互机接口文档V2.0  
 #### 说明：访问的服务器的根路径统一为101.132.147.167:8080/ljj
 
+管理员表（SystemManager）  
+managerType（管理员类型： 0 普通管理员， 1 超级管理员）  
+frozen（是否冻结（1：冻结；0：不冻结））  
+ 
+活动表（SystemActivity）   
+status（活动状态： 0未开启， 1开启， 2已删除）    
+
+设备表（SystemDevice）  
+status（设备状态： 0未分配活动， 1已分配活动）  
+
+会话表（SystemSession）  
+status（会话状态： 0过期， 1正常， 2挤下线 ）  
+
+专业展示表（ProfessionalExhibitionController）  
+status（状态：0：未开启；1：开启；2：删除）
 
 1：登录验证接口  
 路径：/back/systemManager/loginVerify  
@@ -640,20 +655,38 @@ Integer moduleId 模块id
   "code": 0,
   "data": {
     "msg": "查询成功！",
-    "code": 0,
-    "activityList": [
+    "activityVOList": [
       {
-        "activityName": "天天打豆豆13",
-        "addTime": "2017-11-06 16:37:42",
-        "belongManager": 111,
-        "id": 14,
-        "shareImage": "Z:\\idea\\workspace\\ljj\\target\\ljj\\",
-        "shareText": "吃饭睡觉打豆豆3",
-        "status": 0,
-        "templateId": 222,
-        "updateTime": "2017-11-06 16:37:42"
+        "moduleList": [
+          {
+            "addTime": "2017-11-24 22:53:52",
+            "description": "天天打豆豆",
+            "icon": "upload/module/12/2017112422535181293060585.jpg",
+            "id": 12,
+            "moduleName": "打豆豆"
+          },
+          {
+            "addTime": "2017-12-01 19:50:19",
+            "description": "小小小",
+            "icon": "upload/module/14/2017120119501948018943749.jpg",
+            "id": 14,
+            "moduleName": "大大大"
+          }
+        ],
+        "systemActivity": {
+          "activityName": "下树1",
+          "addTime": "2017-11-30 14:22:27",
+          "belongManager": 8,
+          "id": 34,
+          "shareImage": "upload/manager/8/34/2017113016070409340965778.jpg",
+          "shareText": "树下1",
+          "status": 0,
+          "templateId": 88888,
+          "updateTime": "2017-11-30 14:22:27"
+        }
       }
-    ]
+    ],
+    "code": 0
   },
   "msg": "请求成功"
 }
