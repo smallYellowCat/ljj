@@ -34,6 +34,14 @@ public interface SystemActivityMapper {
      * @return 成功：1， 失败：0
      */
     int modifyActivity(SystemActivity activity);
+
+    /**
+     * 修改活动状态
+     * @param status 0：关闭， 1：开启
+     * @param activityId 活动id
+     * @return 操作数
+     */
+    int modifyActivityStatus(@Param("status") int status, @Param("activityId") int activityId);
     int deleteActivity(@Param("id") Integer id);
     int updateQrCode(SystemActivity systemActivity);
     SystemActivity selectActivityById(@Param("id") Integer id);

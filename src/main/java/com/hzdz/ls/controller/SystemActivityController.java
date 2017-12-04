@@ -82,6 +82,12 @@ public class SystemActivityController {
         return systemActivityServer.queryActivity(id, activityName, belongManager, status, request);
     }
 
+    @RequestMapping(value = "/modifyStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Result modifyActivityStatus(@RequestParam int status, @RequestParam int activityId){
+        return systemActivityServer.modifyActivityStatus(status, activityId);
+    }
+
 
 
 }

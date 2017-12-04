@@ -16,6 +16,8 @@ status（会话状态： 0过期， 1正常， 2挤下线 ）
 
 专业展示表（ProfessionalExhibitionController）  
 status（状态：0：未开启；1：开启；2：删除）
+ 
+
 
 1：登录验证接口  
 路径：/back/systemManager/loginVerify  
@@ -673,7 +675,6 @@ Integer moduleId 模块id
             "moduleName": "大大大"
           }
         ],
-        "systemActivity": {
           "activityName": "下树1",
           "addTime": "2017-11-30 14:22:27",
           "belongManager": 8,
@@ -683,7 +684,6 @@ Integer moduleId 模块id
           "status": 0,
           "templateId": 88888,
           "updateTime": "2017-11-30 14:22:27"
-        }
       }
     ],
     "code": 0
@@ -848,6 +848,20 @@ Integer id
     "msg":"解冻帐号成功！",
     "code":0
   },
+  "msg":"请求成功"
+}
+```
+
+36:修改活动状态  
+路径 ： /back/systemActivity/modifyStatus  
+方法：POST  
+传参：  
+ int status  0:关闭 1：开启  
+ int activityId  
+返回：  
+```json
+{
+  "code":0,
   "msg":"请求成功"
 }
 ```

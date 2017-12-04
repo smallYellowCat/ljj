@@ -17,6 +17,7 @@ public class Result {
 
     public static final Result SUCCESS = new Result();
     public static final Result FAILURE = new Result(-1, "操作异常");
+    public static final Result INVALID_PARAMETER = new Result(-1, "参数非法");
 
 
 }

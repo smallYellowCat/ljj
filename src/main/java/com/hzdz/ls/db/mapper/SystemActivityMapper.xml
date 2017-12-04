@@ -108,5 +108,11 @@
         </if>
     </select>
 
+    <update id="updateActivityStatus">
+        UPDATE SYSTEM_ACTIVITY
+        SET status = #{status}
+        WHERE id = #{activityId}
+    </update>
+
 
 </mapper>

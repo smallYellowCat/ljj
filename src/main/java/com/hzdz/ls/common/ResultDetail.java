@@ -15,5 +15,4 @@ public class ResultDetail<T> extends Result{
     }
 
 
-
 }

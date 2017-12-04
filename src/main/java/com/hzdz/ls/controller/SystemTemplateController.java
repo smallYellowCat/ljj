@@ -1,6 +1,7 @@
 package com.hzdz.ls.controller;
 
 import com.hzdz.ls.common.Result;
+import com.hzdz.ls.service.SystemTemplateService;
 import com.hzdz.ls.service.impl.SystemTemplateServerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class SystemTemplateController {
 
     @Autowired
-    private SystemTemplateServerImpl systemTemplateServerImpl;
+    private SystemTemplateService systemTemplateService;
 
     /**
      * 新增模版文件
@@ -29,7 +30,7 @@ public class SystemTemplateController {
     @ResponseBody
     public Result addTemplate(@RequestParam("templateName") String templateName,
                               @RequestParam("templateFile")MultipartFile templateFile){
-        return systemTemplateServerImpl.addTemplate(templateName, templateFile);
+        return systemTemplateService.addTemplate(templateName, templateFile);
     }
 
     /**
@@ -39,7 +40,7 @@ public class SystemTemplateController {
     @RequestMapping(value = "/query")
     @ResponseBody
     public Result queryAll(){
-        return systemTemplateServerImpl.queryAll();
+        return systemTemplateService.queryAll();
     }
 
 }

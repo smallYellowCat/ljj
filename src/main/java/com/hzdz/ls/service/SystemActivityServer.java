@@ -334,14 +334,40 @@ public class SystemActivityServer {
     public List<ActivityVO> getVOList(List<SystemActivity> list){
         List<ActivityVO> activityVOList = new ArrayList<>();
         for (SystemActivity activity : list) {
+
             ActivityVO activityVO = new ActivityVO();
             Integer activityId = activity.getId();
             List<SystemModule> moduleList = systemModuleMapper.getModuleByActivityId(activityId);
-            activityVO.setSystemActivity(activity);
+
+            activityVO.setId(activity.getId());
+            activityVO.setActivityName(activity.getActivityName());
+            activityVO.setAddTime(activity.getAddTime());
+            activityVO.setBelongManager(activity.getBelongManager());
+            if (activity.getQRCode() != null){
+                activityVO.setQRCode(activity.getQRCode());
+            }
+            activityVO.setShareImage(activity.getShareImage());
+            activityVO.setShareText(activity.getShareText());
+            activityVO.setStatus(activity.getStatus());
+            activityVO.setTemplateId(activity.getTemplateId());
+            activityVO.setUpdateTime(activity.getUpdateTime());
+
             activityVO.setModuleList(moduleList);
+
             activityVOList.add(activityVO);
         }
         return activityVOList;
+    }
+
+    public Result modifyActivityStatus(int status, int activityId){
+        if (status != 0 && status != 1){
+            return Result.INVALID_PARAMETER;
+        }
+        if (systemActivityMapper.modifyActivityStatus(status, activityId) == 1){
+            return Result.SUCCESS;
+        }
+
+        return Result.FAILURE;
     }
 
 }
