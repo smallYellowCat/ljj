@@ -19,4 +19,5 @@ public interface SystemManagerMapper {
     SystemManager queryManagerByID(@Param("id") Integer id);
     SystemManager loginVerify(@Param("userAccount") String userAccount, @Param("password") String password);
     int loginSucceed(SystemManager systemManager);
+    String getUserAccountById(@Param("id") Integer id);
 }

@@ -4,6 +4,7 @@ import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.*;
 import com.hzdz.ls.db.impl.SystemActivityMapper;
 import com.hzdz.ls.db.impl.SystemActivityModuleMapMapper;
+import com.hzdz.ls.db.impl.SystemManagerMapper;
 import com.hzdz.ls.db.impl.SystemModuleMapper;
 import com.hzdz.ls.intercepter.MyIntercepter;
 import com.hzdz.ls.vo.ActivityVO;
@@ -29,6 +30,9 @@ public class SystemActivityServer {
 
     @Autowired
     private SystemModuleMapper systemModuleMapper;
+
+    @Autowired
+    private SystemManagerMapper systemManagerMapper;
 
 
     public Result addNewActivity(String activityName,
@@ -343,6 +347,8 @@ public class SystemActivityServer {
             activityVO.setActivityName(activity.getActivityName());
             activityVO.setAddTime(activity.getAddTime());
             activityVO.setBelongManager(activity.getBelongManager());
+            String userAccount = systemManagerMapper.getUserAccountById(activity.getBelongManager());
+            activityVO.setUserAccount(userAccount);
             if (activity.getQRCode() != null){
                 activityVO.setQRCode(activity.getQRCode());
             }

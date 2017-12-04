@@ -80,4 +80,10 @@
         WHERE id = #{id}
     </update>
 
+    <select id="getUserAccountById" resultType="String" parameterType="Integer">
+        SELECT userAccount
+        FROM SYSTEM_MANAGER
+        WHERE id = #{id}
+    </select>
+
 </mapper>

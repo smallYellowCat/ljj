@@ -24,6 +24,7 @@ public class ActivityVO {
     private String activityName;
     private Date addTime;
     private int belongManager;
+    private String userAccount;
     private int status;
     private String shareImage;
     private String shareText;
