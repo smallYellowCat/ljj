@@ -678,6 +678,7 @@ Integer moduleId 模块id
           "activityName": "下树1",
           "addTime": "2017-11-30 14:22:27",
           "belongManager": 8,
+          "userAccount": "admin",
           "id": 34,
           "shareImage": "upload/manager/8/34/2017113016070409340965778.jpg",
           "shareText": "树下1",
