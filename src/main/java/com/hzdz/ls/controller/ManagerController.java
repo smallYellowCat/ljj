@@ -16,9 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@CrossOrigin(value = "*", maxAge = 3600)
-@RequestMapping("/manager")
+//@RestController
+//@CrossOrigin(value = "*", maxAge = 3600)
+//@RequestMapping("/manager")
 public class ManagerController {
 
     @Autowired

@@ -5,6 +5,8 @@ import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.Personal;
 import com.hzdz.ls.db.entity.Sign;
 import com.hzdz.ls.service.UserServer;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +75,18 @@ public class UserContrller {
         path = path + "upload/111/1";
         Boolean b = FileUtil.batchDeleteByRecursion(path);
         data.put("b", b);
+        return new ResultDetail<>(data);
+    }
+
+    @RequestMapping(value = "/test3", method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation(value = "测试", httpMethod = "POST")
+    public Result test3(@ApiParam(name = "userAccount", value = "用户名",required = true) @RequestParam String userAccount,
+                        @ApiParam(required = true)@RequestParam String password,
+                        HttpServletRequest request) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("userAccount", userAccount);
+        data.put("password", password);
         return new ResultDetail<>(data);
     }
 

@@ -3,6 +3,7 @@ package com.hzdz.ls.controller;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.intercepter.MyIntercepter;
 import com.hzdz.ls.service.SystemDeviceServer;
+import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class SystemDeviceController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "新增设备", httpMethod = "POST")
     public Result insertDevice(@RequestParam String DID){
         return  systemDeviceServer.addDevice(DID);
     }
@@ -34,6 +36,7 @@ public class SystemDeviceController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "设备列表查看", httpMethod = "POST")
     public Result list(@RequestParam(required = false) String deviceId, HttpServletRequest request){
         return systemDeviceServer.list(deviceId, request);
     }
@@ -45,6 +48,7 @@ public class SystemDeviceController {
      */
     @RequestMapping(value="delete", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "删除设备", httpMethod = "POST")
     public Result delete(int id){
         return systemDeviceServer.deleteByid(id);
     }
@@ -55,6 +59,7 @@ public class SystemDeviceController {
      */
     @RequestMapping(value="allocateDeviceToManager", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "超管分配设备给管理员", httpMethod = "POST")
     public Result allocateDeviceToManager(@RequestParam Integer id, @RequestParam Integer managerId, HttpServletRequest request){
         return systemDeviceServer.allocateDeviceToManager(id, managerId, request);
     }
@@ -65,6 +70,7 @@ public class SystemDeviceController {
      */
     @RequestMapping(value = "allocateActivityToDevice", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "管理员分配活动给设备", httpMethod = "POST")
     public Result allocateActivityToDevice(@RequestParam Integer id, @RequestParam Integer activityId, HttpServletRequest request){
         return systemDeviceServer.allocateActivityToDevice(id, activityId, request);
     }

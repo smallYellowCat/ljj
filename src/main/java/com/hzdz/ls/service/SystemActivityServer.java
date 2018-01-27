@@ -120,29 +120,31 @@ public class SystemActivityServer {
     }
 
     @Transactional(rollbackForClassName = "Exception")
-    public Result deleteActivity(Integer activityId, HttpServletRequest request) {
+    public Result deleteActivity(Integer[] activityIds, HttpServletRequest request) {
         Map<String, Object> data = new HashMap<String, Object>();
         boolean roollerBackFlag = false;
         SystemManager systemManager = MyIntercepter.getManager(request);
-        SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
-        int belongId = systemActivity.getBelongManager();
-        if (systemManager.getManagerType() == 1 || belongId == systemManager.getId()) {
-            if (systemActivityMapper.deleteActivity(activityId) < 1) {
-                data.put("code", -1);
-                data.put("msg", "删除活动失败！");
-            } else {
-                if (systemActivityModuleMapMapper.deleteActivityById(activityId) < 1) {
-                    roollerBackFlag = true;
+        for(int activityId : activityIds) {
+            SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
+            int belongId = systemActivity.getBelongManager();
+            if (systemManager.getManagerType() == 1 || belongId == systemManager.getId()) {
+                if (systemActivityMapper.deleteActivity(activityId) < 1) {
                     data.put("code", -1);
                     data.put("msg", "删除活动失败！");
                 } else {
-                    data.put("code", 0);
-                    data.put("msg", "删除活动成功！");
+                    if (systemActivityModuleMapMapper.deleteActivityById(activityId) < 1) {
+                        roollerBackFlag = true;
+                        data.put("code", -1);
+                        data.put("msg", "删除活动失败！");
+                    } else {
+                        data.put("code", 0);
+                        data.put("msg", "删除活动成功！");
+                    }
                 }
+            } else {
+                data.put("code", -1);
+                data.put("msg", "删除活动失败，非超管不能删除不属于自己的活动！");
             }
-        } else {
-            data.put("code", -1);
-            data.put("msg", "删除活动失败，非超管不能删除不属于自己的活动！");
         }
         //判断是否回滚事务
         if (roollerBackFlag) {

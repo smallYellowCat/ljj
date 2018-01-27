@@ -7,6 +7,8 @@ import com.hzdz.ls.db.entity.module.CloudPhotography;
 import com.hzdz.ls.intercepter.MyIntercepter;
 import com.hzdz.ls.service.SystemActivityServer;
 import com.hzdz.ls.service.SystemManagerServer;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,7 @@ public class SystemActivityController {
 
     @RequestMapping(value = "/addNewActivity", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "新增活动", httpMethod = "POST")
     public Result addNewActivity(@RequestParam String activityName,
                                  @RequestParam Integer belongManager,
                                  @RequestParam MultipartFile shareImage,
@@ -39,12 +42,14 @@ public class SystemActivityController {
 
     @RequestMapping(value = "/deleteActivity", method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteActivity(@RequestParam Integer activityId, HttpServletRequest request) {
-        return systemActivityServer.deleteActivity(activityId, request);
+    @ApiOperation(value = "删除活动", httpMethod = "POST")
+    public Result deleteActivity(@RequestParam Integer[] activityIds, HttpServletRequest request) {
+        return systemActivityServer.deleteActivity(activityIds, request);
     }
 
     @RequestMapping(value = "/updateShareImage", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "更新分享图片及内容", httpMethod = "POST")
     public Result updateShareImage(@RequestParam Integer activityId,
                                    @RequestParam(required = false) MultipartFile shareImage,
                                    @RequestParam(required = false) String shareText,
@@ -54,12 +59,14 @@ public class SystemActivityController {
 
     @RequestMapping(value = "/updateModuleOrder", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "更换模块顺序", httpMethod = "POST")
     public Result updateModuleOrder(@RequestParam Integer id1, @RequestParam Integer id2, HttpServletRequest request) throws IOException {
         return systemActivityServer.updateModuleOrder(id1, id2, request);
     }
 
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "修改活动", httpMethod = "POST")
     public Result modifyActivity(@RequestParam Integer activityId,
                                  @RequestParam String activityName,
                                  @RequestParam Integer belongManager,
@@ -74,17 +81,19 @@ public class SystemActivityController {
 
     @RequestMapping(value = "/queryActivity", method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "查询活动", httpMethod = "POST")
     public Result queryActivity(@RequestParam(required = false) Integer id,
                                 @RequestParam(required = false) String activityName,
                                 @RequestParam(required = false) Integer belongManager,
-                                @RequestParam(required = false) Integer status,
+                                @ApiParam(name = "status", value = "活动状态： 0未开启， 1开启， 2已删除")@RequestParam(required = false) Integer status,
                                 HttpServletRequest request){
         return systemActivityServer.queryActivity(id, activityName, belongManager, status, request);
     }
 
     @RequestMapping(value = "/modifyStatus", method = RequestMethod.POST)
     @ResponseBody
-    public Result modifyActivityStatus(@RequestParam int status, @RequestParam int activityId){
+    @ApiOperation(value = "修改活动状态", httpMethod = "POST")
+    public Result modifyActivityStatus(@ApiParam(name = "status", value = "活动状态： 0未开启， 1开启， 2已删除")@RequestParam int status, @RequestParam int activityId){
         return systemActivityServer.modifyActivityStatus(status, activityId);
     }
 

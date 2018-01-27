@@ -82,7 +82,7 @@
     </bean>
 
 	<!-- 配置sqlSessionTemplate -->
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
 	    <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
 	

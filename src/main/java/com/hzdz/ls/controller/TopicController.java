@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/topic")
-@RestController
+//@RequestMapping("/topic")
+//@RestController
 @CrossOrigin(value = "*", maxAge = 3600)
 public class TopicController {
 

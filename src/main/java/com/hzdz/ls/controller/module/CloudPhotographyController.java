@@ -5,6 +5,9 @@ import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.db.entity.module.CloudPhotography;
 import com.hzdz.ls.db.pagehelper.PageContent;
 import com.hzdz.ls.service.module.CloudPhotographyServer;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +36,8 @@ public class CloudPhotographyController {
      */
     @RequestMapping(value="/cloudUpload", method = RequestMethod.POST)
     @ResponseBody
-    public Result multiUploadImage(@RequestParam MultipartFile[] files,
+    @ApiOperation(value = "云摄影上传照片", httpMethod = "POST")
+    public Result multiUploadImage(@RequestParam(value = "files", required = true) MultipartFile[] files,
                                    @RequestParam Integer activityId,
                                    HttpServletRequest request) throws Exception {
         return cloudPhotographyServer.multiUploadImage(files, activityId, request);
@@ -45,8 +49,9 @@ public class CloudPhotographyController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "deleteCloudUpload", method = RequestMethod.POST)
+    @RequestMapping(value = "deleteCloudUpload", method = RequestMethod.DELETE)
     @ResponseBody
+    @ApiOperation(value = "删除云摄影照片", httpMethod = "DELETE")
     public Result deleteCloudUpload(@RequestParam Integer[] ids, HttpServletRequest request){
         return cloudPhotographyServer.deleteCloudUpload(ids, request);
     }
