@@ -3,6 +3,8 @@ package com.hzdz.ls.controller.module;
 
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.module.ProfessionalExhibitionServer;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +30,13 @@ public class ProfessionalExhibitionController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/addNewProfessionalExhibition", consumes = "multipart/*", headers = "content-type=multipart/form-data")
+    @RequestMapping(value = "/addNewProfessionalExhibition")
     @ResponseBody
     @ApiOperation(value = "新增专业展示", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "vrUrl", value = "vrUrl", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
+    })
     public Result addNewProfessionalExhibition(@ApiParam(value = "image", required = true) MultipartFile image,
                                                @RequestParam String vrUrl,
                                                @RequestParam Integer activityId,
@@ -45,8 +51,13 @@ public class ProfessionalExhibitionController {
     @RequestMapping("modify")
     @ResponseBody
     @ApiOperation(value = "修改专业展示", httpMethod = "POST")
-    public Result modify(Integer id,
-                         @RequestParam(required = false)MultipartFile image,
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "vrUrl", value = "vrUrl", required = false, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "status", required = false, dataType = "Integer", paramType = "form")
+    })
+    public Result modify(@RequestParam Integer id,
+                         @ApiParam MultipartFile image,
                          @RequestParam(required = false)String vrUrl,
                          @RequestParam(required = false)Integer status,
                          HttpServletRequest request){
@@ -57,9 +68,12 @@ public class ProfessionalExhibitionController {
      * 删除专业展示
      * @return
      */
-    @RequestMapping("delete")
+    @RequestMapping(value = "delete", method = RequestMethod.DELETE)
     @ResponseBody
-    @ApiOperation(value = "删除专业展示", httpMethod = "POST")
+    @ApiOperation(value = "删除专业展示", httpMethod = "DELETE")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form")
+    })
     public Result delete(Integer id, HttpServletRequest request){
         return professionalExhibitionServer.delete(id, request);
     }

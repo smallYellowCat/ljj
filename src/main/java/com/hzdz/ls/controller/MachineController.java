@@ -9,7 +9,10 @@ import com.hzdz.ls.db.pagehelper.PageContent;
 import com.hzdz.ls.service.module.CloudPhotographyServer;
 import com.hzdz.ls.service.module.PhotographServer;
 import com.hzdz.ls.service.module.ProfessionalExhibitionServer;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +44,9 @@ public class MachineController {
     @RequestMapping(value = "/getSign", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "获取微信签名", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "url", value = "url", required = true, dataType = "String", paramType = "form")
+    })
     public Result verify(@RequestParam String url){
         Sign sign = WxUtil.getSign(url);
         return new ResultDetail<>(sign);
@@ -54,7 +60,12 @@ public class MachineController {
     @RequestMapping(value = "/getQRCode", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "个人展示（上传照片之后返回二维码）", httpMethod = "POST")
-    public Result getQRCode(@RequestParam Integer activityId, @RequestParam MultipartFile file, HttpServletRequest request) throws Exception {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
+    })
+    public Result getQRCode(@RequestParam Integer activityId,
+                            @ApiParam MultipartFile file,
+                            HttpServletRequest request) throws Exception {
         return photographServer.getQRCode(activityId, file, request);
     }
 
@@ -65,10 +76,17 @@ public class MachineController {
      * @param pageSize 分页大小
      * @return 图片集合和分页信息
      */
-    @RequestMapping(value = "/cloudPhotographyList", method = RequestMethod.POST)
+    @RequestMapping(value = "/cloudPhotographyList", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "云摄影图片查看", httpMethod = "POST")
-    public Result list(@RequestParam int id, @RequestParam int pageNo, @RequestParam int pageSize){
+    @ApiOperation(value = "云摄影图片查看", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "pageNo", value = "pageNo", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "pageSize", value = "pageSize", required = true, dataType = "int", paramType = "form")
+    })
+    public Result list(@RequestParam int id,
+                       @RequestParam int pageNo,
+                       @RequestParam int pageSize){
         PageContent<CloudPhotography> pageContent = cloudPhotographyServer.list(id, pageNo, pageSize);
         return new ResultDetail<>(pageContent);
     }
@@ -79,10 +97,14 @@ public class MachineController {
      * @param request
      * @return
      */
-    @RequestMapping("/professionalExhibitionList")
+    @RequestMapping(value = "/professionalExhibitionList", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "专业展示", httpMethod = "POST")
-    public Result list(@RequestParam Integer activityId, HttpServletRequest request){
+    @ApiOperation(value = "专业展示", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
+    })
+    public Result list(@RequestParam Integer activityId,
+                       HttpServletRequest request){
         return professionalExhibitionServer.queryProfessionalExhibition(activityId);
     }
 

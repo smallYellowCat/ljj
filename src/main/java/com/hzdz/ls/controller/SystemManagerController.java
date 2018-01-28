@@ -3,9 +3,7 @@ package com.hzdz.ls.controller;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.SystemManagerServer;
 import com.hzdz.ls.service.module.CloudPhotographyServer;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +33,15 @@ public class SystemManagerController {
     @RequestMapping(value = "/addNewManager", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "新增管理员", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userAccount", value = "userAccount", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "password", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "managerType", value = "管理员类型： 0 普通管理员， 1 超级管理员", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "remarks", value = "remarks", required = true, dataType = "String", paramType = "form")
+    })
     public Result addNewManager(@RequestParam String userAccount,
                                 @RequestParam String password,
-                                @ApiParam(name = "managerType", value = "管理员类型： 0 普通管理员， 1 超级管理员")@RequestParam Integer managerType,
+                                @RequestParam Integer managerType,
                                 @RequestParam String remarks,
                                 HttpServletRequest request){
         return systemManagerServer.addNewManager(userAccount, password, managerType, remarks, request);
@@ -52,7 +56,15 @@ public class SystemManagerController {
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "更改密码", httpMethod = "POST")
-    public Result updatePassword(@RequestParam Integer id, @RequestParam String password, @RequestParam String oldPassword, HttpServletRequest request){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "password", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "oldPassword", value = "oldPassword", required = true, dataType = "String", paramType = "form")
+    })
+    public Result updatePassword(@RequestParam Integer id,
+                                 @RequestParam String password,
+                                 @RequestParam String oldPassword,
+                                 HttpServletRequest request){
         return systemManagerServer.updatePassword(id, password, oldPassword, request);
     }
 
@@ -65,7 +77,11 @@ public class SystemManagerController {
     @RequestMapping(value = "/frozenManager", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "冻结管理员", httpMethod = "POST")
-    public Result frozenManager(@RequestParam Integer id, HttpServletRequest request){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+    })
+    public Result frozenManager(@RequestParam Integer id,
+                                HttpServletRequest request){
         return systemManagerServer.frozenManager(id, request);
     }
 
@@ -78,7 +94,11 @@ public class SystemManagerController {
     @RequestMapping(value = "/thawManager", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "解冻管理员", httpMethod = "POST")
-    public Result thawManager(@RequestParam Integer id, HttpServletRequest request){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+    })
+    public Result thawManager(@RequestParam Integer id,
+                              HttpServletRequest request){
         return systemManagerServer.thawManager(id, request);
     }
 
@@ -91,7 +111,11 @@ public class SystemManagerController {
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "重置密码", httpMethod = "POST")
-    public Result resetPassword(@RequestParam Integer id, HttpServletRequest request){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+    })
+    public Result resetPassword(@RequestParam Integer id,
+                                HttpServletRequest request){
         return systemManagerServer.resetPassword(id, request);
     }
 
@@ -100,12 +124,17 @@ public class SystemManagerController {
      * @param request
      * @return
      */
-    @RequestMapping("/queryAllManager")
+    @RequestMapping(value = "/queryAllManager", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "查询所有管理员（不含超管）", httpMethod = "POST")
+    @ApiOperation(value = "查询所有管理员（不含超管）", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = false, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "userAccount", value = "userAccount", required = false, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "frozen", value = "是否冻结（1：冻结；0：不冻结）", required = true, dataType = "int", paramType = "form")
+    })
     public Result selectAllManager(@RequestParam(required = false) Integer id,
                                    @RequestParam(required = false) String userAccount,
-                                   @ApiParam(required = false, name = "frozen", value = "是否冻结（1：冻结；0：不冻结）")@RequestParam(required = false) Integer frozen,
+                                   @RequestParam(required = false) Integer frozen,
                                    HttpServletRequest request){
         return systemManagerServer.selectAllManager(id, userAccount, frozen, request);
     }
@@ -120,6 +149,10 @@ public class SystemManagerController {
     @RequestMapping(value = "/loginVerify", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "登录验证", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userAccount", value = "userAccount", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "password", required = true, dataType = "String", paramType = "form"),
+    })
     public Result loginVerify(@RequestParam String userAccount,
                               @RequestParam String password,
                               HttpServletRequest request){
@@ -131,9 +164,9 @@ public class SystemManagerController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "退出登录", httpMethod = "POST")
+    @ApiOperation(value = "退出登录", httpMethod = "GET")
     public Result logout(HttpServletRequest request){
         return systemManagerServer.logout(request);
     }

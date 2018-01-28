@@ -3,7 +3,10 @@ package com.hzdz.ls.controller;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.SystemTemplateService;
 import com.hzdz.ls.service.impl.SystemTemplateServerImpl;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,8 +33,11 @@ public class SystemTemplateController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "新增模版文件", httpMethod = "POST")
-    public Result addTemplate(@RequestParam("templateName") String templateName,
-                              @RequestParam("templateFile")MultipartFile templateFile){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "templateName", value = "templateName", required = true, dataType = "String", paramType = "form")
+    })
+    public Result addTemplate(@RequestParam String templateName,
+                              @ApiParam MultipartFile templateFile){
         return systemTemplateService.addTemplate(templateName, templateFile);
     }
 
@@ -39,9 +45,9 @@ public class SystemTemplateController {
      * 查询所有模版
      * @return
      */
-    @RequestMapping(value = "/query")
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "查询所有模版", httpMethod = "POST")
+    @ApiOperation(value = "查询所有模版", httpMethod = "GET")
     public Result queryAll(){
         return systemTemplateService.queryAll();
     }

@@ -5,6 +5,8 @@ import com.hzdz.ls.common.*;
 import com.hzdz.ls.db.entity.Personal;
 import com.hzdz.ls.db.entity.Sign;
 import com.hzdz.ls.service.UserServer;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping("/user")
-@RestController
-@CrossOrigin(value = "*", maxAge = 3600)
+//@RequestMapping("/user")
+//@RestController
+//@CrossOrigin(value = "*", maxAge = 3600)
 public class UserContrller {
 
     @Autowired
@@ -78,11 +80,16 @@ public class UserContrller {
         return new ResultDetail<>(data);
     }
 
-    @RequestMapping(value = "/test3", method = RequestMethod.POST)
+    @RequestMapping(value = "/test3", method = RequestMethod.POST/*, consumes = "multipart/form-data", headers = "content-type=multipart/form-data"*/)
     @ResponseBody
     @ApiOperation(value = "测试", httpMethod = "POST")
-    public Result test3(@ApiParam(name = "userAccount", value = "用户名",required = true) @RequestParam String userAccount,
-                        @ApiParam(required = true)@RequestParam String password,
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userAccount", value = "用户名", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "form"),
+    })
+    public Result test3(@RequestParam String userAccount,
+                        @RequestParam String password,
+                        @ApiParam MultipartFile file,
                         HttpServletRequest request) {
         Map<String, Object> data = new HashMap<>();
         data.put("userAccount", userAccount);

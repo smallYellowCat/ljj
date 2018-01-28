@@ -5,9 +5,7 @@ import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.db.entity.module.CloudPhotography;
 import com.hzdz.ls.db.pagehelper.PageContent;
 import com.hzdz.ls.service.module.CloudPhotographyServer;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +35,10 @@ public class CloudPhotographyController {
     @RequestMapping(value="/cloudUpload", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "云摄影上传照片", httpMethod = "POST")
-    public Result multiUploadImage(@RequestParam(value = "files", required = true) MultipartFile[] files,
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
+    })
+    public Result multiUploadImage(@ApiParam(name = "files", value = "此处为多文件上传，但swagger不支持MutipartFile[]类型，因此Swagger UI中不产生文件上传界面，请注意~~", required = true) MultipartFile[] files,
                                    @RequestParam Integer activityId,
                                    HttpServletRequest request) throws Exception {
         return cloudPhotographyServer.multiUploadImage(files, activityId, request);
@@ -52,6 +53,9 @@ public class CloudPhotographyController {
     @RequestMapping(value = "deleteCloudUpload", method = RequestMethod.DELETE)
     @ResponseBody
     @ApiOperation(value = "删除云摄影照片", httpMethod = "DELETE")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids", value = "ids", required = true, dataType = "int", paramType = "form", allowMultiple = true)
+    })
     public Result deleteCloudUpload(@RequestParam Integer[] ids, HttpServletRequest request){
         return cloudPhotographyServer.deleteCloudUpload(ids, request);
     }
