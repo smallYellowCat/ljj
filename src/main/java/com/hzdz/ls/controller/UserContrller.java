@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-//@RequestMapping("/user")
-//@RestController
-//@CrossOrigin(value = "*", maxAge = 3600)
+@RequestMapping("/user")
+@RestController
+@CrossOrigin(value = "*", maxAge = 3600)
 public class UserContrller {
 
     @Autowired

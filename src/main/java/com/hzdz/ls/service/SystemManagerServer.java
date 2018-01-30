@@ -109,17 +109,22 @@ public class SystemManagerServer {
             data.put("msg", "非超管不能冻结帐号！");
         }else {
             SystemManager systemManager = getManagerByID(id);
-            if (systemManager.getFrozen() == 1){
-                data.put("code", -1);
-                data.put("msg", "该帐号已被冻结！");
-            }else {
-                if (systemManagerMapper.frozenManager(systemManager) < 1) {
+            if (systemManager != null) {
+                if (systemManager.getFrozen() == 1) {
                     data.put("code", -1);
-                    data.put("msg", "冻结帐号失败！");
+                    data.put("msg", "该帐号已被冻结！");
                 } else {
-                    data.put("code", 0);
-                    data.put("msg", "冻结帐号成功！");
+                    if (systemManagerMapper.frozenManager(systemManager) < 1) {
+                        data.put("code", -1);
+                        data.put("msg", "冻结帐号失败！");
+                    } else {
+                        data.put("code", 0);
+                        data.put("msg", "冻结帐号成功！");
+                    }
                 }
+            }else {
+                data.put("code", -1);
+                data.put("msg", "不存在该帐号！");
             }
         }
         return new ResultDetail<>(data);
