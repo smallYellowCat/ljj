@@ -48,6 +48,23 @@ public class SystemManagerController {
     }
 
     /**
+     * 删除管理员
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleteManager", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ApiOperation(value = "删除管理员", httpMethod = "DELETE")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+    })
+    public Result deleteManager(@RequestParam Integer id,
+                                HttpServletRequest request){
+        return systemManagerServer.deleteManager(id, request);
+    }
+
+    /**
      * 更改密码
      * @param password
      * @param request

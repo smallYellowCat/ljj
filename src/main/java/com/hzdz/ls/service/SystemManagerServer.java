@@ -101,6 +101,30 @@ public class SystemManagerServer {
         return new ResultDetail(data);
     }
 
+    public Result deleteManager(int id, HttpServletRequest request){
+        Map<String, Object> data = new HashMap<String, Object>();
+        SystemManager nowSystemManager = MyIntercepter.getManager(request);
+        if(nowSystemManager.getManagerType() != 1) {
+            data.put("code", -1);
+            data.put("msg", "非超管不能删除帐号！");
+        }else {
+            SystemManager systemManager = getManagerByID(id);
+            if (systemManager != null) {
+                if (systemManagerMapper.deleteManager(id) < 1) {
+                    data.put("code", -1);
+                    data.put("msg", "删除帐号失败！");
+                } else {
+                    data.put("code", 0);
+                    data.put("msg", "删除帐号成功！");
+                }
+            }else {
+                data.put("code", -1);
+                data.put("msg", "不存在该帐号！");
+            }
+        }
+        return new ResultDetail<>(data);
+    }
+
     public Result frozenManager(int id, HttpServletRequest request){
         Map<String, Object> data = new HashMap<String, Object>();
         SystemManager nowSystemManager = MyIntercepter.getManager(request);

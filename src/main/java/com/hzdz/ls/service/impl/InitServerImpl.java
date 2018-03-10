@@ -1,11 +1,8 @@
 package com.hzdz.ls.service.impl;
 
 
-import com.hzdz.ls.common.BaseVar;
-import com.hzdz.ls.common.Result;
+import com.hzdz.ls.common.*;
 
-import com.hzdz.ls.common.ResultDetail;
-import com.hzdz.ls.common.StringUtil;
 import com.hzdz.ls.db.entity.SystemModule;
 import com.hzdz.ls.db.impl.SystemActivityModuleMapMapper;
 import com.hzdz.ls.db.impl.SystemDeviceMapper;
@@ -15,7 +12,9 @@ import com.hzdz.ls.service.InitServer;
 import com.hzdz.ls.vo.InitVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +55,27 @@ public class InitServerImpl implements InitServer {
         initVO.setArray(modules);
 
         data.put("initVO", initVO);
+        return new ResultDetail<>(data);
+    }
+
+    @Override
+    public Result uploadImage(MultipartFile image) {
+        Map<String, Object> data = new HashMap<>();
+        // 进行文件上传操作
+        String fileUrl = null;
+        try {
+            fileUrl = FileUtil.upload4Stream(image.getInputStream(), BaseVar.BASE_URL + BaseVar.IMAGE_URL, image.getOriginalFilename());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!StringUtil.checkEmpty(fileUrl)) {
+            data.put("code", -1);
+            data.put("msg", "图片上传失败！");
+        }else {
+            data.put("code", 0);
+            data.put("msg", "图片上传成功！");
+            data.put("imagePath", BaseVar.IMAGE_URL + fileUrl);
+        }
         return new ResultDetail<>(data);
     }
 }

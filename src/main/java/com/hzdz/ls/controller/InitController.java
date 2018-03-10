@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,5 +28,15 @@ public class InitController {
     })
     public Result init(@RequestParam("macAddress") String macAddress){
         return initServer.init(macAddress);
+    }
+
+    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation(value = "上传图片", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "image", value = "image", required = true, dataType = "file", paramType = "form")
+    })
+    public Result uploadImage(MultipartFile image){
+        return initServer.uploadImage(image);
     }
 }

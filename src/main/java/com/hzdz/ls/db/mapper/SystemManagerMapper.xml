@@ -86,4 +86,9 @@
         WHERE id = #{id}
     </select>
 
+    <delete id="deleteManager">
+        DELETE FROM SYSTEM_MANAGER
+        WHERE id = #{id}
+    </delete>
+
 </mapper>

@@ -54,19 +54,18 @@ public class MachineController {
 
     /**
      * 个人展示（上传照片之后返回二维码）
-     * @param file
+     * @param
      * @return
      */
     @RequestMapping(value = "/getQRCode", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "个人展示（上传照片之后返回二维码）", httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
+            @ApiImplicitParam(name = "imagePath", value = "imagePath", required = true, dataType = "String", paramType = "form")
     })
-    public Result getQRCode(@RequestParam Integer activityId,
-                            @ApiParam MultipartFile file,
+    public Result getQRCode(@RequestParam String imagePath,
                             HttpServletRequest request) throws Exception {
-        return photographServer.getQRCode(activityId, file, request);
+        return photographServer.getQRCode(imagePath, request);
     }
 
     /**

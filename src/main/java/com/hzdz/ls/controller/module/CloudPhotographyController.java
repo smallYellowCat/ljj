@@ -27,7 +27,6 @@ public class CloudPhotographyController {
 
     /**
      * 云摄影上传照片
-     * @param files
      * @param request
      * @return
      * @throws Exception
@@ -36,12 +35,13 @@ public class CloudPhotographyController {
     @ResponseBody
     @ApiOperation(value = "云摄影上传照片", httpMethod = "POST")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "imagePaths", value = "imagePaths", required = true, dataType = "String", paramType = "form", allowMultiple = true),
             @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
     })
-    public Result multiUploadImage(@ApiParam(name = "files", value = "此处为多文件上传，但swagger不支持MutipartFile[]类型，因此Swagger UI中不产生文件上传界面，请注意~~", required = true) MultipartFile[] files,
+    public Result multiUploadImage(@RequestParam String[] imagePaths,
                                    @RequestParam Integer activityId,
                                    HttpServletRequest request) throws Exception {
-        return cloudPhotographyServer.multiUploadImage(files, activityId, request);
+        return cloudPhotographyServer.multiUploadImage(imagePaths, activityId, request);
     }
 
     /**

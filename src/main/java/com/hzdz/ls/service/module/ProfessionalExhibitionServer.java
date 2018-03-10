@@ -33,7 +33,7 @@ public class ProfessionalExhibitionServer {
     private SystemActivityMapper systemActivityMapper;
 
     @Transactional(rollbackForClassName = "Exception")
-    public Result addNewProfessionalExhibition(MultipartFile image, String vrUrl, Integer activityId, HttpServletRequest request) throws Exception{
+    public Result addNewProfessionalExhibition2(MultipartFile image, String vrUrl, Integer activityId, HttpServletRequest request) throws Exception{
         Map<String, Object> data = new HashMap<>();
         // 得到项目根路径
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
@@ -62,6 +62,33 @@ public class ProfessionalExhibitionServer {
         return new ResultDetail<>(data);
     }
 
+    @Transactional(rollbackForClassName = "Exception")
+    public Result addNewProfessionalExhibition(String imagePath, String vrUrl, Integer activityId, HttpServletRequest request) throws Exception{
+        Map<String, Object> data = new HashMap<>();
+        // 得到项目根路径
+        String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
+        // 得到当前登录管理员
+        Integer managerId = MyIntercepter.getManagerId(request);
+        // 创建专业展示
+        ProfessionalExhibition professionalExhibition = new ProfessionalExhibition();
+        professionalExhibition.setVrUrl(vrUrl);
+        professionalExhibition.setAddTime(new Date(System.currentTimeMillis()));
+        professionalExhibition.setActivityId(activityId);
+        professionalExhibition.setStatus(0);
+        //存放图片
+        professionalExhibition.setImageUrl(imagePath);
+        if (professionalExhibitionMapper.addNewProfessionalExhibition(professionalExhibition) < 1){
+            data.put("code", -1);
+            data.put("msg", "新增失败！");
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }else {
+            data.put("professionalExhibition", professionalExhibition);
+            data.put("code", 0);
+            data.put("msg", "新增成功！");
+        }
+        return new ResultDetail<>(data);
+    }
+
     public Result queryProfessionalExhibition(Integer activityId){
         Map<String, Object> data = new HashMap<>();
         List<ProfessionalExhibition> list = professionalExhibitionMapper.queryProfessionalExhibition(activityId);
@@ -77,7 +104,7 @@ public class ProfessionalExhibitionServer {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Result modify(Integer id, MultipartFile image, String vrUrl, Integer status, HttpServletRequest request){
+    public Result modify2(Integer id, MultipartFile image, String vrUrl, Integer status, HttpServletRequest request){
         Map<String, Object> data = new HashMap<>();
         Boolean flag = false;
         // 得到当前登录的管理员
@@ -105,6 +132,52 @@ public class ProfessionalExhibitionServer {
                 }catch (IOException e){
                     e.printStackTrace();
                 }
+            }
+            if (vrUrl != null){
+                professionalExhibition.setVrUrl(vrUrl);
+            }
+            if (status != null){
+                professionalExhibition.setStatus(status);
+            }
+            if (professionalExhibitionMapper.modify(professionalExhibition) < 1){
+                flag = true;
+            }
+        }else {
+            data.put("code", -1);
+            data.put("msg", "非超管不能修改不属于自己的专业展示！");
+        }
+        if (flag){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            data.put("code", -1);
+            data.put("msg", "修改失败！");
+        }else {
+            data.put("code", 0);
+            data.put("msg", "修改成功！");
+        }
+        return new ResultDetail<>(data);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Result modify(Integer id, String imagePath, String vrUrl, Integer status, HttpServletRequest request){
+        Map<String, Object> data = new HashMap<>();
+        Boolean flag = false;
+        // 得到当前登录的管理员
+        SystemManager systemManager = MyIntercepter.getManager(request);
+        // 通过专业展示id得到专业展示
+        ProfessionalExhibition professionalExhibition = professionalExhibitionMapper.getById(id);
+        Integer activityId = professionalExhibition.getActivityId();
+        // 通过专业展示所属活动得到活动
+        SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
+        // 得到活动所属管理员id
+        Integer managerId = systemActivity.getBelongManager();
+        // 判断当前登录管理员是否超管或与活动所属管理员id是否相同
+        if (systemManager.getManagerType() == 1 || systemManager.getId() == managerId){
+            if (imagePath != null && !imagePath.isEmpty()){
+                String customaryImage = professionalExhibition.getImageUrl();
+                if (!FileUtil.delete(BaseVar.BASE_URL + customaryImage)){
+                    flag = true;
+                }
+                professionalExhibition.setImageUrl(imagePath);
             }
             if (vrUrl != null){
                 professionalExhibition.setVrUrl(vrUrl);

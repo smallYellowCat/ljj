@@ -34,19 +34,20 @@ public class SystemActivityController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "activityName", value = "activityName", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "belongManager", value = "belongManager", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "imagePath", value = "imagePath", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "shareText", value = "shareText", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "templateId", value = "templateId", required = true, dataType = "int", paramType = "form"),
             @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "int", paramType = "form", allowMultiple = true)
     })
     public Result addNewActivity(@RequestParam String activityName,
                                  @RequestParam Integer belongManager,
-                                 @ApiParam MultipartFile shareImage,
+                                 @RequestParam String imagePath,
                                  @RequestParam String shareText,
                                  @RequestParam Integer templateId,
                                  @RequestParam Integer[] moduleIds,
                                  HttpServletRequest request)
             throws Exception {
-        return systemActivityServer.addNewActivity(activityName, belongManager, templateId, shareImage, shareText, moduleIds, request);
+        return systemActivityServer.addNewActivity(activityName, belongManager, templateId, imagePath, shareText, moduleIds, request);
     }
 
     @RequestMapping(value = "/deleteActivity", method = RequestMethod.DELETE)
@@ -65,13 +66,14 @@ public class SystemActivityController {
     @ApiOperation(value = "更新分享图片及内容", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form"),
-            @ApiImplicitParam(name = "shareText", value = "shareText", required = false, dataType = "String", paramType = "form")
+            @ApiImplicitParam(name = "imagePath", value = "imagePath", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "shareText", value = "shareText", required = false, dataType = "String", paramType = "form"),
     })
     public Result updateShareImage(@RequestParam Integer activityId,
-                                   @ApiParam MultipartFile shareImage,
+                                   @RequestParam String imagePath,
                                    @RequestParam(required = false) String shareText,
                                    HttpServletRequest request) throws IOException{
-        return systemActivityServer.updateShareImage(activityId, shareImage, shareText, request);
+        return systemActivityServer.updateShareImage(activityId, imagePath, shareText, request);
     }
 
     @RequestMapping(value = "/updateModuleOrder", method = RequestMethod.POST)
@@ -94,6 +96,7 @@ public class SystemActivityController {
             @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form"),
             @ApiImplicitParam(name = "activityName", value = "activityName", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "belongManager", value = "belongManager", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "imagePath", value = "imagePath", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "shareText", value = "shareText", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "templateId", value = "templateId", required = true, dataType = "int", paramType = "form"),
             @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "intt", paramType = "form", allowMultiple = true)
@@ -101,13 +104,13 @@ public class SystemActivityController {
     public Result modifyActivity(@RequestParam Integer activityId,
                                  @RequestParam String activityName,
                                  @RequestParam Integer belongManager,
-                                 @ApiParam MultipartFile shareImage,
+                                 @RequestParam String imagePath,
                                  @RequestParam String shareText,
                                  @RequestParam Integer templateId,
                                  @RequestParam Integer[] moduleIds,
                                  HttpServletRequest request){
         return systemActivityServer.modifyActivity(activityId, activityName, belongManager,
-                templateId, shareImage, shareText, moduleIds, request);
+                templateId, imagePath, shareText, moduleIds, request);
     }
 
     @RequestMapping(value = "/queryActivity", method = RequestMethod.GET)

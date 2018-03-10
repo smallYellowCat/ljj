@@ -2,6 +2,7 @@ package com.hzdz.ls.service;
 
 import com.hzdz.ls.common.Result;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,4 +20,5 @@ public interface InitServer {
      * @throws Exception 异常信息
      */
     Result init(String macAddress);
+    Result uploadImage(MultipartFile image);
 }

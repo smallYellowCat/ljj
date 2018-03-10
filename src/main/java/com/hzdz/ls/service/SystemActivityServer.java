@@ -38,14 +38,14 @@ public class SystemActivityServer {
     public Result addNewActivity(String activityName,
                                  Integer belongManager,
                                  Integer templateId,
-                                 MultipartFile shareImage,
+                                 String imagePath,
                                  String shareText,
                                  Integer[] moduleIds,
                                  HttpServletRequest request) throws Exception {
         Map<String, Object> data = new HashMap<String, Object>();
         boolean roollerBackFlag = false;
         // 判断上传文件是否为空
-        if (shareImage.isEmpty()) {
+        if (imagePath.isEmpty()) {
             data.put("code", -1);
             data.put("msg", "图片上传失败！");
         } else {
@@ -57,7 +57,7 @@ public class SystemActivityServer {
             systemActivity.setAddTime(new Date(System.currentTimeMillis()));
             systemActivity.setBelongManager(belongManager);
             systemActivity.setStatus(0);
-            systemActivity.setShareImage(path);
+            systemActivity.setShareImage(imagePath);
             systemActivity.setShareText(shareText);
             systemActivity.setUpdateTime(new Date(System.currentTimeMillis()));
             systemActivity.setTemplateId(templateId);
@@ -66,49 +66,37 @@ public class SystemActivityServer {
                 data.put("msg", "创建活动失败！");
                 roollerBackFlag = true;
             } else {
-                // 新增后主键ID作为文件夹名
                 int systemActivityId = systemActivity.getId();
-                String imagePath = BaseVar.MANAGER_URL + belongManager + "/" + systemActivityId;
-                // 进行文件上传操作
-                String fileUrl = FileUtil.upload4Stream(shareImage.getInputStream(), path + imagePath, shareImage.getOriginalFilename());
-                if (!StringUtil.checkEmpty(fileUrl)) {
-                    data.put("code", -1);
-                    data.put("msg", "图片上传失败！");
-                    roollerBackFlag = true;
-                } else {
-                    // 更新图片路径
-                    systemActivity.setId(systemActivityId);
-                    systemActivity.setShareImage(imagePath + "/" + fileUrl);
-                    if (systemActivityMapper.updateShareImage(systemActivity) < 1) {
-                        data.put("code", -1);
-                        data.put("msg", "创建活动失败！");
-                        roollerBackFlag = true;
-                    } else {
-                        // 新增活动与模版间的映射
-                        SystemActivityModuleMap systemActivityModuleMap = null;
-                        boolean setMapFlag = false;
-                        // 遍历模版数组ID
-                        for (int i = 0; i < moduleIds.length; i++) {
-                            systemActivityModuleMap = new SystemActivityModuleMap();
-                            systemActivityModuleMap.setActivityId(systemActivityId);
-                            systemActivityModuleMap.setModuleId(moduleIds[i]);
-                            systemActivityModuleMap.setSortNum(i + 1);
-                            systemActivityModuleMap.setAddTime(new Date(System.currentTimeMillis()));
-                            if (systemActivityModuleMapMapper.addNewMap(systemActivityModuleMap) < 1) {
-                                setMapFlag = true;
-                                break;
-                            }
-                        }
-                        if (setMapFlag) {
-                            data.put("code", -1);
-                            data.put("msg", "添加活动模块失败！");
-                            roollerBackFlag = true;
-                        } else {
-                            data.put("systemActivity", systemActivity);
-                            data.put("code", 0);
-                            data.put("msg", "创建活动成功！");
+                // 新增活动与模版间的映射
+                SystemActivityModuleMap systemActivityModuleMap = null;
+                boolean setMapFlag = false;
+                List<SystemModule> moduleList = new ArrayList<>();
+                SystemModule systemModule = null;
+                // 遍历模版数组ID
+                for (int i = 0; i < moduleIds.length; i++) {
+                    systemModule = systemModuleMapper.queryModuleById(moduleIds[i]);
+                    if (systemModule != null) {
+                        moduleList.add(systemModule);
+                        systemActivityModuleMap = new SystemActivityModuleMap();
+                        systemActivityModuleMap.setActivityId(systemActivityId);
+                        systemActivityModuleMap.setModuleId(moduleIds[i]);
+                        systemActivityModuleMap.setSortNum(i + 1);
+                        systemActivityModuleMap.setAddTime(new Date(System.currentTimeMillis()));
+                        if (systemActivityModuleMapMapper.addNewMap(systemActivityModuleMap) < 1) {
+                            setMapFlag = true;
+                            break;
                         }
                     }
+                }
+                if (setMapFlag) {
+                    data.put("code", -1);
+                    data.put("msg", "添加活动模块失败！");
+                    roollerBackFlag = true;
+                } else {
+                    data.put("moduleList", moduleList);
+                    data.put("systemActivity", systemActivity);
+                    data.put("code", 0);
+                    data.put("msg", "创建活动成功！");
                 }
             }
         }
@@ -124,7 +112,7 @@ public class SystemActivityServer {
         Map<String, Object> data = new HashMap<String, Object>();
         boolean roollerBackFlag = false;
         SystemManager systemManager = MyIntercepter.getManager(request);
-        for(int activityId : activityIds) {
+        for (int activityId : activityIds) {
             SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
             int belongId = systemActivity.getBelongManager();
             if (systemManager.getManagerType() == 1 || belongId == systemManager.getId()) {
@@ -153,11 +141,11 @@ public class SystemActivityServer {
         return new ResultDetail(data);
     }
 
-    public Result updateShareImage(Integer activityId, MultipartFile shareImage, String shareText, HttpServletRequest request) throws IOException {
+    public Result updateShareImage(Integer activityId, String imagePath, String shareText, HttpServletRequest request) throws IOException {
         Map<String, Object> data = new HashMap<>();
         // 获取原来的活动
         SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
-        if (shareImage == null || shareImage.isEmpty()) {
+        if (imagePath == null || imagePath.isEmpty()) {
             systemActivity.setShareText(shareText);
             systemActivity.setUpdateTime(new Date(System.currentTimeMillis()));
             if (systemActivityMapper.updateShareImage(systemActivity) < 1) {
@@ -168,22 +156,14 @@ public class SystemActivityServer {
                 data.put("msg", "更新图文信息成功！");
             }
         } else {
-            // 获取活动所属管理员
-            Integer belongManager = systemActivity.getBelongManager();
             // 获取图片原来的路径
             String customaryPath = systemActivity.getShareImage();
-            // 获取服务器根路径
-            String originalPath = request.getSession().getServletContext().getRealPath("/");
-            // 拼接图片路径
-            String imagePath = BaseVar.MANAGER_URL + belongManager + "/" + activityId;
-            // 进行文件上传操作
-            String fileUrl = FileUtil.upload4Stream(shareImage.getInputStream(), originalPath + imagePath, shareImage.getOriginalFilename());
-            if (!StringUtil.checkEmpty(fileUrl)) {
+            if (!StringUtil.checkEmpty(imagePath)) {
                 data.put("code", -1);
                 data.put("msg", "图片上传失败！");
             } else {
                 // 设置新的图片
-                systemActivity.setShareImage(imagePath + "/" + fileUrl);
+                systemActivity.setShareImage(imagePath);
                 if (shareText != null) {
                     systemActivity.setShareText(shareText);
                 }
@@ -192,7 +172,7 @@ public class SystemActivityServer {
                     data.put("code", -1);
                     data.put("msg", "更新图文信息失败！");
                 } else {
-                    FileUtil.delete(originalPath + customaryPath);
+                    FileUtil.delete(BaseVar.BASE_URL + customaryPath);
                     data.put("code", 0);
                     data.put("msg", "更新图文信息成功！");
                 }
@@ -222,7 +202,7 @@ public class SystemActivityServer {
                                  String activityName,
                                  Integer belongManager,
                                  Integer templateId,
-                                 MultipartFile shareImage,
+                                 String imagePath,
                                  String shareText,
                                  Integer[] moduleIds,
                                  HttpServletRequest request) {
@@ -245,23 +225,12 @@ public class SystemActivityServer {
         activity.setTemplateId(templateId);
         activity.setShareText(shareText);
 
-        if (shareImage != null && !shareImage.isEmpty()) {
-            try {
-                SystemActivity customaryActivity = systemActivityMapper.selectActivityById(activityId);
-                FileUtil.delete(BaseVar.BASE_URL + customaryActivity.getShareImage());
-                //图片上传
-                String imagePath = BaseVar.MANAGER_URL + belongManager + "/" + activityId + "/";
-                String imageName = FileUtil.upload4Stream(shareImage.getInputStream(),
-                         BaseVar.BASE_URL + imagePath,
-                        shareImage.getOriginalFilename());
-                String imageUrl = imagePath + imageName;
-                if (StringUtil.checkEmpty(imageUrl)) {
-                    activity.setShareImage(imageUrl);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (imagePath != null && !imagePath.isEmpty()) {
+            SystemActivity customaryActivity = systemActivityMapper.selectActivityById(activityId);
+            FileUtil.delete(BaseVar.BASE_URL + customaryActivity.getShareImage());
+            if (StringUtil.checkEmpty(imagePath)) {
+                activity.setShareImage(imagePath);
             }
-
         }
 
         int num = systemActivityMapper.modifyActivity(activity);
@@ -283,7 +252,7 @@ public class SystemActivityServer {
                     break;
                 }
             }
-            if (!setMapFlag){
+            if (!setMapFlag) {
                 transactionFlag = true;
             }
         }
@@ -337,7 +306,7 @@ public class SystemActivityServer {
         return new ResultDetail<>(data);
     }
 
-    public List<ActivityVO> getVOList(List<SystemActivity> list){
+    public List<ActivityVO> getVOList(List<SystemActivity> list) {
         List<ActivityVO> activityVOList = new ArrayList<>();
         for (SystemActivity activity : list) {
 
@@ -351,7 +320,7 @@ public class SystemActivityServer {
             activityVO.setBelongManager(activity.getBelongManager());
             String userAccount = systemManagerMapper.getUserAccountById(activity.getBelongManager());
             activityVO.setUserAccount(userAccount);
-            if (activity.getQRCode() != null){
+            if (activity.getQRCode() != null) {
                 activityVO.setQRCode(activity.getQRCode());
             }
             activityVO.setShareImage(activity.getShareImage());
@@ -367,11 +336,11 @@ public class SystemActivityServer {
         return activityVOList;
     }
 
-    public Result modifyActivityStatus(int status, int activityId){
-        if (status != 0 && status != 1){
+    public Result modifyActivityStatus(int status, int activityId) {
+        if (status != 0 && status != 1) {
             return Result.INVALID_PARAMETER;
         }
-        if (systemActivityMapper.modifyActivityStatus(status, activityId) == 1){
+        if (systemActivityMapper.modifyActivityStatus(status, activityId) == 1) {
             return Result.SUCCESS;
         }
 

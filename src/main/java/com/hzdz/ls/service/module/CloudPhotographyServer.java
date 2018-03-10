@@ -52,7 +52,7 @@ public class CloudPhotographyServer {
     }
 
     @Transactional(rollbackForClassName = "Exception")
-    public Result multiUploadImage(MultipartFile[] files, Integer activityId, HttpServletRequest request) throws Exception {
+    public Result multiUploadImage2(MultipartFile[] files, Integer activityId, HttpServletRequest request) throws Exception {
         Map<String, Object> data = new HashMap<>();
         String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
         SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
@@ -82,6 +82,55 @@ public class CloudPhotographyServer {
                 }
                 String codeUrl = BaseVar.MANAGER_URL + managerId + "/" + activityId + BaseVar.CLOUD_PHOTOGRAPHY_URL + "/code/" + QRcodeUtil.encode(BaseVar.BASE_URL + "/index.html?activityId=" + activityId,
                         "", CONTEXT_PATH + BaseVar.MANAGER_URL + managerId + "/" + activityId + BaseVar.CLOUD_PHOTOGRAPHY_URL + "/code/", codeName, true);
+                systemActivity.setQRCode(codeUrl);
+                if (systemActivityMapper.updateQrCode(systemActivity) < 1) {
+                    data.put("code", -1);
+                    data.put("msg", "照片上传失败！");
+                } else {
+                    for (String image : imageList) {
+                        CloudPhotography cloudPhotography = new CloudPhotography();
+                        cloudPhotography.setActivityId(activityId);
+                        cloudPhotography.setImageUrl(image);
+                        cloudPhotography.setAddTime(new Date(System.currentTimeMillis()));
+                        if (cloudPhotographyMapper.addCloudPhotography(cloudPhotography) < 1) {
+                            data.put("code", -1);
+                            data.put("msg", "照片上传失败！");
+                            return new ResultDetail<>(data);
+                        }
+                    }
+                    data.put("code", 0);
+                    data.put("msg", "照片上传成功！");
+                }
+            }
+        } else {
+            data.put("code", -1);
+            data.put("msg", "该活动不存在！");
+        }
+        return new ResultDetail<>(data);
+    }
+
+    @Transactional(rollbackForClassName = "Exception")
+    public Result multiUploadImage(String[] imagePaths, Integer activityId, HttpServletRequest request) throws Exception {
+        Map<String, Object> data = new HashMap<>();
+        String CONTEXT_PATH = request.getSession().getServletContext().getRealPath("/");
+        SystemActivity systemActivity = systemActivityMapper.selectActivityById(activityId);
+        Integer managerId = MyIntercepter.getManagerId(request);
+        if (systemActivity != null) {
+            //二维码名称，使用最后一个文件的名字
+            String codeName = "";
+            int n = imagePaths.length;
+            List<String> imageList = new ArrayList<>();
+            if (n < 1) {
+                data.put("code", -1);
+                data.put("msg", "空文件！");
+            } else {
+                for (int i = 0; i < n; i++) {
+                    String imagePath = imagePaths[i];
+                    codeName = imagePath.substring(BaseVar.IMAGE_URL.length());
+                    imageList.add(imagePath);
+                }
+                String codeUrl = BaseVar.MANAGER_URL + managerId + "/" + activityId + "/" + BaseVar.CLOUD_PHOTOGRAPHY_URL + "code/" + QRcodeUtil.encode(BaseVar.BASE_URL + "/index.html?activityId=" + activityId,
+                        "", CONTEXT_PATH + BaseVar.MANAGER_URL + managerId + "/" + activityId + "/" + BaseVar.CLOUD_PHOTOGRAPHY_URL + "code/", codeName, true);
                 systemActivity.setQRCode(codeUrl);
                 if (systemActivityMapper.updateQrCode(systemActivity) < 1) {
                     data.put("code", -1);

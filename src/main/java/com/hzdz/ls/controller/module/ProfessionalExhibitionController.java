@@ -23,7 +23,6 @@ public class ProfessionalExhibitionController {
 
     /**
      * 新增专业展示
-     * @param image
      * @param vrUrl
      * @param activityId
      * @param request
@@ -34,14 +33,15 @@ public class ProfessionalExhibitionController {
     @ResponseBody
     @ApiOperation(value = "新增专业展示", httpMethod = "POST")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "imagePath", value = "imagePath", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "vrUrl", value = "vrUrl", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
     })
-    public Result addNewProfessionalExhibition(@ApiParam(value = "image", required = true) MultipartFile image,
+    public Result addNewProfessionalExhibition(@RequestParam String imagePath,
                                                @RequestParam String vrUrl,
                                                @RequestParam Integer activityId,
                                                HttpServletRequest request) throws Exception{
-        return professionalExhibitionServer.addNewProfessionalExhibition(image, vrUrl, activityId, request);
+        return professionalExhibitionServer.addNewProfessionalExhibition(imagePath, vrUrl, activityId, request);
     }
 
     /**
@@ -53,15 +53,16 @@ public class ProfessionalExhibitionController {
     @ApiOperation(value = "修改专业展示", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "form"),
+            @ApiImplicitParam(name = "imagePath", value = "imagePath", required = false, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "vrUrl", value = "vrUrl", required = false, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "status", value = "status", required = false, dataType = "Integer", paramType = "form")
     })
     public Result modify(@RequestParam Integer id,
-                         @ApiParam MultipartFile image,
+                         @RequestParam(required = false) String imagePath,
                          @RequestParam(required = false)String vrUrl,
                          @RequestParam(required = false)Integer status,
                          HttpServletRequest request){
-        return professionalExhibitionServer.modify(id, image, vrUrl, status, request);
+        return professionalExhibitionServer.modify(id, imagePath, vrUrl, status, request);
     }
 
     /**

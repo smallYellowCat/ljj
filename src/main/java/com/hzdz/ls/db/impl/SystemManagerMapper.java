@@ -20,4 +20,5 @@ public interface SystemManagerMapper {
     SystemManager loginVerify(@Param("userAccount") String userAccount, @Param("password") String password);
     int loginSucceed(SystemManager systemManager);
     String getUserAccountById(@Param("id") Integer id);
+    int deleteManager(@Param("id") Integer id);
 }
