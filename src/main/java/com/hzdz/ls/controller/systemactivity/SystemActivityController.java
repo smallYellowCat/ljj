@@ -1,24 +1,17 @@
-package com.hzdz.ls.controller;
+package com.hzdz.ls.controller.systemactivity;
 
+import com.hzdz.ls.common.RequestUtil;
 import com.hzdz.ls.common.Result;
-import com.hzdz.ls.common.ResultDetail;
-import com.hzdz.ls.db.entity.SystemManager;
-import com.hzdz.ls.db.entity.module.CloudPhotography;
-import com.hzdz.ls.intercepter.MyIntercepter;
 import com.hzdz.ls.service.SystemActivityServer;
-import com.hzdz.ls.service.SystemManagerServer;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.context.request.RequestContextListener;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(value = "*", maxAge = 3600)
@@ -39,14 +32,14 @@ public class SystemActivityController {
             @ApiImplicitParam(name = "templateId", value = "templateId", required = true, dataType = "int", paramType = "form"),
             @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "int", paramType = "form", allowMultiple = true)
     })
-    public Result addNewActivity(@RequestParam String activityName,
-                                 @RequestParam Integer belongManager,
-                                 @RequestParam String imagePath,
-                                 @RequestParam String shareText,
-                                 @RequestParam Integer templateId,
-                                 @RequestParam Integer[] moduleIds,
-                                 HttpServletRequest request)
-            throws Exception {
+    public Result addNewActivity(@RequestBody Parameter parameter) throws Exception {
+        String activityName = parameter.getActivityName();
+        Integer belongManager = parameter.getBelongManager();
+        String imagePath = parameter.getImagePath();
+        String shareText = parameter.getShareText();
+        Integer templateId = parameter.getTemplateId();
+        Integer[] moduleIds = parameter.getModuleIds();
+        HttpServletRequest request = RequestUtil.getRequest();
         return systemActivityServer.addNewActivity(activityName, belongManager, templateId, imagePath, shareText, moduleIds, request);
     }
 
@@ -56,9 +49,9 @@ public class SystemActivityController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "activityIds", value = "activityIds", required = true, dataType = "int", paramType = "form", allowMultiple = true)
     })
-    public Result deleteActivity(@RequestParam Integer[] activityIds,
-                                 HttpServletRequest request) {
-        return systemActivityServer.deleteActivity(activityIds, request);
+    public Result deleteActivity(@RequestBody Parameter parameter ) {
+        Integer[] activityIds = parameter.getActivityIds();
+        return systemActivityServer.deleteActivity(activityIds, RequestUtil.getRequest());
     }
 
     @RequestMapping(value = "/updateShareImage", method = RequestMethod.POST)
@@ -101,16 +94,16 @@ public class SystemActivityController {
             @ApiImplicitParam(name = "templateId", value = "templateId", required = true, dataType = "int", paramType = "form"),
             @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "int", paramType = "form", allowMultiple = true)
     })
-    public Result modifyActivity(@RequestParam Integer activityId,
-                                 @RequestParam String activityName,
-                                 @RequestParam Integer belongManager,
-                                 @RequestParam String imagePath,
-                                 @RequestParam String shareText,
-                                 @RequestParam Integer templateId,
-                                 @RequestParam Integer[] moduleIds,
-                                 HttpServletRequest request){
+    public Result modifyActivity(@RequestBody Parameter parameter){
+        Integer activityId = parameter.getActivityId();
+        String activityName = parameter.getActivityName();
+        Integer belongManager = parameter.getBelongManager();
+        String imagePath = parameter.getImagePath();
+        String shareText = parameter.getShareText();
+        Integer templateId = parameter.getTemplateId();
+        Integer[] moduleIds = parameter.getModuleIds();
         return systemActivityServer.modifyActivity(activityId, activityName, belongManager,
-                templateId, imagePath, shareText, moduleIds, request);
+                templateId, imagePath, shareText, moduleIds, RequestUtil.getRequest());
     }
 
     @RequestMapping(value = "/queryActivity", method = RequestMethod.GET)

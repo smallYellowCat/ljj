@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 public class ActivityVO {
     private List<SystemModule> moduleList;
-    //private SystemActivity systemActivity;
+    //private SystemActivity systemactivity;
     private int id;
     private String activityName;
     private Date addTime;

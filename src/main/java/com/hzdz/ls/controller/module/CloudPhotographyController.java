@@ -1,11 +1,14 @@
 package com.hzdz.ls.controller.module;
 
+import com.hzdz.ls.common.RequestUtil;
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.common.ResultDetail;
 import com.hzdz.ls.db.entity.module.CloudPhotography;
 import com.hzdz.ls.db.pagehelper.PageContent;
 import com.hzdz.ls.service.module.CloudPhotographyServer;
 import io.swagger.annotations.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,10 +41,10 @@ public class CloudPhotographyController {
             @ApiImplicitParam(name = "imagePaths", value = "imagePaths", required = true, dataType = "String", paramType = "form", allowMultiple = true),
             @ApiImplicitParam(name = "activityId", value = "activityId", required = true, dataType = "int", paramType = "form")
     })
-    public Result multiUploadImage(@RequestParam String[] imagePaths,
-                                   @RequestParam Integer activityId,
-                                   HttpServletRequest request) throws Exception {
-        return cloudPhotographyServer.multiUploadImage(imagePaths, activityId, request);
+    public Result multiUploadImage(@RequestBody Parameter parameter) throws Exception {
+        String[] imagePaths = parameter.getImagePaths();
+        Integer activityId = parameter.getActivityId();
+        return cloudPhotographyServer.multiUploadImage(imagePaths, activityId, RequestUtil.getRequest());
     }
 
     /**
@@ -56,8 +59,23 @@ public class CloudPhotographyController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ids", value = "ids", required = true, dataType = "int", paramType = "form", allowMultiple = true)
     })
-    public Result deleteCloudUpload(@RequestParam Integer[] ids, HttpServletRequest request){
-        return cloudPhotographyServer.deleteCloudUpload(ids, request);
+    public Result deleteCloudUpload(@RequestBody Parameter parameter){
+        Integer[] ids = parameter.getIds();
+        return cloudPhotographyServer.deleteCloudUpload(ids, RequestUtil.getRequest());
     }
+
+}
+
+/**
+*
+*@author 豆豆
+*时间:
+*/
+@Setter
+@Getter
+class Parameter{
+    private Integer[] ids;
+    private String[] imagePaths;
+    private Integer activityId;
 
 }

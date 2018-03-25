@@ -1,4 +1,4 @@
-package com.hzdz.ls.controller;
+package com.hzdz.ls.controller.init;
 
 import com.hzdz.ls.common.Result;
 import com.hzdz.ls.service.InitServer;

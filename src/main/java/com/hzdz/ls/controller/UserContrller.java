@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping("/test")
-@RestController
+//@RequestMapping("/test")
+//@RestController
 @CrossOrigin(value = "*", maxAge = 3600)
 public class UserContrller {
 
