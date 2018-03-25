@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-//@RequestMapping("/test")
-//@RestController
-//@CrossOrigin(value = "*", maxAge = 3600)
+@RequestMapping("/test")
+@RestController
+@CrossOrigin(value = "*", maxAge = 3600)
 public class UserContrller {
 
     @Autowired
@@ -51,7 +51,7 @@ public class UserContrller {
     @ResponseBody
     @ApiOperation(value = "修改活动", httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "intt", paramType = "form", allowMultiple = true)
+            @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "int", paramType = "form", allowMultiple = true)
     })
     public Result modifyActivity(@RequestParam Integer[] moduleIds){
         Map<String, Object> data = new HashMap<>();

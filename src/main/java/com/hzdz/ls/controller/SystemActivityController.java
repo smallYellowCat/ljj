@@ -99,7 +99,7 @@ public class SystemActivityController {
             @ApiImplicitParam(name = "imagePath", value = "imagePath", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "shareText", value = "shareText", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "templateId", value = "templateId", required = true, dataType = "int", paramType = "form"),
-            @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "intt", paramType = "form", allowMultiple = true)
+            @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "int", paramType = "form", allowMultiple = true)
     })
     public Result modifyActivity(@RequestParam Integer activityId,
                                  @RequestParam String activityName,
