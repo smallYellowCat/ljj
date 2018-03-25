@@ -64,7 +64,7 @@ public class InitServerImpl implements InitServer {
         // 进行文件上传操作
         String fileUrl = null;
         try {
-            fileUrl = FileUtil.upload4Stream(image.getInputStream(), BaseVar.BASE_URL + BaseVar.IMAGE_URL, image.getOriginalFilename());
+            fileUrl = FileUtil.upload4Stream(image.getInputStream(), BaseVar.IMAGE_URL_TRUE, image.getOriginalFilename());
         } catch (IOException e) {
             e.printStackTrace();
         }

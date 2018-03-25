@@ -27,12 +27,11 @@
     <!-- 使用 Swagger Restful API文档时，添加此注解 -->
     <mvc:default-servlet-handler />
     <!--<context:component-scan base-package="com.jay.plat.config.controller" />-->
-    <!-- 静态资源访问
-    <mvc:resources location="/" mapping="*.txt"/>
-    <mvc:resources location="/resource/" mapping="/resource/**/"/>
-    -->
-    <!--<mvc:resources mapping="/upload/personal/**/" location="/upload/personal/" />
-    <mvc:resources mapping="/upload/activity/**/" location="/upload/activity/" />-->
+    <!--静态资源访问-->
+    <!--<mvc:resources location="/" mapping="*.txt"/>
+    <mvc:resources location="/resource/" mapping="/resource/**/"/>-->
+    <mvc:resources mapping="/upload/**/" location="/upload/" />
+    <mvc:resources mapping="/upload/**/" location="/upload/" />
     <!--<mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger/"/>-->
 
     <!-- JSON视图解析器 -->

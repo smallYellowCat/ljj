@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-//@RequestMapping("/user")
+//@RequestMapping("/test")
 //@RestController
 //@CrossOrigin(value = "*", maxAge = 3600)
 public class UserContrller {
@@ -45,6 +45,18 @@ public class UserContrller {
     public Result verify(String url){
         Sign sign = WxUtil.getSign(url);
         return new ResultDetail<>(sign);
+    }
+
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation(value = "修改活动", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "moduleIds", value = "moduleIds", required = true, dataType = "intt", paramType = "form", allowMultiple = true)
+    })
+    public Result modifyActivity(@RequestParam Integer[] moduleIds){
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", moduleIds);
+        return new ResultDetail<>(data);
     }
 
 
