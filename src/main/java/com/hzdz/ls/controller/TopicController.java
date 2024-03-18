@@ -1,22 +1,15 @@
 package com.hzdz.ls.controller;
 
 import com.hzdz.ls.common.Result;
-import com.hzdz.ls.common.ResultDetail;
-import com.hzdz.ls.db.entity.TopicMap;
-import com.hzdz.ls.db.impl.TopicMapMapper;
-import com.hzdz.ls.db.impl.TopicMapper;
+
 import com.hzdz.ls.service.TopicServer;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 @RequestMapping("/topic")
 @RestController
